@@ -1,0 +1,48 @@
+version: "3"
+services:
+  vue:
+    build:
+      context: ./worldmiao2/
+      dockerfile: Dockerfile
+    container_name: vue
+    restart: always
+    volumes:
+#   mapping local dist directly to static serve folder in docker
+      - ./worldmiao2/dist:/usr/share/nginx/html
+    ports:
+      - 90:80
+    depends_on:
+      - app
+    links:
+      - app
+
+  app:
+    build:
+      context: ./scraping-center/
+      dockerfile: ./docker/App.Dockerfile
+    container_name: app
+    volumes:
+      - ./scraping-center/:/var/www/app:cached
+      - ./scraping-center/src:/var/www/app/src
+      - /var/www/app/node_modules # anonymous volume for node_modules only
+    ports:
+      - 3000:3000
+    links:
+      - mysql
+      - redis
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=app
+
+  redis:
+    image: redis:6
+    restart: always
+    ports:
+      - "6379:6379"

@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Iceland');
+/*html, body {*/
+/*    font-family: 'Iceland', sans-serif;*/
+/*    !*background-image: url('texture.png')*!*/
+/*}*/
+
+/*#app {*/
+/*    font-family: 'Iceland', sans-serif;*/
+
+/*}*/
+
+/*!* ./src/index.css *!*/
+
+/*!*! @import *!*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
