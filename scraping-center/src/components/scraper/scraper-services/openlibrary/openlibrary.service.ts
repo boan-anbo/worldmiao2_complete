@@ -9,7 +9,8 @@ export class OpenlibraryService {
   constructor(private http: HttpService) {}
 
   async search(title: string): Promise<Book[]> {
-    const response = await this.http.get(`http://openlibrary.org/search.json?q=${title}`)
+    // not using general query but limits only to title because the Open Library API could reurn data that's too long.
+    const response = await this.http.get(`http://openlibrary.org/search.json?title=${title}`)
       .toPromise();
     const { data } = response;
 

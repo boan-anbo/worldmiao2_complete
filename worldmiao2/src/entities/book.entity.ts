@@ -18,17 +18,20 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         providerEnum:BookProvider.OPEN_LIBRARY,
     },
     {
-        providerName: "Ebook Databases",
+        providerName: "eBook Databases",
         providerEnum: BookProvider.WORLD_CAT
     },
     {
         providerName: "Google Books",
         providerEnum:   BookProvider.GOOGLE_BOOKS,
     },
-    {
-        providerName: "Memory of the World",
-        providerEnum:  BookProvider.MEMORY_OF_THE_WORLD
-    },]
+
+    //
+    // {
+    //     providerName: "Memory of the World",
+    //     providerEnum:  BookProvider.MEMORY_OF_THE_WORLD
+    // },
+]
 
 export enum BookDataType {
     BOOKS = "BOOKS",
@@ -80,16 +83,22 @@ export class Book {
 
     readonly uniqueIdentifier: UniqueId;
 
-    publisher: string = '';
+    publisher: string  = '';
 
     format: string = '';
 
-    provider: BookProvider
+    provider: BookProvider | null
 
     thumbnail: string = '';
 
-    constructor(provider: BookProvider, uniqueId?: UniqueId, title?: string) {
+    emptyBook = false;
+
+    constructor(provider: BookProvider | null, uniqueId?: UniqueId, title?: string) {
         this.provider = provider;
+        if (provider === null) {
+            this.emptyBook = true;
+        }
+
         this.uniqueIdentifier = uniqueId ?? {id: '', idNote: ''};
         this.title = title ?? '';
     }

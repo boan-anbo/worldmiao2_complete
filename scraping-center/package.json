@@ -117,7 +117,7 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     },
-     "puppeteer_download_path": "./node_modules/puppeteer/.local-chromium"
+    "puppeteer_download_path": "./node_modules/puppeteer/.local-chromium"
   },
   "_moduleAliases": {
     "@shared": "./dist/components/shared",

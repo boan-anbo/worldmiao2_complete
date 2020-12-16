@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Iceland');
-/*html, body {*/
-/*    font-family: 'Iceland', sans-serif;*/
-/*    !*background-image: url('texture.png')*!*/
-/*}*/
+html, body {
+    /*font-family: 'Iceland', sans-serif;*/
+    /*background-image: url('texture.png')*/
+    max-width: 1900px;
+}
 
 /*#app {*/
 /*    font-family: 'Iceland', sans-serif;*/

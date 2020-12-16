@@ -18,7 +18,7 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter());
 
   app.enableCors({
-    origin: ['http://vue:80', 'http://localhost:90'],
+    origin: ['http://vue:80', `http://localhost:${process.env.VUE_DEVELOPMENT_PORT}`],
   });
 
   // rate limit
