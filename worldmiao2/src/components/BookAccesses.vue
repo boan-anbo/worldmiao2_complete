@@ -58,7 +58,7 @@ export default {
     const state = reactive({
       bookAccess: BookAccessState.IDLE,
       timer: 0,
-      links: props.book.access
+      links: props.book?.access
     })
 
     const statusLabel = () => {

@@ -11,6 +11,16 @@ export class CacheService {
     this.redisClient = redisService.getClient();
   }
 
+  saveToCache(key: string, data: any) {
+    if (!data) return;
+    const stringData = JSON.stringify(data);
+    // roughly between 50kb - 500kb
+    if (stringData.length > 527128) {
+      return;
+    }
+    this.redisClient.set(key, stringData);
+  }
+
   async checkBooksCache(title: string, provider: BookProvider): Promise<Book[] | null> {
     const result = await this.redisClient.get(`Books-${provider}-${title}`);
     if (result) {
@@ -20,11 +30,9 @@ export class CacheService {
   }
 
   saveBooksCache(title: string, provider: BookProvider, books: Book[]) {
-    const stringBooks = JSON.stringify(books);
-
-    return this.redisClient.set(
+    return this.saveToCache(
       `Books-${provider}-${title}`,
-      stringBooks,
+      books,
     );
   }
 
@@ -37,11 +45,9 @@ export class CacheService {
   }
 
   async saveBookAccessCache(title: string, provider: BookProvider, bookAccess: BookAccess | null) {
-    const stringBookAccess = JSON.stringify(bookAccess);
-
-    return this.redisClient.set(
+    return this.saveToCache(
       `BookAccess-${provider}-${title}`,
-      stringBookAccess,
+      bookAccess,
     );
   }
 
