@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e79083b6-1b9d-4f67-b391-e48f0c684df0" name="Default Changelist" comment="" />
+    <list default="true" id="e79083b6-1b9d-4f67-b391-e48f0c684df0" name="Default Changelist" comment="first version">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping-center/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/scraping-center/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping-center/src/components/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scraping-center/src/components/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping-center/src/components/scraper/cache/cache.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scraping-center/src/components/scraper/cache/cache.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping-center/src/components/scraper/entities/book.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scraping-center/src/components/scraper/entities/book.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping-center/src/components/scraper/scraper-services/openlibrary/openlibrary.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scraping-center/src/components/scraper/scraper-services/openlibrary/openlibrary.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping-center/src/components/scraper/scraper-services/worldcat/worldcat.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scraping-center/src/components/scraper/scraper-services/worldcat/worldcat.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping-center/src/components/scraper/scraper.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scraping-center/src/components/scraper/scraper.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraping-center/src/components/scraper/scraper.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scraping-center/src/components/scraper/scraper.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worldmiao2/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/worldmiao2/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worldmiao2/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/worldmiao2/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worldmiao2/src/components/BookAccesses.vue" beforeDir="false" afterPath="$PROJECT_DIR$/worldmiao2/src/components/BookAccesses.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worldmiao2/src/components/Library.vue" beforeDir="false" afterPath="$PROJECT_DIR$/worldmiao2/src/components/Library.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worldmiao2/src/components/VueBook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/worldmiao2/src/components/VueBook.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worldmiao2/src/entities/app.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/worldmiao2/src/entities/app.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worldmiao2/src/entities/book.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/worldmiao2/src/entities/book.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worldmiao2/src/entities/book.fetch.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/worldmiao2/src/entities/book.fetch.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/worldmiao2/src/functions/fetchBookAccess.ts" beforeDir="false" afterPath="$PROJECT_DIR$/worldmiao2/src/functions/fetchBookAccess.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,7 +61,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.web.browsers" />
-    <property name="ts.external.directory.path" value="C:\Script\worldmiao2_complete\scraping-center\node_modules\typescript\lib" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/worldmiao2/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -50,12 +70,22 @@
       <recent name="C:\Script\worldmiao2_complete\worldmiao2\src\components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.serve">
+  <component name="RunManager" selected="npm.start:dev">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/worldmiao2/package.json" />
       <command value="run" />
       <scripts>
         <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="prebuild" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/scraping-center/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="prebuild" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -83,8 +113,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.serve" />
         <item itemvalue="npm.start:dev" />
+        <item itemvalue="npm.prebuild" />
+        <item itemvalue="npm.serve" />
         <item itemvalue="npm.build" />
       </list>
     </recent_temporary>
@@ -102,6 +133,7 @@
       <workItem from="1608113826667" duration="48000" />
       <workItem from="1608115803933" duration="1419000" />
       <workItem from="1608118165421" duration="27010000" />
+      <workItem from="1608157175312" duration="2302000" />
     </task>
     <task id="LOCAL-00001" summary="merged">
       <created>1608113559213</created>

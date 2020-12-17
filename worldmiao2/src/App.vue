@@ -90,6 +90,7 @@ export default defineComponent({
         OPEN_LIBRARY: {},
         WORLD_CAT: {}
       } as BookStore
+      ,
 
     }
   },

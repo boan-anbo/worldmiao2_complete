@@ -138,7 +138,7 @@ export default {
 
 
 
-    const loadTestBooks = () => {
+    const  loadTestBooks = () => {
       const fakeBooks = []
       for (let i = 0; i < 15; i++) {
         const newBook = new Book(props.bookProvider, {id: '1', idNote: 'fake ID'}, faker.lorem.sentence(12))
@@ -149,11 +149,13 @@ export default {
         newBook.isbns.push(faker.finance.account())
         newBook.isbns.push(faker.finance.account())
         newBook.publisher = faker.company.companyName();
+        newBook.format = 'PDF'
         fakeBooks.push(newBook)
       }
       upshelfBooks(fakeBooks)
     }
 
+    loadTestBooks()
 
     return {
       books,

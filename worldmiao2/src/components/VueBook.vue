@@ -52,22 +52,24 @@
 >
 
   <div
-      style="min-height: 200px; background-color: #5D8D89;"
+      style="min-height: 200px; height: 200px; background-color: #5D8D89;"
       :class="{'moveUpOutOfView': !bookCoverShown}"
-      class="bookCover font-bold "
+      class="bookCover font-bold  "
 
   >
-    Cover
-<!--    {{// JSON.stringify(book)}}-->
-    <p id="library-name" class="text-lg">{{libraryName}}</p>
 
+<!--    {{// JSON.stringify(book)}}-->
+
+    <div class="m-auto bg-red-200 ">
+    <p id="library-name" class="text-lg ">{{libraryName}}</p>
+    </div>
 
   </div>
 
 <!--  Book info card-->
   <div
 
-      @click="this.state.showInfo = !this.state.showInfo"
+      @click="this.toggleBookInfo()"
       style="min-height: 200px;"
       :class="{
         'moveUpOutOfView': !this.state.showInfo,
@@ -101,20 +103,19 @@
 
   <!--    Book Link-->
 
-  <div  @click="this.state.showInfo = !this.state.showInfo"
+  <div  @click="toggleBookInfo()"
         :class="{'moveIntoViewFromBelow': !this.state.showInfo && !bookCoverShown }" class="bookLinks">
-<BookAccesses :book="book" :links="state.links"/>
+
+<BookAccesses :book="book" :fetchStatus="this.fetchStatus" :accesses="accesses" :links="state.links"/>
   </div>
-
-
 
 </div>
 
 </template>
-<script lang="ts">
-import {Book} from "@/entities/book.entity";
+<script lang="js">
+import {Book, BookAccess, BookAccessType} from "@/entities/book.entity";
 import {fetchAccess} from "@/functions/fetchBookAccess";
-import {BookAccessState} from "@/entities/book.fetch.entity";
+import {BookAccessFetchingState} from "@/entities/book.fetch.entity";
 import {reactive} from "vue";
 import BookAccesses from "@/components/BookAccesses.vue";
 
@@ -122,18 +123,18 @@ import BookAccesses from "@/components/BookAccesses.vue";
 export default {
   name: 'VueBook',
   components: {BookAccesses},
-  setup(props: {book: Book}) {
+  setup(props) {
     // console.log("Received Book", book )
     const state = reactive({
-      bookAccess: BookAccessState.IDLE,
+      bookAccess: BookAccessFetchingState.IDLE,
       timer: 0,
       links: props.book?.access,
       showInfo: true
     })
 
-    const fetch = async (test: string) => {
+    const fetch = async (test) => {
       state.timer = 0;
-      state.bookAccess = BookAccessState.LOADING
+      state.bookAccess = BookAccessFetchingState.FETCHING
       fetchAccess(test, state)
     }
 
@@ -154,14 +155,50 @@ export default {
   },
   data() {
     return {
-
+      accesses: [
+      ],
+      fetchStatus: BookAccessFetchingState.IDLE,
+      fetchTimer: 0
     }
+  },
+
+  methods: {
+    resetAllProperties() {
+      this.fetchStatus.BookAccessFetchingState.IDLE
+    },
+    hasNoNeedToFetch() {
+      return this.accesses.length > 0;
+    }
+    ,
+    onFetchAccess: async function () {
+      if (this.hasNoNeedToFetch()) return console.log('no need to fetch has ', this.accesses.length)
+      console.log("Fetch Access")
+      this.fetchStatus = BookAccessFetchingState.FETCHING
+      this.makeFetchRequest()
+    },
+    makeFetchRequest() {
+      setTimeout(() =>
+      {
+        this.accesses = [ new BookAccess('LinkName', BookAccessType.BORROW)]
+        this.fetchStatus = BookAccessFetchingState.FETCHED;
+        console.log('fetched')
+      }, 3000)
+    },
+    toggleBookInfo: function() {
+      this.state.showInfo = !this.state.showInfo
+      if (!this.state.showInfo && this.fetchStatus === BookAccessFetchingState.IDLE) {
+          this.onFetchAccess()
+      }
+
+}
   },
   watch: {
     book: function() {
       // if book is loaded, reset showInfo To True
       console.log("FOUND BOOK CHANGED")
       this.state.showInfo = true
+      // load book access
+      // this.accesses = this.book.access
     }
   }
 

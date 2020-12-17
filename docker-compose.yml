@@ -12,15 +12,15 @@ services:
     ports:
       - 90:80
     depends_on:
-      - app
+      - nest
     links:
-      - app
+      - nest
 
-  app:
+  nest:
     build:
       context: ./scraping-center/
       dockerfile: ./docker/App.Dockerfile
-    container_name: app
+    container_name: nest
     volumes:
       - ./scraping-center/:/var/www/app:cached
       - ./scraping-center/src:/var/www/app/src

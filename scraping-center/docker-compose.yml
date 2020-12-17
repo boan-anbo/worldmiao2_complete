@@ -11,13 +11,13 @@ services:
     ports:
       - 90:80
     links:
-      - app
+      - nest
 
-  app:
+  nest:
     build:
       context: .
       dockerfile: ./docker/App.Dockerfile
-    container_name: app
+    container_name: nest
     volumes:
       - ./:/var/www/app:cached
       - /var/www/app/node_modules # anonymous volume for node_modules only

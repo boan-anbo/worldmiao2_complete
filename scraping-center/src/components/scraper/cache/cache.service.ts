@@ -36,15 +36,15 @@ export class CacheService {
     );
   }
 
-  async checkBookAccessCache(title: string, provider: BookProvider): Promise<BookAccess | null> {
+  async checkBookAccessCache(title: string, provider: BookProvider): Promise<BookAccess[] | null> {
     const result = await this.redisClient.get(`BookAccess-${provider}-${title}`);
     if (result) {
-      return JSON.parse(result) as BookAccess;
+      return JSON.parse(result) as BookAccess[];
     }
     return null;
   }
 
-  async saveBookAccessCache(title: string, provider: BookProvider, bookAccess: BookAccess | null) {
+  async saveBookAccessCache(title: string, provider: BookProvider, bookAccess: BookAccess[] | null) {
     return this.saveToCache(
       `BookAccess-${provider}-${title}`,
       bookAccess,

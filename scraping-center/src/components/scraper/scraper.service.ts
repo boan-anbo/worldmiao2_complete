@@ -4,6 +4,7 @@ import { OpenlibraryService } from '@components/scraper/scraper-services/openlib
 import { GoogleBooksService } from '@components/scraper/scraper-services/google-books/google-books.service';
 import { WorldcatService } from '@components/scraper/scraper-services/worldcat/worldcat.service';
 import { MemoryOfTheWorldService } from '@components/scraper/scraper-services/memory-of-the-world/memory-of-the-world.service';
+import { BookAccess } from '@components/scraper/entities/book.entity';
 
 @Injectable()
 export default class ScraperService {
@@ -43,7 +44,11 @@ export default class ScraperService {
     return null;
   }
 
-  async fetchAccessFromOpenLibrary(uniqueId: string) {
+  async fetchAccessFromOpenLibrary(uniqueId: string): Promise<BookAccess[] | null> {
     return this.openLibraryService.fetchBook(uniqueId);
+  }
+
+  async fetchAccessFromWorlcat(uniqueId: string): Promise<BookAccess[] | null> {
+    return this.worldcatService.getAvailableDatabases(uniqueId);
   }
 }

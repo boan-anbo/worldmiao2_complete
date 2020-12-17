@@ -1,7 +1,7 @@
-import {BookAccessState} from "@/entities/book.fetch.entity";
+import {BookAccessFetchingState} from "@/entities/book.fetch.entity";
 
-export const fetchAccess = (identifier: string, state: {bookAccess: BookAccessState, timer: number}) => {
-    state.bookAccess = BookAccessState.LOADING
+export const fetchAccess = (identifier: string, state: {bookAccess: BookAccessFetchingState, timer: number}) => {
+    state.bookAccess = BookAccessFetchingState.FETCHING
     console.log("fetching id ", identifier)
     let interval = setInterval(() => {
         state.timer++
@@ -10,7 +10,7 @@ export const fetchAccess = (identifier: string, state: {bookAccess: BookAccessSt
 
     let elapse = setTimeout(() =>
     {
-        state.bookAccess = BookAccessState.FETCHED
+        state.bookAccess = BookAccessFetchingState.FETCHED
         clearInterval(interval)
     }, 5000);
 
