@@ -28,7 +28,7 @@ export class OpenlibraryService {
     return validBooks;
   }
 
-  async fetchBook(uniqueId: string): Promise<BookAccess | null> {
+  async fetchBook(uniqueId: string): Promise<BookAccess[] | null> {
     if (!uniqueId) {
       throw new NotFoundException('Invalid book id');
     }
@@ -44,7 +44,7 @@ export class OpenlibraryService {
     if (access) {
       const newAccess = new BookAccess(access?.preview_url ?? access?.info_url, BookAccessType.BORROW);
       console.log('Found Access', newAccess);
-      return newAccess;
+      return [newAccess];
     }
     console.log('Did not find access', access);
     return null;

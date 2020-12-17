@@ -1,6 +1,6 @@
-export enum BookAccessState {
+export enum BookAccessFetchingState {
     IDLE = 'IDLE',
-    LOADING = 'LOADING',
+    FETCHING = 'FETCHING',
     FETCHED = 'FETCHED',
     ERROR = 'ERROR'
 }

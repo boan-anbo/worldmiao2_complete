@@ -8,7 +8,7 @@ import UsersModule from '@components/users/users.module';
 
 import ScraperModule from '@components/scraper/scraper.module';
 import { CacheService } from '@components/scraper/cache/cache.service';
-import { PuppeteerModule } from 'nest-puppeteer';
+// import { PuppeteerModule } from 'nest-puppeteer';
 import AppController from './app.controller';
 import AppService from './app.service';
 import { LoggerMiddleware } from '../../middleware/logger';

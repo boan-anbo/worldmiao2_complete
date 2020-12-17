@@ -43,6 +43,7 @@ export enum BookAccessType {
     BORROW = "BORROW",
     PURCHASE = "PURCHASE",
     EBOOK = "EBOOK",
+    DATABASE = 'DATABASE'
 }
 
 
@@ -59,7 +60,7 @@ export class BookAccess {
 
     link: string;
 
-
+    name = ''
 
     id: string = '';
 

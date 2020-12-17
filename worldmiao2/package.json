@@ -56,7 +56,7 @@
     },
     "rules": {}
   },
-  "proxy": "http://localhost:3000",
+  "proxy": "http://localhost:9000",
   "browserslist": [
     "> 1%",
     "last 2 versions",

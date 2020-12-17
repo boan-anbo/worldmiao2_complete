@@ -1,6 +1,6 @@
-import { HttpService, Injectable } from '@nestjs/common';
-import { Book, BookProvider } from '@components/scraper/entities/book.entity';
-import { Database, defaultDatabaseMap } from '@components/scraper/scraper-services/worldcat/worldcat.entity';
+import {HttpService, Injectable} from '@nestjs/common';
+import {Book, BookAccess, BookAccessType, BookProvider} from '@components/scraper/entities/book.entity';
+import {defaultDatabaseMap} from '@components/scraper/scraper-services/worldcat/worldcat.entity';
 
 const cheerio = require('cheerio');
 
@@ -54,7 +54,7 @@ export class WorldcatService {
     return books;
   }
 
-  async getAvailableDatabases(worldcatId: string): Promise<Database[]> {
+  async getAvailableDatabases(worldcatId: string): Promise<BookAccess[]> {
     const { data } = await this.http.get(`${bookUrl}${worldcatId}`).toPromise();
     // const links: any[] = [];
     const $ = cheerio.load(data);
@@ -76,18 +76,19 @@ export class WorldcatService {
             link: link.attribs.title,
           };
         });
-      const databases: Database[] = [];
+      const accesses: BookAccess[] = [];
       extractedLinks.forEach((extractedLink) => {
         const found = defaultDatabaseMap.find((item) => item.worldcatLabel === extractedLink.label);
         if (found) {
-          databases.push({
+          accesses.push({
             link: extractedLink.link,
-            worldcatLabel: found.worldcatLabel,
+          type: BookAccessType.DATABASE,
             name: found.name,
+              id: '',
           });
         }
       });
-      return databases;
+      return accesses;
     }
     return [];
   }

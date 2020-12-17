@@ -16,6 +16,7 @@ export enum BookAccessType {
   BORROW = 'BORROW',
   PURCHASE = 'PURCHASE',
   EBOOK = 'EBOOK',
+  DATABASE = 'DATABASE'
 }
 
 export interface UniqueId {
@@ -32,6 +33,8 @@ export class BookAccess {
   link: string;
 
   id: string = '';
+
+  name: string = '';
 
   type: BookAccessType
 }

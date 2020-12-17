@@ -3,7 +3,7 @@ import {Book, BookProvider} from "@/entities/book.entity";
 export type SearchStore  = Record<BookProvider, SearchStatus>
 
 export class BookShelfBox {
-    bookCoverShown = true
+    bookCoverShown = false
     book = new Book(null)
 }
 

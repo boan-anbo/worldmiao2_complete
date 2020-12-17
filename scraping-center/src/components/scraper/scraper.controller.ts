@@ -1,6 +1,4 @@
-import {
-  Body, Controller, Get, Post,
-} from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import SuccessResponse from '@responses/success.response';
 import { CacheService } from '@components/scraper/cache/cache.service';
@@ -24,11 +22,14 @@ export default class ScraperController {
       return new SuccessResponse(BookDataType.BOOK_ACCESS, cacheResult, provider, true);
     }
 
-    let newResult: BookAccess | null;
+    let newResult: BookAccess[] | null;
 
     switch (provider) {
     case BookProvider.OPEN_LIBRARY:
       newResult = await this.ss.fetchAccessFromOpenLibrary(uniqueId);
+      break;
+    case BookProvider.WORLD_CAT:
+      newResult = await this.ss.fetchAccessFromWorlcat(uniqueId);
       break;
     default:
       return new ServerErrorResponse('Invalid Fetch Request');
