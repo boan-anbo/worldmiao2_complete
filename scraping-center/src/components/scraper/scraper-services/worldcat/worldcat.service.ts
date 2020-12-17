@@ -1,6 +1,8 @@
-import {HttpService, Injectable} from '@nestjs/common';
-import {Book, BookAccess, BookAccessType, BookProvider} from '@components/scraper/entities/book.entity';
-import {defaultDatabaseMap} from '@components/scraper/scraper-services/worldcat/worldcat.entity';
+import { HttpService, Injectable } from '@nestjs/common';
+import {
+  Book, BookAccess, BookAccessType, BookProvider,
+} from '@components/scraper/entities/book.entity';
+import { defaultDatabaseMap } from '@components/scraper/scraper-services/worldcat/worldcat.entity';
 
 const cheerio = require('cheerio');
 
@@ -82,9 +84,9 @@ export class WorldcatService {
         if (found) {
           accesses.push({
             link: extractedLink.link,
-          type: BookAccessType.DATABASE,
+            type: BookAccessType.DATABASE,
             name: found.name,
-              id: '',
+            id: '',
           });
         }
       });

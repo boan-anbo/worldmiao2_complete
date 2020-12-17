@@ -1,7 +1,7 @@
 
 <style>
 
-#library-name {
+.library-name-cover {
   color: #3B5957;
   background-color: #5D8D89;
   text-shadow: 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7);
@@ -42,82 +42,114 @@
   -webkit-transform: translate3d(0, -400px, 0);
   -webkit-transition: transform 0.5s ease;
 }
+.coverBgColor {
+  background-color: #5D8D89;
+}
+.bookInfoBgColor {
+  background-color: #b7d4d2;
+}
+.bookLinksBgColor {
+ background-color: #f3f3f3;
+}
 </style>
 
 <template>
+<!--  the back panel 's color is that of the cover so when the cover is lift there is no white color in the back-->
 <div
-      style="max-width: 100%; min-width:400px; max-height:200px; height: 200px; "
-      class="overflow-hidden border"
-
+      style="max-width: 100%; min-width:400px; max-height:200px; height: 200px;   background-color: #b7d4d2;"
+      class="overflow-hidden border "
 >
 
+<!-- box cover -->
   <div
       style="min-height: 200px; height: 200px; background-color: #5D8D89;"
       :class="{'moveUpOutOfView': !bookCoverShown}"
-      class="bookCover font-bold  "
+      class="bookCover font-bold grid grid-cols-1 content-between"
 
   >
+    <div class="cover-header"></div>
+    <div class="library-name-cover cover-content text-lg">{{libraryName}}</div>
+    <div class="cover-footer"></div>
 
-<!--    {{// JSON.stringify(book)}}-->
 
-    <div class="m-auto bg-red-200 ">
-    <p id="library-name" class="text-lg ">{{libraryName}}</p>
-    </div>
 
   </div>
 
 <!--  Book info card-->
+
+
   <div
 
       @click="this.toggleBookInfo()"
-      style="min-height: 200px;"
+      style="min-height: 200px; background-color: #b7d4d2"
       :class="{
         'moveUpOutOfView': !this.state.showInfo,
       'moveIntoViewFromBelow': !bookCoverShown
-      }" class="bookInfo "
+      }"
+      class="bookInfo grid grid-cols-1 content-between"
   >
 
 <!--    Details -->
-<a-row class="bg-red-200">
-<a-col :span="24" class="text-base pl-6 pr-4 font-light text-black text-left">
-  <span class="font-base">{{index + 1 + '.'}}</span><span class="ml-2">{{  book.title }}</span>
-</a-col>
-</a-row>
+
+    <div class="book-info-title text-base pl-6 pr-4 font-light text-black text-left">
+      <span class="font-base">{{index + 1 + '.'}}</span><span class="ml-2">{{  book.title }}</span>
+    </div>
+    <div class="book-info-description grid grid-col-1">
+          <div class="text-sm my truncate">
+
+          {{ book.author + ', ' }}
+              {{ book.publicationYear}}{{'; ' + book.publisher}}
+
+          </div>
+      <div
+          style="max-height: 100px; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden;"
+          class="text-left text-xs  py-2 px-6 mx-4 ">
+
+        {{book.description}}
+
+      </div >
+
+    </div>
+    <div class="boot-info-footer text-xs">{{libraryName}}</div>
+
+  <!--  Title -->
 
 <!--   Author, Publication, Publisher -->
-<a-row type="flex" justify="center" class="text-sm my-2 truncate">
-  <a-col>
-    {{ book.author + ', ' }}
-    {{ book.publicationYear}}{{'; ' + book.publisher}}
-</a-col>
-</a-row>
+
 
 <!-- Description
 -->
-<a-row class=" text-left text-sm overflow-ellipsis overflow-hidden ">
-  <a-col class="h-full py-2 px-6 mx-4" :span="24" >
-    {{book.description}}
-  </a-col>
-</a-row >
+
 </div>
 
   <!--    Book Link-->
 
-  <div  @click="toggleBookInfo()"
-        :class="{'moveIntoViewFromBelow': !this.state.showInfo && !bookCoverShown }" class="bookLinks">
+<div  @click="toggleBookInfo()"
+:class="{'moveIntoViewFromBelow': !this.state.showInfo && !bookCoverShown }"
+      style="background-color: #b7d4d2;"
+      class="bookLinks ">
 
-<BookAccesses :book="book" :fetchStatus="this.fetchStatus" :accesses="accesses" :links="state.links"/>
-  </div>
+<BookAccesses
+
+    :book="book"
+    :fetchStatus="this.fetchStatus"
+    :accesses="accesses"
+    :libraryName="libraryName"
+    :links="state.links"/>
+
+</div>
 
 </div>
 
 </template>
 <script lang="js">
-import {Book, BookAccess, BookAccessType} from "@/entities/book.entity";
+import {Book, } from "@/entities/book.entity";
 import {fetchAccess} from "@/functions/fetchBookAccess";
 import {BookAccessFetchingState} from "@/entities/book.fetch.entity";
 import {reactive} from "vue";
 import BookAccesses from "@/components/BookAccesses.vue";
+// eslint-disable-next-line no-unused-vars
+import {ScrapingCenterSuccessResponse} from "@/interfaces/ScrapingCenterSuccessResponse";
 
 
 export default {
@@ -137,9 +169,6 @@ export default {
       state.bookAccess = BookAccessFetchingState.FETCHING
       fetchAccess(test, state)
     }
-
-
-
 
     return {
       fetch,
@@ -166,28 +195,62 @@ export default {
     resetAllProperties() {
       this.fetchStatus.BookAccessFetchingState.IDLE
     },
-    hasNoNeedToFetch() {
-      return this.accesses.length > 0;
+    hasNeedToFetch() {
+      return this.accesses.length === 0;
     }
     ,
-    onFetchAccess: async function () {
-      if (this.hasNoNeedToFetch()) return console.log('no need to fetch has ', this.accesses.length)
-      console.log("Fetch Access")
-      this.fetchStatus = BookAccessFetchingState.FETCHING
-      this.makeFetchRequest()
-    },
-    makeFetchRequest() {
-      setTimeout(() =>
+    onFetchAccess: async function (uniqueId, provider) {
+      if (!uniqueId || !provider) {
+        throw new Error('invalid fetch')
+      }
+      if (!this.hasNeedToFetch())
       {
-        this.accesses = [ new BookAccess('LinkName', BookAccessType.BORROW)]
-        this.fetchStatus = BookAccessFetchingState.FETCHED;
-        console.log('fetched')
-      }, 3000)
+        console.log('no need to fetch has ', this.accesses.length)
+        return
+      }
+
+      console.log('need to fetch check', this.hasNeedToFetch())
+      console.log("Fetch Access")
+
+      this.makeFetchRequest(uniqueId, provider)
+    },
+    makeFetchRequest: async function(uniqueId, provider) {
+      // setTimeout(() =>
+      // {
+      //   this.accesses = [
+      //     new BookAccess('LinkName', BookAccessType.BORROW),
+      //     new BookAccess('proquest.com', BookAccessType.DATABASE, 'Proquest Database'),
+      //   ]
+      const url = 'http://localhost:' + 9000 + `/scraper/access`
+      console.log("Posting your request for ", provider, 'for to fetch access for ', uniqueId, " to", url)
+      // update search status
+
+      this.fetchStatus = BookAccessFetchingState.FETCHING
+      // sending http request
+      const payload = {uniqueId: uniqueId
+        , provider: provider}
+      console.log('payload', payload)
+      const res = await this.axios.post(url, payload)
+      console.log("Http Response", res)
+      const {data} = res
+
+
+      if (!data) {
+        this.fetchStatus = BookAccessFetchingState.ERROR
+      }
+
+      console.log(`Received Response From Server ${provider}, for for access fetch id ${uniqueId}, data:`, data)
+
+      this.fetchStatus = BookAccessFetchingState.FETCHED;
+      console.log('fetched')
+      this.accesses = data.data;
+
     },
     toggleBookInfo: function() {
       this.state.showInfo = !this.state.showInfo
       if (!this.state.showInfo && this.fetchStatus === BookAccessFetchingState.IDLE) {
-          this.onFetchAccess()
+        // use book's unique id to fetch access
+        this.onFetchAccess(this.book.uniqueIdentifier.id, this.book.provider)
       }
 
 }
@@ -198,7 +261,7 @@ export default {
       console.log("FOUND BOOK CHANGED")
       this.state.showInfo = true
       // load book access
-      // this.accesses = this.book.access
+      this.accesses = this.book.access
     }
   }
 
