@@ -49,6 +49,17 @@ export default class ScraperService {
   }
 
   async fetchAccessFromWorlcat(uniqueId: string): Promise<BookAccess[] | null> {
-    return this.worldcatService.getAvailableDatabases(uniqueId);
+    const result = await this.worldcatService.getAvailableDatabases(uniqueId);
+    if (result) {
+      const uniqueResults: BookAccess[] = [];
+      result.forEach((oneInAll) => {
+        const exists = uniqueResults.find((uniqueOne) => uniqueOne.name === oneInAll.name);
+        if (!exists) {
+          uniqueResults.push(oneInAll);
+        }
+      });
+      return uniqueResults;
+    }
+    return null;
   }
 }

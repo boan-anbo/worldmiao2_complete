@@ -3,7 +3,8 @@ import {Book, BookProvider} from "@/entities/book.entity";
 export type SearchStore  = Record<BookProvider, SearchStatus>
 
 export class BookShelfBox {
-    bookCoverShown = false
+
+    bookCoverShown = true // the default value determines whether cover is down in the beginning
     book = new Book(null)
 }
 
@@ -32,6 +33,7 @@ export class SearchStatus {
         return this.searchedTerm
     }
     searchedTerm: string = ''
+    searchResultCount: number | null = null;
     provider: BookProvider
     private _searchingStatus: LibrarySearchStatus = LibrarySearchStatus.IDLE
     private intervalTimer: number = 0;
@@ -46,6 +48,19 @@ export class SearchStatus {
 
     getCurrentStatus() {
         return this._searchingStatus
+    }
+
+    setSearchResultCount(count: number) {
+        console.log('hit', count)
+        if (typeof count === 'number') {
+            this.searchResultCount = count
+        }
+    }
+
+    getSearchResultCount() {
+        if (this.searchResultCount) {
+            return this.searchResultCount
+        }
     }
     setSearchStatus(status: LibrarySearchStatus) {
         this.searchingStatus = status

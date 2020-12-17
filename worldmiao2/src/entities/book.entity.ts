@@ -53,9 +53,10 @@ export interface UniqueId {
 }
 
 export class BookAccess {
-    constructor(link: string, type: BookAccessType) {
+    constructor(link: string, type: BookAccessType, name?: string) {
         this.link = link;
         this.type = type;
+        this.name = name ?? ''
     }
 
     link: string;
