@@ -1,5 +1,25 @@
 version: "3"
 services:
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    image: nginx
+#    build:
+#      context: ./nginx
+#      dockerfile: ./nginx.Dockerfile
+    ports:
+      - 801:80
+      - 4431:443
+    volumes: # let the docker creates local folders. if i create empty local folders first, they will overwrite the nginx folders within the docker.
+      - ./nginx/config:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/ssl/private
+    links:
+      - nest
+      - vue
+    depends_on:
+      - nest
+      - vue
+
   vue:
     build:
       context: ./worldmiao2/
@@ -27,6 +47,9 @@ services:
       - /var/www/app/node_modules # anonymous volume for node_modules only
     ports:
       - 9000:3000
+    depends_on:
+      - mysql
+      - redis
     links:
       - mysql
       - redis
