@@ -221,7 +221,7 @@ export default {
       //     new BookAccess('LinkName', BookAccessType.BORROW),
       //     new BookAccess('proquest.com', BookAccessType.DATABASE, 'Proquest Database'),
       //   ]
-      const url = 'http://localhost:' + 9000 + `/scraper/access`
+      const url = './api/scraper/access'
       console.log("Posting your request for ", provider, 'for to fetch access for ', uniqueId, " to", url)
       // update search status
 
