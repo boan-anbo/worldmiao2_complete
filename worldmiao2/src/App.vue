@@ -6,7 +6,7 @@
   <div
       id="main-panel-layout"
 
-      class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4"
+      class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-6"
   >
   <div
         v-for="(provider, providerIndex) in bookProviderList"
@@ -97,6 +97,7 @@ export default defineComponent({
         LIBRARY_GENESIS: new SearchStatus(BookProvider.LIBRARY_GENESIS),
         OPEN_LIBRARY: new SearchStatus(BookProvider.OPEN_LIBRARY),
         WORLD_CAT: new SearchStatus(BookProvider.WORLD_CAT),
+        ZLIBRARY: new SearchStatus(BookProvider.ZLIBRARY),
       } as SearchStore
       ,
       bookStore: {
@@ -106,7 +107,8 @@ export default defineComponent({
         MEMORY_OF_THE_WORLD: {},
         LIBRARY_GENESIS: {},
         OPEN_LIBRARY: {},
-        WORLD_CAT: {}
+        WORLD_CAT: {},
+        ZLIBRARY: {}
       } as BookStore
       ,
     }

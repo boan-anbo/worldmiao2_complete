@@ -6,14 +6,11 @@ export enum BookProvider {
     WORLD_CAT = 'WORLD_CAT',
     GOOGLE_BOOKS = 'GOOGLE_BOOKS',
     MEMORY_OF_THE_WORLD = 'MEMORY_OF_THE_WORLD',
+    ZLIBRARY = 'ZLIBRARY'
 }
 
+// 3 places to update: (1) this provider list (2) bookstore, (3) search store in App.Vue
 export const BookProviderList: { providerName: string, providerEnum: BookProvider, url?: string }[] = [
-    {
-        providerName: "Library Genesis",
-        providerEnum: BookProvider.LIBRARY_GENESIS,
-        url: 'http://gen.lib.rus.ec/'
-    },
     {
         providerName: "Internet Archive",
         providerEnum:BookProvider.OPEN_LIBRARY,
@@ -25,16 +22,23 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         url: ''
     },
     {
+        providerName: "Library Genesis",
+        providerEnum: BookProvider.LIBRARY_GENESIS,
+        url: 'http://gen.lib.rus.ec/'
+    },
+    {
         providerName: "Google Books",
         providerEnum:   BookProvider.GOOGLE_BOOKS,
         url: 'https://books.google.com/'
     },
-
-    //
-    // {
-    //     providerName: "Memory of the World",
-    //     providerEnum:  BookProvider.MEMORY_OF_THE_WORLD
-    // },
+    {
+        providerName: "Z Library",
+        providerEnum: BookProvider.ZLIBRARY
+    },
+    {
+        providerName: "Memory of the World",
+        providerEnum:  BookProvider.MEMORY_OF_THE_WORLD
+    },
 ]
 
 export enum BookDataType {

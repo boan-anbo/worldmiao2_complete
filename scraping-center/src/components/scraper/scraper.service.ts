@@ -15,7 +15,7 @@ export default class ScraperService {
     private googleBooksService: GoogleBooksService,
     private worldcatService: WorldcatService,
     private zlibraryService: ZlibraryService,
-    // private memoryOfTheWorld: MemoryOfTheWorldService,
+    private memoryOfTheWorld: MemoryOfTheWorldService,
   ) {
   }
 
@@ -42,8 +42,8 @@ export default class ScraperService {
   }
 
   async searchMemoryOfTheWorld(title: string) {
-    // const result = await this.memoryOfTheWorld.search(title);
-    return null;
+    const result = await this.memoryOfTheWorld.search(title);
+    return result;
   }
 
   async fetchAccessFromOpenLibrary(uniqueId: string): Promise<BookAccess[] | null> {
@@ -66,8 +66,6 @@ export default class ScraperService {
   }
 
   async searchZLibrary(title: string) {
-
-    console.log('received test request', title)
     return this.zlibraryService.search(title);
   }
 }
