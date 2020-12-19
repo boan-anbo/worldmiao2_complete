@@ -56,7 +56,7 @@
 
 
 import {Book, BookProvider, BookProviderList} from "@/entities/book.entity";
-import {defineComponent} from "@vue/composition-api";
+import {defineComponent} from "vue";
 import {reactive} from "vue";
 // eslint-disable-next-line no-unused-vars
 import {AppProps, BookStore} from "@/interfaces/AppProps";
