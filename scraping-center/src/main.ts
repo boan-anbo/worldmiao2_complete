@@ -12,9 +12,6 @@ import AppModule from './components/app/app.module';
 import AllExceptionsFilter from './filters/all-exceptions.filter';
 
 async function bootstrap() {
-
-
-
   const app = await NestFactory.create(AppModule);
 
   console.log('MYSQL HOST', process.env.MYSQL_HOST);

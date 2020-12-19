@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import SuccessResponse from '@responses/success.response';
 import { CacheService } from '@components/scraper/cache/cache.service';
@@ -42,7 +42,7 @@ export default class ScraperController {
 
   @Post('test')
   async developService(@Body() query: { title: string, provider: BookProvider }) {
-    const {title, provider} = query;
+    const { title, provider } = query;
     return this.ss.searchZLibrary(title);
   }
 
@@ -75,9 +75,12 @@ export default class ScraperController {
     case BookProvider.LIBRARY_GENESIS:
       newData = await this.ss.searchLibgen(title);
       break;
-    // case BookProvider.MEMORY_OF_THE_WORLD:
-    //   newData = await this.ss.searchMemoryOfTheWorld(title);
-    //   break;
+    case BookProvider.MEMORY_OF_THE_WORLD:
+      newData = await this.ss.searchMemoryOfTheWorld(title);
+      break;
+    case BookProvider.ZLIBRARY:
+      newData = await this.ss.searchZLibrary(title);
+      break;
     case BookProvider.OPEN_LIBRARY:
       newData = await this.ss.searchOpenlibrary(title);
       break;

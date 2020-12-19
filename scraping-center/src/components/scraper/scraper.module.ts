@@ -8,9 +8,9 @@ import { WorldcatService } from '@components/scraper/scraper-services/worldcat/w
 import { MemoryOfTheWorldService } from '@components/scraper/scraper-services/memory-of-the-world/memory-of-the-world.service';
 import { PuppeteerModule } from 'nest-puppeteer';
 import { CacheService } from '@components/scraper/cache/cache.service';
+import { ZlibraryService } from '@components/scraper/scraper-services/zlibrary/zlibrary.service';
 import ScraperController from './scraper.controller';
 import ScraperService from './scraper.service';
-import {ZlibraryService} from "@components/scraper/scraper-services/zlibrary/zlibrary.service";
 
 @Module({
   imports: [TypeOrmModule.forFeature(), HttpModule],
@@ -24,6 +24,7 @@ import {ZlibraryService} from "@components/scraper/scraper-services/zlibrary/zli
     // MemoryOfTheWorldService,
     CacheService,
     ZlibraryService,
+    MemoryOfTheWorldService,
   ],
   exports: [ScraperService],
 })

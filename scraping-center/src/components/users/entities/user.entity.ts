@@ -22,6 +22,6 @@ export default class UserEntity {
   readonly email: string = '';
 
   @ApiProperty({ type: Boolean })
-  @Column({ type: 'tinyint' })
+  @Column({ type: 'smallint' })
   readonly verified: boolean = false;
 }

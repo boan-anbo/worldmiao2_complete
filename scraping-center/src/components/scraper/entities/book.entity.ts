@@ -4,6 +4,7 @@ export enum BookProvider {
   GOOGLE_BOOKS = 'GOOGLE_BOOKS',
   WORLD_CAT = 'WORLD_CAT',
   MEMORY_OF_THE_WORLD = 'MEMORY_OF_THE_WORLD',
+  ZLIBRARY = 'ZLIBRARY'
 }
 
 export enum BookDataType {

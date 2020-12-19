@@ -10,7 +10,7 @@ services:
     ports:
       - 801:80
       - 4431:443
-    volumes: # let the docker creates local folders. if i create empty local folders first, they will overwrite the nginx folders within the docker.
+    volumes:
       - ./nginx/config:/etc/nginx/conf.d
       - ./nginx/certs:/etc/ssl/private
     links:
@@ -29,8 +29,8 @@ services:
     volumes:
 #   mapping local dist directly to static serve folder in docker
       - ./worldmiao2/dist:/usr/share/nginx/html
-    ports:
-      - 90:80
+#    ports:
+#      - 90:80
     depends_on:
       - nest
     links:
@@ -41,6 +41,8 @@ services:
       context: ./scraping-center/
       dockerfile: ./docker/App.Dockerfile
     container_name: nest
+    # this overrides the default docker commmand so I can ssh into it to debug
+#    command: tail -F anything
     volumes:
       - ./scraping-center/:/var/www/app:cached
       - ./scraping-center/src:/var/www/app/src
@@ -48,22 +50,41 @@ services:
     ports:
       - 9000:3000
     depends_on:
-      - mysql
+      - postgres
       - redis
     links:
-      - mysql
+      - postgres
       - redis
 
-  mysql:
-    container_name: mysql
-    image: mysql:5.7
+  postgres:
+    image: postgres
     restart: always
-#    no NEED TO connect from deploy machine. enable for local connection
-    ports:
-      - "6033:3306"
+    hostname: postgres
+    container_name: postgres
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=app
+      DB_PASSWORD: worldmiao2
+      POSTGRES_PASSWORD: worldmiao2
+      POSTGRES_DB: worldmiao2
+    ports:
+      - "6033:5432"
+#    volumes:
+#      - ./db-data:/var/lib/postgresql/data
+#    volumes:
+#      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+#  mysql:
+#    container_name: mysql
+#    image: mysql:5.7
+##    build:
+##      context: ./mysql/
+##      dockerfile: mysql.Dockerfile
+#    restart: always
+##    no NEED TO connect from deploy machine. enable for local connection
+#    ports:
+#      - "6033:5432"
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=1234
+#      - MYSQL_DATABASE=app
+#      - MYSQL_ROOT_HOST=%
 
   redis:
     image: redis:6

@@ -10,32 +10,30 @@ import ScraperModule from '@components/scraper/scraper.module';
 import { CacheService } from '@components/scraper/cache/cache.service';
 // import { PuppeteerModule } from 'nest-puppeteer';
 
+import { PuppeteerModule } from 'nest-puppeteer';
 import AppController from './app.controller';
 import AppService from './app.service';
 import { LoggerMiddleware } from '../../middleware/logger';
-import {PuppeteerModule} from "nest-puppeteer";
-
-
-
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       // envFilePath: .env.${process.env.NODE_ENV}',
-      envFilePath: '.env.dev',
+      envFilePath: '.env.prod',
     }),
     PuppeteerModule.forRoot(
-      { pipe: true }, // optional, any Puppeteer launch options here or leave empty for good defaults */,
+      // { pipe: true }, //pipe optional, any Puppeteer launch options here or leave empty for good defaults */,
       // 'BrowserInstanceName', // optional, can be useful for using Chrome and Firefox in the same project
+      //   { isGlobal: true}
     ),
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: process.env.MYSQL_HOST,
-      port: process.env.MYSQL_PORT as unknown as number,
-      database: process.env.MYSQL_DB,
-      username: process.env.MYSQL_ROOT_USER,
-      password: process.env.MYSQL_PASSWORD,
+      port: process.env.POSTGRES_PORT as unknown as number,
+      database: process.env.POSTGRES_DB,
+      username: 'postgres',
+      password: process.env.POSTGRES_PASSWORD,
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
@@ -52,8 +50,8 @@ import {PuppeteerModule} from "nest-puppeteer";
       },
       reconnectOnError: (): boolean => true,
     }),
-    AuthModule,
-    UsersModule,
+    // AuthModule,
+    // UsersModule,
     ScraperModule,
   ],
   controllers: [AppController],

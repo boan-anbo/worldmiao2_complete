@@ -77,7 +77,7 @@ export default {
   setup(props) {
 
 
-    console.log("Checking bookstore", props.bookStore);
+    // console.log("Checking bookstore", props.bookStore);
 
 
     // type: Book [];
