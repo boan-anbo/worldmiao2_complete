@@ -25,6 +25,7 @@ services:
 #    depends_on:
 #      - nest
 #      - vue
+
   certbot:
     image: certbot/certbot
       - ./nginx/certbot/conf:/etc/letsencrypt
