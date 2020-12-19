@@ -21,6 +21,7 @@ services:
     links:
       - nest
       - vue
+      - certbot
     depends_on:
 #      - nest
       - vue
