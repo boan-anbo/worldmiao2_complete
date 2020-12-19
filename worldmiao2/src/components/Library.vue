@@ -70,7 +70,7 @@ import {BookShelf, BookShelfBox} from "@/entities/app.entity";
 
 
 // eslint-disable-next-line no-unused-vars
-const faker = require('faker');
+// const faker = require('faker');
 export default {
   name: 'Library',
   components: {VueBook},
