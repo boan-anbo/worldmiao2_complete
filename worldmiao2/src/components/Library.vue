@@ -9,7 +9,7 @@
 <!--    Test load books-->
 <!--    <button  @click="loadBooks">Load BOoks</button>-->
       <div class="search-header  mt-4 ">
-        <span @click.stop.prevent="openLink(libraryUrl)" class="text-lg text-black cursor-pointer" :title="libraryUrl">
+        <span @click.stop.prevent="openLink(libraryUrl)" class="text-lg hover:underline text-black cursor-pointer" :title="libraryUrl">
     {{libraryName}}
       </span>
       </div>
@@ -229,6 +229,7 @@ export default {
       this.boxesShown = false
     },
     openLink: function(url) {
+      if (url?.length < 1) return
       window.open(url)
     }
 
