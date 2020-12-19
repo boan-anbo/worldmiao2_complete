@@ -37,10 +37,10 @@ services:
     container_name: vue
     restart: always
 #    volumes:
-#   mapping local dist directly to static serve folder in docker
+#   mapping local dist directly to static serve folder in docker; becareful local (empty) dist might overwrite target
 #      - ./worldmiao2/dist:/usr/share/nginx/html
-#    ports:
-#      - 90:80
+    ports:
+      - 90:80
     depends_on:
       - nest
     links:
