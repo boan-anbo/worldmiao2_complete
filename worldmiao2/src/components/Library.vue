@@ -9,7 +9,7 @@
 <!--    Test load books-->
 <!--    <button  @click="loadBooks">Load BOoks</button>-->
       <div class="search-header  mt-4 ">
-        <span class="text-lg text-black">
+        <span @click.stop.prevent="openLink(libraryUrl)" class="text-lg text-black cursor-pointer" :title="libraryUrl">
     {{libraryName}}
       </span>
       </div>
@@ -18,19 +18,26 @@
       <!--      search button-->
 <!--      <button @click="showBookCover">Show Cover</button>-->
 <!--      <button @click="hideBookCover">Hide Cover</button>-->
-      <slot name="search-box" ></slot>
+      <slot name="search-box"  ></slot>
 
       <!--      search button-->
+
     </div>
 
+
       <div>
-        <slot v-if="searchStatusShown" name="search-status"> </slot>
+        <slot
+              :closeBookshelfHandler="hideBoxes"
+              :shelfIsEmpty="shelfIsEmpty()"
+              v-if="searchStatusShown" name="search-status"> </slot>
         <span v-if="!searchStatusShown" class="white">&nbsp;</span>
       </div>
 
   </div>
 
-  <div id="book-shelf"
+  <div
+
+      id="book-shelf"
       class="
       bg-gray-200
       bg-opacity-25
@@ -47,6 +54,7 @@
     />
 
   </div>
+
 </template>
 
 <script >
@@ -101,6 +109,8 @@ export default {
 
 
 
+
+
     // eslint-disable-next-line no-unused-vars
     const showOneBookCover = (index) => {
       setTimeout(() => getThisShelfToSet()[index].bookCoverShown = true, index * 80)
@@ -115,6 +125,13 @@ export default {
     }
 
 
+    const unshelfBooks =() => {
+      bookShelfRef.value[props.bookProvider] = []
+    }
+
+    const shelfIsEmpty = () => {
+      return bookShelfRef.value[props.bookProvider]?.length === 0;
+    }
 
     const upshelfBooks = (books) => {
       fillBookShelfWithEmptyBoxes()
@@ -177,15 +194,18 @@ export default {
       hideBookCover: hideAllBookCover,
       bookShelfRef,
       upshelfBooks,
+      unshelfBooks,
       getThisShelf: getThisShelfToSet,
-      fillBookShelfWithEmptyBoxes
+      fillBookShelfWithEmptyBoxes,
+      shelfIsEmpty,
     }
   },
   props: {
     libraryName: String,
     bookProvider: BookProvider,
     colIsEven: Boolean,
-    bookStore: Object
+    bookStore: Object,
+    libraryUrl: String
   },
   data() {
     return {
@@ -197,14 +217,22 @@ export default {
     showBoxes: function() {
       if (!this.boxesShown) {
         setTimeout(() => this.boxesShown = true, 0)
-        setTimeout(() => this.searchStatusShown = true, 1000)
+        setTimeout(() => this.searchStatusShown = true, 0.8)
         this.fillBookShelfWithEmptyBoxes()
 
 
       }
-
-
+    },
+    hideBoxes: function() {
+      console.log('called')
+      this.unshelfBooks();
+      this.boxesShown = false
+    },
+    openLink: function(url) {
+      window.open(url)
     }
+
+
   },
   watch: {
     bookStore: function() {

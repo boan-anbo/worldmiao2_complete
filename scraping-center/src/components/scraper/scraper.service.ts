@@ -5,6 +5,7 @@ import { GoogleBooksService } from '@components/scraper/scraper-services/google-
 import { WorldcatService } from '@components/scraper/scraper-services/worldcat/worldcat.service';
 import { MemoryOfTheWorldService } from '@components/scraper/scraper-services/memory-of-the-world/memory-of-the-world.service';
 import { BookAccess } from '@components/scraper/entities/book.entity';
+import { ZlibraryService } from '@components/scraper/scraper-services/zlibrary/zlibrary.service';
 
 @Injectable()
 export default class ScraperService {
@@ -13,6 +14,7 @@ export default class ScraperService {
     private openLibraryService: OpenlibraryService,
     private googleBooksService: GoogleBooksService,
     private worldcatService: WorldcatService,
+    private zlibraryService: ZlibraryService,
     // private memoryOfTheWorld: MemoryOfTheWorldService,
   ) {
   }
@@ -61,5 +63,11 @@ export default class ScraperService {
       return uniqueResults;
     }
     return null;
+  }
+
+  async searchZLibrary(title: string) {
+
+    console.log('received test request', title)
+    return this.zlibraryService.search(title);
   }
 }

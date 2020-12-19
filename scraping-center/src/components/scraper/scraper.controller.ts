@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {Body, Controller, Get, Post} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import SuccessResponse from '@responses/success.response';
 import { CacheService } from '@components/scraper/cache/cache.service';
@@ -38,6 +38,12 @@ export default class ScraperController {
     this.cs.saveBookAccessCache(uniqueId, provider, newResult);
 
     return new SuccessResponse(BookDataType.BOOK_ACCESS, newResult, provider, false);
+  }
+
+  @Post('test')
+  async developService(@Body() query: { title: string, provider: BookProvider }) {
+    const {title, provider} = query;
+    return this.ss.searchZLibrary(title);
   }
 
   @Post()

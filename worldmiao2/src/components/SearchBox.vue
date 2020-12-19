@@ -1,17 +1,30 @@
-
+<style>
+/*.search-input::-webkit-search-cancel-button{*/
+/*  position:relative;*/
+/*  left:0px;*/
+/*  !*-webkit-appearance: searchfield-cancel-button;*!*/
+/*  !*border-radius:10px;*!*/
+/*  !*background: #3B5957;*!*/
+/*}*/
+</style>
 <template>
+<!--  <span>&nbsp;<span v-if="!inputIsEmpty()"-->
+<!--      @click="clearInput()"-->
+<!--         class="pr-2 text-gray-600 cursor-pointer">clear</span></span>-->
+
 
   <label>
-    <input style=" background-color: transparent;" class="outline-none text-black border-b" type="text" :value="searchTerm" @keyup.enter="makeSearchRequest"  @input="emitSearchTermChanges($event.target.value)"  />
+    <input style=" background-color: transparent;"
+           class="search-input outline-none text-black border-b"
+           type="text" :value="searchTerm"
+           @keyup.enter="makeSearchRequest"
+           @input="emitSearchTermChanges($event.target.value)"
+
+    />
   </label>
 
 
   <span :class="{'text-gray-200': !isRequestValid()}" class="pl-2 cursor-pointer text-black hover:underline" @click="makeSearchRequest">search...</span>
-  <span
-      @click="clearInput()"
-      :class="{'text-gray-200': inputIsEmpty()}"
-      class="pl-2 cursor-pointer"
-  >clear</span>
 
 
 </template>

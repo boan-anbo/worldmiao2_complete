@@ -1,36 +1,53 @@
 <template>
-  <div >
+  <div class="bg-gray-700 px-4 truncate text-white text-lg text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
+    worldmiao.two <span class="text-xs">| 世界喵兔 |</span> ebook search
+  </div>
 
-<a-row >
+  <div
+      id="main-panel-layout"
 
-  <a-col
-      :span="24/4" :xl="24/4" :xs="24" :sm="24" :lg="24/2"
-      v-for="(provider, providerIndex) in bookProviderList"
-      :key="providerIndex"
-      class=""
+      class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4"
   >
+  <div
+        v-for="(provider, providerIndex) in bookProviderList"
+        :key="providerIndex"
+  >
+<!--<a-row >-->
+
+<!--  <a-col-->
+<!--      :span="24/4" :xl="24/4" :xs="24" :sm="24" :lg="24/2"-->
+<!--      v-for="(provider, providerIndex) in bookProviderList"-->
+<!--      :key="providerIndex"-->
+<!--      class=""-->
+<!--  >-->
 <!--  <input type="text" v-model="testUrl" />Enter Test Url-->
-    <Library :bookStore="bookStore[provider.providerEnum]" :library-name="provider.providerName" :colIsEven="providerIndex % 2 === 0" :book-provider="provider.providerEnum">
+
+
+    <Library
+        :bookStore="bookStore[provider.providerEnum]" :library-name="provider.providerName" :colIsEven="providerIndex % 2 === 0" :book-provider="provider.providerEnum" :library-url="provider.url">
 
       <template v-slot:search-box>
-        <SearchBox :book-provider="provider.providerEnum"  @search-request="onSearchRequest"   v-model:searchTerm="state.searchTerm"/>
+        <SearchBox  :book-provider="provider.providerEnum"  @search-request="onSearchRequest"   v-model:searchTerm="state.searchTerm"/>
       </template>
 <!--      Provide searching status-->
-      <template v-slot:search-status>
-        <SearchStatusPanel :book-provider="provider.providerEnum" :bookStore="bookStore" :searchStore="searchStore" />
+      <template   v-slot:search-status="{
+        closeBookshelfHandler,
+        shelfIsEmpty
+      }"
+      >
+        <SearchStatusPanel
+            @close-bookshelf="closeBookshelfHandler"
+            :shelfIsEmpty="shelfIsEmpty"
+            :book-provider="provider.providerEnum" :bookStore="bookStore" :searchStore="searchStore" />
       </template>
 
     </Library>
-
-  </a-col>
-
-  </a-row>
-    <a-row class="bg-gray-700 text-white text-lg text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
-      <a-col :span="24">
-        worldmiao.two (bo an 2020)
-      </a-col>
-    </a-row>
   </div>
+  </div>
+    <div class="bg-gray-700 text-white text-lg text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
+      (bo an 2020)
+    </div>
+
 
 </template>
 
@@ -98,6 +115,9 @@ export default defineComponent({
 
   },
   methods: {
+    test() {
+      console.log("app.vue received close bookshelf")
+    },
     onSearchRequest: async function (globalProvider: BookProvider) {
       const provider: BookProvider = globalProvider
       const { searchTerm } = this.state;

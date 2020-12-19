@@ -56,7 +56,7 @@
 <template>
 <!--  the back panel 's color is that of the cover so when the cover is lift there is no white color in the back-->
 <div
-      style="max-width: 100%; min-width:400px; max-height:200px; height: 200px;   background-color: #b7d4d2;"
+      style="max-width: 100%; min-width:200px; max-height:200px; height: 200px;   background-color: #b7d4d2;"
       class="overflow-hidden border "
 >
 
