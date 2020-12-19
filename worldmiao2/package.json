@@ -9,7 +9,6 @@
     "build-analyze": "vue-cli-service build --report"
   },
   "dependencies": {
-    "@types/faker": "^5.1.5",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "uuid": "^8.3.2",

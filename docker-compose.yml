@@ -13,12 +13,22 @@ services:
     volumes:
       - ./nginx/config:/etc/nginx/conf.d
       - ./nginx/certs:/etc/ssl/private
+      - ./certbot/conf:/etc/nginx/ssl
+      - ./certbot/data:/var/www/certbot
     links:
       - nest
       - vue
     depends_on:
       - nest
       - vue
+
+  certbot:
+    image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/var/www/certbot --email your-email@domain.com --agree-tos --no-eff-email -d domain.com -d www.domain.com
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/logs:/var/log/letsencrypt
+      - ./certbot/data:/var/www/certbot
 
   vue:
     build:

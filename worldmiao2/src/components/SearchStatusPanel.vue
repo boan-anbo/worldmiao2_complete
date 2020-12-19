@@ -1,18 +1,33 @@
 <template>
 
-  <div class="grid grid-cols-12 text-xs pb-1">
-    <div class="text-center col-span-6 underline">{{getSearchTerm}} </div>
-    <div class="status col-span-3 text-left">
-      {{searchStore[bookProvider].getCurrentStatus()}}
+  <div class="grid grid-cols-8 text-xs pb-1">
+    <div class="text-center col-span-8 pb-2">&nbsp;{{getSearchTerm}}</div>
+    <div class="status col-span-3 text-right">
+      &nbsp;{{searchStore[bookProvider].getCurrentStatus()}}
     </div>
+
+<!--  filler  -->
+    <div
+        v-if="searchStore[bookProvider].getCurrentStatus() !== librarySearchStatus.SEARCH_FINISHED"
+        class="result-count col-span-2 text-center"
+    >
+      &nbsp;
+    </div>
+<!--  filler  -->
+
+
     <div
         v-if="searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED"
-         class="result-count col-span-3 text-left"
+         class="result-count col-span-2 text-center"
     >
         ({{searchStore[bookProvider].getSearchResultCount()}} hits.)
+
     </div>
-    <div class="text-left col-span-2" id="search-timer">{{getSearchTime}}</div>
-    <div v-if="!shelfIsEmpty" @click="closeBookShelf()" class="cursor-pointer col-span-1 text-right pr-2">  [ x ]</div>
+    <div class="text-center col-span-1 overflow-visible " id="search-timer">{{getSearchTime}}</div>
+
+    <div v-if="!shelfIsEmpty" title="close results" @click="closeBookShelf()"
+         class="cursor-pointer col-span-2 text-right pr-2 hover:underline"
+    >[ x ]</div>
   </div>
 </template>
 <script lang="js">

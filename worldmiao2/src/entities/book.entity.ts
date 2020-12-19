@@ -12,7 +12,13 @@ export enum BookProvider {
 // 3 places to update: (1) this provider list (2) bookstore, (3) search store in App.Vue
 export const BookProviderList: { providerName: string, providerEnum: BookProvider, url?: string }[] = [
     {
-        providerName: "Internet Archive",
+        providerName: "Google Books",
+        providerEnum:   BookProvider.GOOGLE_BOOKS,
+        url: 'https://books.google.com/'
+    },
+
+    {
+        providerName: "Open Library",
         providerEnum:BookProvider.OPEN_LIBRARY,
         url: 'http://openlibrary.org/'
     },
@@ -27,17 +33,14 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         url: 'http://gen.lib.rus.ec/'
     },
     {
-        providerName: "Google Books",
-        providerEnum:   BookProvider.GOOGLE_BOOKS,
-        url: 'https://books.google.com/'
-    },
-    {
         providerName: "Z Library",
-        providerEnum: BookProvider.ZLIBRARY
+        providerEnum: BookProvider.ZLIBRARY,
+        url: 'https://z-lib.org/'
     },
     {
         providerName: "Memory of the World",
-        providerEnum:  BookProvider.MEMORY_OF_THE_WORLD
+        providerEnum:  BookProvider.MEMORY_OF_THE_WORLD,
+        url: 'https://library.memoryoftheworld.org/'
     },
 ]
 
