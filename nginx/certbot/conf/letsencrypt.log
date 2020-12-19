@@ -1,0 +1,2080 @@
+2020-12-19 19:03:10,276:DEBUG:certbot.main:certbot version: 0.40.0
+2020-12-19 19:03:10,277:DEBUG:certbot.main:Arguments: ['--nginx', '-d', 'worldmiao.com', '-d', 'www.worldmiao.com']
+2020-12-19 19:03:10,277:DEBUG:certbot.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#nginx,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2020-12-19 19:03:10,286:DEBUG:certbot.log:Root logging level set at 20
+2020-12-19 19:03:10,287:INFO:certbot.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2020-12-19 19:03:10,288:DEBUG:certbot.plugins.selection:Requested authenticator nginx and installer nginx
+2020-12-19 19:03:10,486:DEBUG:certbot.plugins.selection:Single candidate plugin: * nginx
+Description: Nginx Web Server plugin
+Interfaces: IAuthenticator, IInstaller, IPlugin
+Entry point: nginx = certbot_nginx.configurator:NginxConfigurator
+Initialized: <certbot_nginx.configurator.NginxConfigurator object at 0x7fc54883db80>
+Prep: True
+2020-12-19 19:03:10,487:DEBUG:certbot.plugins.selection:Selected authenticator <certbot_nginx.configurator.NginxConfigurator object at 0x7fc54883db80> and installer <certbot_nginx.configurator.NginxConfigurator object at 0x7fc54883db80>
+2020-12-19 19:03:10,487:INFO:certbot.plugins.selection:Plugins selected: Authenticator nginx, Installer nginx
+2020-12-19 19:03:15,038:DEBUG:acme.client:Sending GET request to https://acme-v02.api.letsencrypt.org/directory.
+2020-12-19 19:03:15,041:DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org:443
+2020-12-19 19:03:15,223:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "GET /directory HTTP/1.1" 200 658
+2020-12-19 19:03:15,224:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:03:15 GMT
+Content-Type: application/json
+Content-Length: 658
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "O6WsJTL_KAU": "https://community.letsencrypt.org/t/adding-random-entries-to-the-directory/33417",
+  "keyChange": "https://acme-v02.api.letsencrypt.org/acme/key-change",
+  "meta": {
+    "caaIdentities": [
+      "letsencrypt.org"
+    ],
+    "termsOfService": "https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf",
+    "website": "https://letsencrypt.org"
+  },
+  "newAccount": "https://acme-v02.api.letsencrypt.org/acme/new-acct",
+  "newNonce": "https://acme-v02.api.letsencrypt.org/acme/new-nonce",
+  "newOrder": "https://acme-v02.api.letsencrypt.org/acme/new-order",
+  "revokeCert": "https://acme-v02.api.letsencrypt.org/acme/revoke-cert"
+}
+2020-12-19 19:03:17,228:DEBUG:acme.client:Requesting fresh nonce
+2020-12-19 19:03:17,229:DEBUG:acme.client:Sending HEAD request to https://acme-v02.api.letsencrypt.org/acme/new-nonce.
+2020-12-19 19:03:17,272:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "HEAD /acme/new-nonce HTTP/1.1" 200 0
+2020-12-19 19:03:17,272:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:03:17 GMT
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 010339f4OE5qD5crYiHbn6aPfLPgm5p8pmsBic3KP534094
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+
+2020-12-19 19:03:17,272:DEBUG:acme.client:Storing nonce: 010339f4OE5qD5crYiHbn6aPfLPgm5p8pmsBic3KP534094
+2020-12-19 19:03:17,273:DEBUG:acme.client:JWS payload:
+b'{\n  "contact": [\n    "mailto:gazagoal@gmail.com"\n  ],\n  "termsOfServiceAgreed": true,\n  "resource": "new-reg"\n}'
+2020-12-19 19:03:17,276:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/new-acct:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAiandrIjogeyJuIjogInRzVnk3aDJJNG5IQUd0UlVFLVBMbExHN2hudnpjdFlibEZaTVJpWE5SQVFqNGtaYjV0dXpTTV95T2J3UFduUnBULWdkeDZxYUNSblFSM2l0eWhKaS10NV9LaFA4MVVpZHd4Wlc5LTVKdEgzb0xmS3RkUk5mQ09oeGs2SlVLT2c0S0lsdGhIRE1IalV4RXo1SS1XVmVoNVF1QzcxZGNwQ1otNlBjRUFvRm84SDVwOE5wM2FOZHBsSzR0ak11U1d3THc5aVliZDloZ0NHV085X0dheGJSaEZleHBjRlFwSlpxazhvN2JHMU4yemNudEhmWTlTNE9TOG5XT19jSmpKTGh3WUdMbEpOek9GYUdWTXFwcjJQTnItQnlocVlVclBzckxJUUtXc2hBYWZidFJfSWRBRXp3UWxOMjcwMldqdjk3TmlTdmFUN2R0OVVmaVlwNmpnOUFoUSIsICJlIjogIkFRQUIiLCAia3R5IjogIlJTQSJ9LCAibm9uY2UiOiAiMDEwMzM5ZjRPRTVxRDVjcllpSGJuNmFQZkxQZ201cDhwbXNCaWMzS1A1MzQwOTQiLCAidXJsIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL25ldy1hY2N0In0",
+  "signature": "SknDerHXZPYchYBO6DUgrn8RVwEYBrLY21z44Q7GPoo_RHHElCsQoOFnPlNUQ5mpTy476Lc9Uc9Nsn9aL67OAAT8ZHIkWJF7C5dZRVDE6zeI7azFOC_8fHy14JyLFpjVfWYCZW-pIkXJUXWlfPQqsyXz3T-J4quOhqzDt6WIJBZVHdzzjyyMrzTyx-0RTqQVlJ0_kT_hV2m5GWcwZk7JdsHpAQaITxcuNV7XJTRcS1fecQGJZeaKabrf1eWFFHdSRDr3ix2dc7CHIcOhZ6V4UY4HRBPYgK-XN2GFHZ60FjHeVMKsOk0-QEHenKBoTzHeFvqcXlUpgl-Njn0v4CKn5w",
+  "payload": "ewogICJjb250YWN0IjogWwogICAgIm1haWx0bzpnYXphZ29hbEBnbWFpbC5jb20iCiAgXSwKICAidGVybXNPZlNlcnZpY2VBZ3JlZWQiOiB0cnVlLAogICJyZXNvdXJjZSI6ICJuZXctcmVnIgp9"
+}
+2020-12-19 19:03:17,392:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/new-acct HTTP/1.1" 201 563
+2020-12-19 19:03:17,393:DEBUG:acme.client:Received response:
+HTTP 201
+Server: nginx
+Date: Sat, 19 Dec 2020 19:03:17 GMT
+Content-Type: application/json
+Content-Length: 563
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index", <https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf>;rel="terms-of-service"
+Location: https://acme-v02.api.letsencrypt.org/acme/acct/106860736
+Replay-Nonce: 0104Y2pGYN6tHTBAXDUAw4FpM9WvV16xOBzeFX1dSihZuas
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "key": {
+    "kty": "RSA",
+    "n": "tsVy7h2I4nHAGtRUE-PLlLG7hnvzctYblFZMRiXNRAQj4kZb5tuzSM_yObwPWnRpT-gdx6qaCRnQR3ityhJi-t5_KhP81UidwxZW9-5JtH3oLfKtdRNfCOhxk6JUKOg4KIlthHDMHjUxEz5I-WVeh5QuC71dcpCZ-6PcEAoFo8H5p8Np3aNdplK4tjMuSWwLw9iYbd9hgCGWO9_GaxbRhFexpcFQpJZqk8o7bG1N2zcntHfY9S4OS8nWO_cJjJLhwYGLlJNzOFaGVMqpr2PNr-ByhqYUrPsrLIQKWshAafbtR_IdAEzwQlN2702Wjv97NiSvaT7dt9UfiYp6jg9AhQ",
+    "e": "AQAB"
+  },
+  "contact": [
+    "mailto:gazagoal@gmail.com"
+  ],
+  "initialIp": "159.203.109.225",
+  "createdAt": "2020-12-19T19:03:17.364035393Z",
+  "status": "valid"
+}
+2020-12-19 19:03:17,393:DEBUG:acme.client:Storing nonce: 0104Y2pGYN6tHTBAXDUAw4FpM9WvV16xOBzeFX1dSihZuas
+2020-12-19 19:03:17,395:DEBUG:certbot.reporter:Reporting to user: Your account credentials have been saved in your Certbot configuration directory at /etc/letsencrypt. You should make a secure backup of this folder now. This configuration directory will also contain certificates and private keys obtained by Certbot so making regular backups of this folder is ideal.
+2020-12-19 19:03:19,331:DEBUG:certbot.eff:Sending POST request to https://supporters.eff.org/subscribe/certbot:
+{'data_type': 'json', 'email': 'gazagoal@gmail.com', 'form_id': 'eff_supporters_library_subscribe_form'}
+2020-12-19 19:03:19,332:DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): supporters.eff.org:443
+2020-12-19 19:03:20,028:DEBUG:urllib3.connectionpool:https://supporters.eff.org:443 "POST /subscribe/certbot HTTP/1.1" 200 90
+2020-12-19 19:03:20,032:DEBUG:certbot.eff:Received response:
+b'{"status":true,"message":"Please check your email for a confirmation link."}'
+2020-12-19 19:03:20,033:DEBUG:certbot.main:Picked account: <Account(RegistrationResource(body=Registration(key=JWKRSA(key=<ComparableRSAKey(<cryptography.hazmat.backends.openssl.rsa._RSAPublicKey object at 0x7fc5487cbe20>)>), contact=('mailto:gazagoal@gmail.com',), agreement=None, status='valid', terms_of_service_agreed=None, only_return_existing=None, external_account_binding=None), uri='https://acme-v02.api.letsencrypt.org/acme/acct/106860736', new_authzr_uri=None, terms_of_service='https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf'), cf57182938b50ebaa67e8568dc265e22, Meta(creation_dt=datetime.datetime(2020, 12, 19, 19, 3, 17, tzinfo=<UTC>), creation_host='nodejs-bo-deploy'))>
+2020-12-19 19:03:20,034:INFO:certbot.main:Obtaining a new certificate
+2020-12-19 19:03:20,275:DEBUG:certbot.crypto_util:Generating key (2048 bits): /etc/letsencrypt/keys/0000_key-certbot.pem
+2020-12-19 19:03:20,278:DEBUG:certbot.crypto_util:Creating CSR: /etc/letsencrypt/csr/0000_csr-certbot.pem
+2020-12-19 19:03:20,278:DEBUG:acme.client:JWS payload:
+b'{\n  "identifiers": [\n    {\n      "type": "dns",\n      "value": "worldmiao.com"\n    },\n    {\n      "type": "dns",\n      "value": "www.worldmiao.com"\n    }\n  ]\n}'
+2020-12-19 19:03:20,280:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/new-order:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDRZMnBHWU42dEhUQkFYRFVBdzRGcE05V3ZWMTZ4T0J6ZUZYMWRTaWhadWFzIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9uZXctb3JkZXIifQ",
+  "signature": "AnljYoM-bqTSRBMgrvo80_fHoth9tiDY9rNzkxkxgvCTySBndyHg1CEO1cUZ5HsOa4jg7V7z4RPSalXWI5fpp0UwAwvLyZyny836WvOYfA6NSZ3SXl4VgwIehBL7mBkLext2TEVN-YRKw4mDpBukHURIQ5Zepfay_8yxCeuof6p8cmZP0FdmiCMYQdLmYeJSi0UP6BOVqqUxBeTdmqMW5fthQ33zZhXCcNeYLtiY3jRnhXoCz5sZMydyzFVvfgMeacT2z_vDpxLRQQVvAKP5H7cGLxuOyt20R3tZK18N3Gf-y0fMgx9uz0V9YzPxXD_cw2K6qmvp1Do0Yhr4iCxz9g",
+  "payload": "ewogICJpZGVudGlmaWVycyI6IFsKICAgIHsKICAgICAgInR5cGUiOiAiZG5zIiwKICAgICAgInZhbHVlIjogIndvcmxkbWlhby5jb20iCiAgICB9LAogICAgewogICAgICAidHlwZSI6ICJkbnMiLAogICAgICAidmFsdWUiOiAid3d3LndvcmxkbWlhby5jb20iCiAgICB9CiAgXQp9"
+}
+2020-12-19 19:03:20,494:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/new-order HTTP/1.1" 201 482
+2020-12-19 19:03:20,494:DEBUG:acme.client:Received response:
+HTTP 201
+Server: nginx
+Date: Sat, 19 Dec 2020 19:03:20 GMT
+Content-Type: application/json
+Content-Length: 482
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Location: https://acme-v02.api.letsencrypt.org/acme/order/106860736/6832832896
+Replay-Nonce: 010381kdCSlNeQin3uYwtIRVkStZmYcVH3sJa1DAvzPWlis
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "status": "pending",
+  "expires": "2020-12-26T19:03:20.418184864Z",
+  "identifiers": [
+    {
+      "type": "dns",
+      "value": "worldmiao.com"
+    },
+    {
+      "type": "dns",
+      "value": "www.worldmiao.com"
+    }
+  ],
+  "authorizations": [
+    "https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883197",
+    "https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883198"
+  ],
+  "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/106860736/6832832896"
+}
+2020-12-19 19:03:20,495:DEBUG:acme.client:Storing nonce: 010381kdCSlNeQin3uYwtIRVkStZmYcVH3sJa1DAvzPWlis
+2020-12-19 19:03:20,496:DEBUG:acme.client:JWS payload:
+b''
+2020-12-19 19:03:20,498:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883197:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDM4MWtkQ1NsTmVRaW4zdVl3dElSVmtTdFptWWNWSDNzSmExREF2elBXbGlzIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9hdXRoei12My85NDM0ODgzMTk3In0",
+  "signature": "tOaX4nDlqSaC9Z7wkG8FNYQg6L15cU8Rxh3HHT9pDt8av_4TcDNv_t_bWPRD8g4pJMcsGf9ruPubKFOQRZQYT_58UpzgCQsyfO6E-Gny0IxHm8KsCAHv2SmVdaQnUkDIgKYfhC-GWE56Vs0G6YnuiLe8ddCpBE8MGiHwly7Gn9yogM4DXCm5ptIjvcEu44EKINoCaBYUoVGH0b86NlxCksjI8ZdNRlVZzV50U72Y_h_rys83spTVX11kAx4QqKLhkJop5QRGsZVC480vhEX5PZWfb-DDjZtK16jMqeMFk37q-eqPsUmDrROYZ8hCLcaAoKxeybE0KcBtGkc3Uf-6xQ",
+  "payload": ""
+}
+2020-12-19 19:03:20,568:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/authz-v3/9434883197 HTTP/1.1" 200 791
+2020-12-19 19:03:20,569:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:03:20 GMT
+Content-Type: application/json
+Content-Length: 791
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 01033bxMtDYv7iElmE4SHT9WSgF4z0GuuhLtvRSh3DepqNg
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "identifier": {
+    "type": "dns",
+    "value": "worldmiao.com"
+  },
+  "status": "pending",
+  "expires": "2020-12-26T19:03:20Z",
+  "challenges": [
+    {
+      "type": "http-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/CYFDAw",
+      "token": "ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI"
+    },
+    {
+      "type": "dns-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/0v1w0w",
+      "token": "ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI"
+    },
+    {
+      "type": "tls-alpn-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/CoCN3Q",
+      "token": "ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI"
+    }
+  ]
+}
+2020-12-19 19:03:20,569:DEBUG:acme.client:Storing nonce: 01033bxMtDYv7iElmE4SHT9WSgF4z0GuuhLtvRSh3DepqNg
+2020-12-19 19:03:20,570:DEBUG:acme.client:JWS payload:
+b''
+2020-12-19 19:03:20,571:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883198:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDMzYnhNdERZdjdpRWxtRTRTSFQ5V1NnRjR6MEd1dWhMdHZSU2gzRGVwcU5nIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9hdXRoei12My85NDM0ODgzMTk4In0",
+  "signature": "n9lb35_l7ulvmUKfG_aT5NNJNty5rp63abo0RgusTE4raeBZ_wNnvhXe4IJ1B8jOdFvisouHvjUJJT6kcxXabRpEx9yVqopTvBEqjQS5CHJbKWW8JO4gOUmNc5gOEGWtgss2dR09mjDH0rlJGfwuIrsytBLOMvVIMpYk_Jhh1zIgz1hPLdJhPj9hV4tAMU3CeZcaL8Tp2QgzckEBYfvbzEiXwfH-6VJ0erX5S49S6ruz4OLKISwzBmHRJvQBcMkiAIVwv1eegahRbfGlzf25FLOSZau7zhnFWth-1pAgseRDAYQithfhtATfb4LUbZtxMSMzM4U6ZPE8TQkq6J0A8w",
+  "payload": ""
+}
+2020-12-19 19:03:20,645:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/authz-v3/9434883198 HTTP/1.1" 200 795
+2020-12-19 19:03:20,645:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:03:20 GMT
+Content-Type: application/json
+Content-Length: 795
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 0103ITEJs_yYunRaq3hLSFRHQ0tnkBDmpfDukFhmeXt4J14
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "identifier": {
+    "type": "dns",
+    "value": "www.worldmiao.com"
+  },
+  "status": "pending",
+  "expires": "2020-12-26T19:03:20Z",
+  "challenges": [
+    {
+      "type": "http-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/m7yM9A",
+      "token": "c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA"
+    },
+    {
+      "type": "dns-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/HMDpRg",
+      "token": "c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA"
+    },
+    {
+      "type": "tls-alpn-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/iPy9Kg",
+      "token": "c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA"
+    }
+  ]
+}
+2020-12-19 19:03:20,646:DEBUG:acme.client:Storing nonce: 0103ITEJs_yYunRaq3hLSFRHQ0tnkBDmpfDukFhmeXt4J14
+2020-12-19 19:03:20,646:INFO:certbot.auth_handler:Performing the following challenges:
+2020-12-19 19:03:20,647:INFO:certbot.auth_handler:http-01 challenge for worldmiao.com
+2020-12-19 19:03:20,647:INFO:certbot.auth_handler:http-01 challenge for www.worldmiao.com
+2020-12-19 19:03:20,679:DEBUG:certbot_nginx.http_01:Generated server block:
+[]
+2020-12-19 19:03:20,679:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-mail.conf
+2020-12-19 19:03:20,680:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-stream.conf
+2020-12-19 19:03:20,680:DEBUG:certbot.reverter:Creating backup of /etc/nginx/nginx.conf
+2020-12-19 19:03:20,681:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-http-xslt-filter.conf
+2020-12-19 19:03:20,681:DEBUG:certbot.reverter:Creating backup of /etc/nginx/mime.types
+2020-12-19 19:03:20,681:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-http-image-filter.conf
+2020-12-19 19:03:20,681:DEBUG:certbot.reverter:Creating backup of /etc/nginx/sites-enabled/default
+2020-12-19 19:03:20,682:DEBUG:certbot_nginx.parser:Writing nginx conf tree to /etc/nginx/nginx.conf:
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+	worker_connections 768;
+	# multi_accept on;
+}
+
+http {
+include /etc/letsencrypt/le_http_01_cert_challenge.conf;
+server_names_hash_bucket_size 128;
+
+	##
+	# Basic Settings
+	##
+
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
+	# server_tokens off;
+
+	# server_names_hash_bucket_size 64;
+	# server_name_in_redirect off;
+
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+
+	##
+	# SSL Settings
+	##
+
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+	ssl_prefer_server_ciphers on;
+
+	##
+	# Logging Settings
+	##
+
+	access_log /var/log/nginx/access.log;
+	error_log /var/log/nginx/error.log;
+
+	##
+	# Gzip Settings
+	##
+
+	gzip on;
+
+	# gzip_vary on;
+	# gzip_proxied any;
+	# gzip_comp_level 6;
+	# gzip_buffers 16 8k;
+	# gzip_http_version 1.1;
+	# gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+	##
+	# Virtual Host Configs
+	##
+
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+}
+
+
+#mail {
+#	# See sample authentication script at:
+#	# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+# 
+#	# auth_http localhost/auth.php;
+#	# pop3_capabilities "TOP" "USER";
+#	# imap_capabilities "IMAP4rev1" "UIDPLUS";
+# 
+#	server {
+#		listen     localhost:110;
+#		protocol   pop3;
+#		proxy      on;
+#	}
+# 
+#	server {
+#		listen     localhost:143;
+#		protocol   imap;
+#		proxy      on;
+#	}
+#}
+
+2020-12-19 19:03:20,684:DEBUG:certbot_nginx.parser:Writing nginx conf tree to /etc/nginx/sites-enabled/default:
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
+
+server {rewrite ^(/.well-known/acme-challenge/.*) $1 break; # managed by Certbot
+
+rewrite ^(/.well-known/acme-challenge/.*) $1 break; # managed by Certbot
+
+
+	listen 80 ;
+	listen [::]:80 ;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name www.worldmiao.com worldmiao.com; # managed by Certbot
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+
+location = /.well-known/acme-challenge/ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI{default_type text/plain;return 200 ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI.KNF-XYlXzdftcK0JDRyubbxcblOPpoNhRd9MIFzFDz0;} # managed by Certbot
+
+
+location = /.well-known/acme-challenge/c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA{default_type text/plain;return 200 c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA.KNF-XYlXzdftcK0JDRyubbxcblOPpoNhRd9MIFzFDz0;} # managed by Certbot
+
+}
+2020-12-19 19:03:23,220:DEBUG:certbot.error_handler:Encountered exception:
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/certbot/auth_handler.py", line 70, in handle_authorizations
+    resps = self.auth.perform(achalls)
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 1134, in perform
+    self.restart()
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 919, in restart
+    nginx_restart(self.conf('ctl'), self.nginx_conf)
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 1202, in nginx_restart
+    raise errors.MisconfigurationError(
+certbot.errors.MisconfigurationError: nginx restart failed:
+b''
+b''
+
+2020-12-19 19:03:23,221:DEBUG:certbot.error_handler:Calling registered functions
+2020-12-19 19:03:23,221:INFO:certbot.auth_handler:Cleaning up challenges
+2020-12-19 19:03:25,829:ERROR:certbot.error_handler:Encountered exception during recovery: 
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/certbot/auth_handler.py", line 70, in handle_authorizations
+    resps = self.auth.perform(achalls)
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 1134, in perform
+    self.restart()
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 919, in restart
+    nginx_restart(self.conf('ctl'), self.nginx_conf)
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 1202, in nginx_restart
+    raise errors.MisconfigurationError(
+certbot.errors.MisconfigurationError: nginx restart failed:
+b''
+b''
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/certbot/error_handler.py", line 124, in _call_registered
+    self.funcs[-1]()
+  File "/usr/lib/python3/dist-packages/certbot/auth_handler.py", line 243, in _cleanup_challenges
+    self.auth.cleanup(achalls)
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 1152, in cleanup
+    self.restart()
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 919, in restart
+    nginx_restart(self.conf('ctl'), self.nginx_conf)
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 1202, in nginx_restart
+    raise errors.MisconfigurationError(
+certbot.errors.MisconfigurationError: nginx restart failed:
+b''
+b''
+2020-12-19 19:03:25,832:DEBUG:certbot.log:Exiting abnormally:
+Traceback (most recent call last):
+  File "/usr/bin/certbot", line 11, in <module>
+    load_entry_point('certbot==0.40.0', 'console_scripts', 'certbot')()
+  File "/usr/lib/python3/dist-packages/certbot/main.py", line 1382, in main
+    return config.func(config, plugins)
+  File "/usr/lib/python3/dist-packages/certbot/main.py", line 1132, in run
+    new_lineage = _get_and_save_cert(le_client, config, domains,
+  File "/usr/lib/python3/dist-packages/certbot/main.py", line 121, in _get_and_save_cert
+    lineage = le_client.obtain_and_enroll_certificate(domains, certname)
+  File "/usr/lib/python3/dist-packages/certbot/client.py", line 417, in obtain_and_enroll_certificate
+    cert, chain, key, _ = self.obtain_certificate(domains)
+  File "/usr/lib/python3/dist-packages/certbot/client.py", line 348, in obtain_certificate
+    orderr = self._get_order_and_authorizations(csr.data, self.config.allow_subset_of_names)
+  File "/usr/lib/python3/dist-packages/certbot/client.py", line 396, in _get_order_and_authorizations
+    authzr = self.auth_handler.handle_authorizations(orderr, best_effort)
+  File "/usr/lib/python3/dist-packages/certbot/auth_handler.py", line 70, in handle_authorizations
+    resps = self.auth.perform(achalls)
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 1134, in perform
+    self.restart()
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 919, in restart
+    nginx_restart(self.conf('ctl'), self.nginx_conf)
+  File "/usr/lib/python3/dist-packages/certbot_nginx/configurator.py", line 1202, in nginx_restart
+    raise errors.MisconfigurationError(
+certbot.errors.MisconfigurationError: nginx restart failed:
+b''
+b''
+2020-12-19 19:10:04,192:DEBUG:certbot.main:certbot version: 0.40.0
+2020-12-19 19:10:04,192:DEBUG:certbot.main:Arguments: ['--dry-run']
+2020-12-19 19:10:04,192:DEBUG:certbot.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#nginx,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2020-12-19 19:10:04,201:DEBUG:certbot.log:Root logging level set at 20
+2020-12-19 19:10:04,201:INFO:certbot.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2020-12-19 19:10:04,203:DEBUG:certbot.renewal:no renewal failures
+2020-12-19 19:29:39,161:DEBUG:certbot.main:certbot version: 0.40.0
+2020-12-19 19:29:39,161:DEBUG:certbot.main:Arguments: ['--nginx', '-d', 'worldmiao.com', '-d', 'www.worldmiao.com']
+2020-12-19 19:29:39,161:DEBUG:certbot.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2020-12-19 19:29:39,172:DEBUG:certbot.log:Root logging level set at 20
+2020-12-19 19:29:39,172:INFO:certbot.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2020-12-19 19:29:39,174:DEBUG:certbot.plugins.selection:Requested authenticator nginx and installer nginx
+2020-12-19 19:29:39,174:DEBUG:certbot.plugins.selection:No candidate plugin
+2020-12-19 19:29:39,174:DEBUG:certbot.plugins.selection:Selected authenticator None and installer None
+2020-12-19 19:35:42,674:DEBUG:certbot.main:certbot version: 0.40.0
+2020-12-19 19:35:42,674:DEBUG:certbot.main:Arguments: ['--nginx', '-d', 'worldmiao.com', '-d', 'www.worldmiao.com']
+2020-12-19 19:35:42,674:DEBUG:certbot.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#nginx,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2020-12-19 19:35:42,686:DEBUG:certbot.log:Root logging level set at 20
+2020-12-19 19:35:42,686:INFO:certbot.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2020-12-19 19:35:42,687:DEBUG:certbot.plugins.selection:Requested authenticator nginx and installer nginx
+2020-12-19 19:35:42,817:DEBUG:certbot.plugins.selection:Single candidate plugin: * nginx
+Description: Nginx Web Server plugin
+Interfaces: IAuthenticator, IInstaller, IPlugin
+Entry point: nginx = certbot_nginx.configurator:NginxConfigurator
+Initialized: <certbot_nginx.configurator.NginxConfigurator object at 0x7f26a0403af0>
+Prep: True
+2020-12-19 19:35:42,818:DEBUG:certbot.plugins.selection:Selected authenticator <certbot_nginx.configurator.NginxConfigurator object at 0x7f26a0403af0> and installer <certbot_nginx.configurator.NginxConfigurator object at 0x7f26a0403af0>
+2020-12-19 19:35:42,818:INFO:certbot.plugins.selection:Plugins selected: Authenticator nginx, Installer nginx
+2020-12-19 19:35:42,824:DEBUG:certbot.main:Picked account: <Account(RegistrationResource(body=Registration(key=None, contact=(), agreement=None, status=None, terms_of_service_agreed=None, only_return_existing=None, external_account_binding=None), uri='https://acme-v02.api.letsencrypt.org/acme/acct/106860736', new_authzr_uri=None, terms_of_service=None), cf57182938b50ebaa67e8568dc265e22, Meta(creation_dt=datetime.datetime(2020, 12, 19, 19, 3, 17, tzinfo=<UTC>), creation_host='nodejs-bo-deploy'))>
+2020-12-19 19:35:42,825:DEBUG:acme.client:Sending GET request to https://acme-v02.api.letsencrypt.org/directory.
+2020-12-19 19:35:42,828:DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org:443
+2020-12-19 19:35:43,007:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "GET /directory HTTP/1.1" 200 658
+2020-12-19 19:35:43,008:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:42 GMT
+Content-Type: application/json
+Content-Length: 658
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "keyChange": "https://acme-v02.api.letsencrypt.org/acme/key-change",
+  "meta": {
+    "caaIdentities": [
+      "letsencrypt.org"
+    ],
+    "termsOfService": "https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf",
+    "website": "https://letsencrypt.org"
+  },
+  "mh1gKfk7v10": "https://community.letsencrypt.org/t/adding-random-entries-to-the-directory/33417",
+  "newAccount": "https://acme-v02.api.letsencrypt.org/acme/new-acct",
+  "newNonce": "https://acme-v02.api.letsencrypt.org/acme/new-nonce",
+  "newOrder": "https://acme-v02.api.letsencrypt.org/acme/new-order",
+  "revokeCert": "https://acme-v02.api.letsencrypt.org/acme/revoke-cert"
+}
+2020-12-19 19:35:43,009:INFO:certbot.main:Obtaining a new certificate
+2020-12-19 19:35:43,085:DEBUG:certbot.crypto_util:Generating key (2048 bits): /etc/letsencrypt/keys/0001_key-certbot.pem
+2020-12-19 19:35:43,087:DEBUG:certbot.crypto_util:Creating CSR: /etc/letsencrypt/csr/0001_csr-certbot.pem
+2020-12-19 19:35:43,088:DEBUG:acme.client:Requesting fresh nonce
+2020-12-19 19:35:43,088:DEBUG:acme.client:Sending HEAD request to https://acme-v02.api.letsencrypt.org/acme/new-nonce.
+2020-12-19 19:35:43,131:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "HEAD /acme/new-nonce HTTP/1.1" 200 0
+2020-12-19 19:35:43,131:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:43 GMT
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 0104lqG-FBL7j5eNTKlF8H5SLHUxs15nzA7I6rGEgoarQMA
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+
+2020-12-19 19:35:43,131:DEBUG:acme.client:Storing nonce: 0104lqG-FBL7j5eNTKlF8H5SLHUxs15nzA7I6rGEgoarQMA
+2020-12-19 19:35:43,132:DEBUG:acme.client:JWS payload:
+b'{\n  "identifiers": [\n    {\n      "type": "dns",\n      "value": "worldmiao.com"\n    },\n    {\n      "type": "dns",\n      "value": "www.worldmiao.com"\n    }\n  ]\n}'
+2020-12-19 19:35:43,134:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/new-order:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDRscUctRkJMN2o1ZU5US2xGOEg1U0xIVXhzMTVuekE3STZyR0Vnb2FyUU1BIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9uZXctb3JkZXIifQ",
+  "signature": "OYm-sBg-GLZgr9wV4xJdyne-azmT2QjgVNzkW_FdnZ_tLi8dOkbafiEBhA7TygpdWrac3fh6vfO51QXfQuwwO2d8CP8cHnEehhcfY2v62o0n9eeoffGq-fYf5d1nUxJvUjJUxhcGWlrIlD_s3QUI74AtqSWNnRztvHB_yiRvxxvQ52QK4JDHZJo4DGlo-CcgT4Bwvd41g9ljfX9EGXuBgK_m7Kbqcxs--xaSLOzHrESN7IPeOwv48E7BJ5hq8M2Gu5uxKoxXK0fTK5GWEIx-FBjDiiKRmt7bQhihNF8o8h_obu0oZG_oL-pUIV5AUW0kc7ocyMSmgdkg6Hwsh9CPEA",
+  "payload": "ewogICJpZGVudGlmaWVycyI6IFsKICAgIHsKICAgICAgInR5cGUiOiAiZG5zIiwKICAgICAgInZhbHVlIjogIndvcmxkbWlhby5jb20iCiAgICB9LAogICAgewogICAgICAidHlwZSI6ICJkbnMiLAogICAgICAidmFsdWUiOiAid3d3LndvcmxkbWlhby5jb20iCiAgICB9CiAgXQp9"
+}
+2020-12-19 19:35:43,284:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/new-order HTTP/1.1" 201 472
+2020-12-19 19:35:43,284:DEBUG:acme.client:Received response:
+HTTP 201
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:43 GMT
+Content-Type: application/json
+Content-Length: 472
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Location: https://acme-v02.api.letsencrypt.org/acme/order/106860736/6833229983
+Replay-Nonce: 0103QUF1O3gl-NTrQpQPIlO0sG9dIcwN4yrbFFa2z3vHZQw
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "status": "pending",
+  "expires": "2020-12-26T19:03:20Z",
+  "identifiers": [
+    {
+      "type": "dns",
+      "value": "worldmiao.com"
+    },
+    {
+      "type": "dns",
+      "value": "www.worldmiao.com"
+    }
+  ],
+  "authorizations": [
+    "https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883197",
+    "https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883198"
+  ],
+  "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/106860736/6833229983"
+}
+2020-12-19 19:35:43,285:DEBUG:acme.client:Storing nonce: 0103QUF1O3gl-NTrQpQPIlO0sG9dIcwN4yrbFFa2z3vHZQw
+2020-12-19 19:35:43,285:DEBUG:acme.client:JWS payload:
+b''
+2020-12-19 19:35:43,287:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883197:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDNRVUYxTzNnbC1OVHJRcFFQSWxPMHNHOWRJY3dONHlyYkZGYTJ6M3ZIWlF3IiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9hdXRoei12My85NDM0ODgzMTk3In0",
+  "signature": "H0NOUv7JDaxEVbrZK2dfBRrGlel4ITun8Em0yu5OW5r5NbyvJxII_LW3CtOvGjd9XnYXrkWscNRO7PFWdL0Z3vlmlxPdGAXkUtr_CSKdCxcJL_krrOqx1anVT-_0brwY5t45LCHxNE7HnHx5yAk4j_PlI0Mhvc-UhmD9fU8cyUsYrCCaoQD6LK0AMIdb7IGLgYIYpoGtV9sVYAotyxqlovXaOoIEAjsjQc6O-VL9GzF1CzvM0c7H-YX5OfWgjWyG1_bGdXSOM8i_G2Jr45eUR8o8YMWDrPVdwO_8jcidYi84ktbwu4yJD-UIJD93aFrToCa2_5QnSeQJK2qypUoOfQ",
+  "payload": ""
+}
+2020-12-19 19:35:43,358:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/authz-v3/9434883197 HTTP/1.1" 200 791
+2020-12-19 19:35:43,359:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:43 GMT
+Content-Type: application/json
+Content-Length: 791
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 0104T19rKqHUHTbawx2MnRvMElg0ni49gRW4sazW7Jq7wFc
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "identifier": {
+    "type": "dns",
+    "value": "worldmiao.com"
+  },
+  "status": "pending",
+  "expires": "2020-12-26T19:03:20Z",
+  "challenges": [
+    {
+      "type": "http-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/CYFDAw",
+      "token": "ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI"
+    },
+    {
+      "type": "dns-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/0v1w0w",
+      "token": "ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI"
+    },
+    {
+      "type": "tls-alpn-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/CoCN3Q",
+      "token": "ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI"
+    }
+  ]
+}
+2020-12-19 19:35:43,359:DEBUG:acme.client:Storing nonce: 0104T19rKqHUHTbawx2MnRvMElg0ni49gRW4sazW7Jq7wFc
+2020-12-19 19:35:43,360:DEBUG:acme.client:JWS payload:
+b''
+2020-12-19 19:35:43,361:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883198:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDRUMTlyS3FIVUhUYmF3eDJNblJ2TUVsZzBuaTQ5Z1JXNHNhelc3SnE3d0ZjIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9hdXRoei12My85NDM0ODgzMTk4In0",
+  "signature": "jpfKyqn1L4MX7E3o0Th525uoSe_5BfRqt2IFFgbTBqf3AXiAI2Jh0_81lholjXaU5U6vAvHR3fjyIL5LJWYJbnullXh4KtmAnMArKgG1wkzznaiAyDUor4e4Pf8kRSpFP8X0x-Xto--FL0QwrDF0tai0JtM_wUDBwybQzBuMka91POuvXmFU_gLxs_oiznoUx3sMkSK1c8J2sOQ9qi8K2XcN8IDA1kGD3xyU5t1n3LOIwvLDwiAtF1PaOXIY0sIU3lqOmtT8YD7_esdY8XPhooIL6pipEBvNfdBfSptgOsaBlyGn4_7ksIawrG2cTNA5NxVEYb7xrE1jquEevLcM1w",
+  "payload": ""
+}
+2020-12-19 19:35:43,433:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/authz-v3/9434883198 HTTP/1.1" 200 795
+2020-12-19 19:35:43,434:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:43 GMT
+Content-Type: application/json
+Content-Length: 795
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 01048kqRupyl60DG0ZTqNOW8oqJTQZPlRhlqJECiMDMAxuo
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "identifier": {
+    "type": "dns",
+    "value": "www.worldmiao.com"
+  },
+  "status": "pending",
+  "expires": "2020-12-26T19:03:20Z",
+  "challenges": [
+    {
+      "type": "http-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/m7yM9A",
+      "token": "c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA"
+    },
+    {
+      "type": "dns-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/HMDpRg",
+      "token": "c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA"
+    },
+    {
+      "type": "tls-alpn-01",
+      "status": "pending",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/iPy9Kg",
+      "token": "c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA"
+    }
+  ]
+}
+2020-12-19 19:35:43,434:DEBUG:acme.client:Storing nonce: 01048kqRupyl60DG0ZTqNOW8oqJTQZPlRhlqJECiMDMAxuo
+2020-12-19 19:35:43,435:INFO:certbot.auth_handler:Performing the following challenges:
+2020-12-19 19:35:43,435:INFO:certbot.auth_handler:http-01 challenge for worldmiao.com
+2020-12-19 19:35:43,436:INFO:certbot.auth_handler:http-01 challenge for www.worldmiao.com
+2020-12-19 19:35:43,487:DEBUG:certbot_nginx.http_01:Generated server block:
+[]
+2020-12-19 19:35:43,488:DEBUG:certbot.reverter:Creating backup of /etc/nginx/sites-enabled/default
+2020-12-19 19:35:43,489:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-http-image-filter.conf
+2020-12-19 19:35:43,489:DEBUG:certbot.reverter:Creating backup of /etc/nginx/nginx.conf
+2020-12-19 19:35:43,489:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-mail.conf
+2020-12-19 19:35:43,490:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-stream.conf
+2020-12-19 19:35:43,490:DEBUG:certbot.reverter:Creating backup of /etc/nginx/mime.types
+2020-12-19 19:35:43,490:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-http-xslt-filter.conf
+2020-12-19 19:35:43,491:DEBUG:certbot_nginx.parser:Writing nginx conf tree to /etc/nginx/nginx.conf:
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+	worker_connections 768;
+	# multi_accept on;
+}
+
+http {
+include /etc/letsencrypt/le_http_01_cert_challenge.conf;
+server_names_hash_bucket_size 128;
+
+	##
+	# Basic Settings
+	##
+
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
+	# server_tokens off;
+
+	# server_names_hash_bucket_size 64;
+	# server_name_in_redirect off;
+
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+
+	##
+	# SSL Settings
+	##
+
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+	ssl_prefer_server_ciphers on;
+
+	##
+	# Logging Settings
+	##
+
+	access_log /var/log/nginx/access.log;
+	error_log /var/log/nginx/error.log;
+
+	##
+	# Gzip Settings
+	##
+
+	gzip on;
+
+	# gzip_vary on;
+	# gzip_proxied any;
+	# gzip_comp_level 6;
+	# gzip_buffers 16 8k;
+	# gzip_http_version 1.1;
+	# gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+	##
+	# Virtual Host Configs
+	##
+
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+}
+
+
+#mail {
+#	# See sample authentication script at:
+#	# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+# 
+#	# auth_http localhost/auth.php;
+#	# pop3_capabilities "TOP" "USER";
+#	# imap_capabilities "IMAP4rev1" "UIDPLUS";
+# 
+#	server {
+#		listen     localhost:110;
+#		protocol   pop3;
+#		proxy      on;
+#	}
+# 
+#	server {
+#		listen     localhost:143;
+#		protocol   imap;
+#		proxy      on;
+#	}
+#}
+
+2020-12-19 19:35:43,492:DEBUG:certbot_nginx.parser:Writing nginx conf tree to /etc/nginx/sites-enabled/default:
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
+
+server {rewrite ^(/.well-known/acme-challenge/.*) $1 break; # managed by Certbot
+
+rewrite ^(/.well-known/acme-challenge/.*) $1 break; # managed by Certbot
+
+
+	listen 80 ;
+	listen [::]:80 ;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name www.worldmiao.com worldmiao.com; # managed by Certbot
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+
+location = /.well-known/acme-challenge/ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI{default_type text/plain;return 200 ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI.KNF-XYlXzdftcK0JDRyubbxcblOPpoNhRd9MIFzFDz0;} # managed by Certbot
+
+
+location = /.well-known/acme-challenge/c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA{default_type text/plain;return 200 c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA.KNF-XYlXzdftcK0JDRyubbxcblOPpoNhRd9MIFzFDz0;} # managed by Certbot
+
+}
+2020-12-19 19:35:44,514:INFO:certbot.auth_handler:Waiting for verification...
+2020-12-19 19:35:44,517:DEBUG:acme.client:JWS payload:
+b'{\n  "resource": "challenge",\n  "type": "http-01"\n}'
+2020-12-19 19:35:44,519:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/CYFDAw:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDQ4a3FSdXB5bDYwREcwWlRxTk9XOG9xSlRRWlBsUmhscUpFQ2lNRE1BeHVvIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9jaGFsbC12My85NDM0ODgzMTk3L0NZRkRBdyJ9",
+  "signature": "mq55ekN_IUFW50ckqp9TPiDNNdOzByXpCNNvPEIlpL-xrrCxRQ_R50btUwXrjpJ6vR8wmxtWggRp-ZgrYQNDVasDmo85sTnEDRsss1JgnHP4k0gDWesmKjrsKhrqK5TOsRw_bcmVy9Yg8IzzCZndPh6ePMBWZ8frblOFDZn2jWGQqq1MIRMdjHT8l6URhhX7X7TBpAombguqZtu5nG9Y35x-nn5g3ujmzNwNtijCfnMLQsY67czM1X6Z9mo6vhAVXqTRHmA2tuCPWu51cGDP6crK2dtotuwWeILNQ_uMX4pFpO-vXGhigwTE75oE-la5Afseo6fka4OYppkmP2qoIg",
+  "payload": "ewogICJyZXNvdXJjZSI6ICJjaGFsbGVuZ2UiLAogICJ0eXBlIjogImh0dHAtMDEiCn0"
+}
+2020-12-19 19:35:44,610:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/chall-v3/9434883197/CYFDAw HTTP/1.1" 200 185
+2020-12-19 19:35:44,611:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:44 GMT
+Content-Type: application/json
+Content-Length: 185
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index", <https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883197>;rel="up"
+Location: https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/CYFDAw
+Replay-Nonce: 0103XuE0Wd86PUt6h44gIJ17MmwpIewYgSs6pTO5UCKoqNM
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "type": "http-01",
+  "status": "pending",
+  "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/CYFDAw",
+  "token": "ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI"
+}
+2020-12-19 19:35:44,611:DEBUG:acme.client:Storing nonce: 0103XuE0Wd86PUt6h44gIJ17MmwpIewYgSs6pTO5UCKoqNM
+2020-12-19 19:35:44,612:DEBUG:acme.client:JWS payload:
+b'{\n  "resource": "challenge",\n  "type": "http-01"\n}'
+2020-12-19 19:35:44,614:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/m7yM9A:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDNYdUUwV2Q4NlBVdDZoNDRnSUoxN01td3BJZXdZZ1NzNnBUTzVVQ0tvcU5NIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9jaGFsbC12My85NDM0ODgzMTk4L203eU05QSJ9",
+  "signature": "eVqXiCgaIg63kcqeCOsKJLRYBepSJ5-VIqCclyKKuw7Thgsp1FnUME_Qm2v2iOfaIMF5lgLqjeMj4x_1DatAvwI_W-7Wo4ccCu4IifBFfpIcZjwoJFpvn9RS-XZr5UARRKeJh6zGOdIA4u9D3JCIVT5PWMZmxD0U3Qjhj-X4eiBI4CZ_5TcYYQJ-fOeLA0GV4dvFVv5p7AD6KjXKQ4iodD0VRQbonH__eZSYKNEqQmgHXirebT03z-JczS-fnL_sgk8_FjJaIP2uBvv6WtaZYSq9nUqyIMRPCeyjXWAHNV5YQdg-LaAWk5wdEcR3FA6oQs-lT1cTtttOHGdxUApPpg",
+  "payload": "ewogICJyZXNvdXJjZSI6ICJjaGFsbGVuZ2UiLAogICJ0eXBlIjogImh0dHAtMDEiCn0"
+}
+2020-12-19 19:35:44,701:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/chall-v3/9434883198/m7yM9A HTTP/1.1" 200 185
+2020-12-19 19:35:44,701:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:44 GMT
+Content-Type: application/json
+Content-Length: 185
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index", <https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883198>;rel="up"
+Location: https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/m7yM9A
+Replay-Nonce: 0104UoI0Xxo-JMpgxU7NFjfCtsOknIGAx5XiZYS986lE8VA
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "type": "http-01",
+  "status": "pending",
+  "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/m7yM9A",
+  "token": "c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA"
+}
+2020-12-19 19:35:44,702:DEBUG:acme.client:Storing nonce: 0104UoI0Xxo-JMpgxU7NFjfCtsOknIGAx5XiZYS986lE8VA
+2020-12-19 19:35:45,703:DEBUG:acme.client:JWS payload:
+b''
+2020-12-19 19:35:45,705:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883197:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDRVb0kwWHhvLUpNcGd4VTdORmpmQ3RzT2tuSUdBeDVYaVpZUzk4NmxFOFZBIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9hdXRoei12My85NDM0ODgzMTk3In0",
+  "signature": "P7HXC-yHIeWGgof5SLf09bAaFalR8TndT0CjYRKPngZkspE3RI5I8RzLHPljDpe4UTxbrr-0WA8hFYni8bqIf6w7PBV074elGQ5esfevQxqsyELta3te-WOxm4GfGSB7U72V0w-1pXpbJtIcWn8cqrJd49ly4kpKe-EzqZc4nqU3ZGlkktWmLH5ez0ec_fqVlNXnjoxBJdbO7c133xnaxoH8W9jrB6-qzyvcj8QxIH4e-z7x_L64CTi_cZGovXnU56GkPvDCmNfLwNNmyxZnwAfFmtKdWid6S5NrjP4pA9zY50WQ1fS99SpvZoHD8U-Tj0BbYEFeis_aOK4Fx6CrHQ",
+  "payload": ""
+}
+2020-12-19 19:35:45,776:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/authz-v3/9434883197 HTTP/1.1" 200 713
+2020-12-19 19:35:45,776:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:45 GMT
+Content-Type: application/json
+Content-Length: 713
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 0103sHFTYoxVssX5C4QvfJZLf7SdB3U-9D7ZrLsJzYjc7rM
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "identifier": {
+    "type": "dns",
+    "value": "worldmiao.com"
+  },
+  "status": "valid",
+  "expires": "2021-01-18T19:35:45Z",
+  "challenges": [
+    {
+      "type": "http-01",
+      "status": "valid",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883197/CYFDAw",
+      "token": "ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI",
+      "validationRecord": [
+        {
+          "url": "http://worldmiao.com/.well-known/acme-challenge/ZCWtDedZoSkGpkKaKnh-F2iLRdf3zHcJRi5VIpg8oeI",
+          "hostname": "worldmiao.com",
+          "port": "80",
+          "addressesResolved": [
+            "159.203.109.225"
+          ],
+          "addressUsed": "159.203.109.225"
+        }
+      ]
+    }
+  ]
+}
+2020-12-19 19:35:45,777:DEBUG:acme.client:Storing nonce: 0103sHFTYoxVssX5C4QvfJZLf7SdB3U-9D7ZrLsJzYjc7rM
+2020-12-19 19:35:45,777:DEBUG:acme.client:JWS payload:
+b''
+2020-12-19 19:35:45,779:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883198:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDNzSEZUWW94VnNzWDVDNFF2ZkpaTGY3U2RCM1UtOUQ3WnJMc0p6WWpjN3JNIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9hdXRoei12My85NDM0ODgzMTk4In0",
+  "signature": "cMjBxPaqClVEaNu9EXjeG99ss53Fc-shB4gHhMrSdQYLYsld1WRPPsh2jP46Qn8k_5R6WXPYqbv49nfU_sV-QB2zHWfVpn4cPCA1xAUp3lrTQryFln3ojZKPTUWisCDA2Wlk-tW5Z6lDwnxa5Q3_w2v88GjlmXWVOHn-Yd9ZcoLSWl8jenQN7fxXEpwnBcLTTj7fsVz82skpBcPCM2kLjcomhVNmH0DLQ4AQiTCSfaYcnhM9QZpLGITF-xfWIXYxxcfP9OWXmeX1LOG9pVAV4HHWYvcEd4Q4GrVXqPqWK65j02s1cCfFuy7R3zOBHzMtVALOISXPZIfHAOlb2P2xmA",
+  "payload": ""
+}
+2020-12-19 19:35:45,853:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/authz-v3/9434883198 HTTP/1.1" 200 725
+2020-12-19 19:35:45,853:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:45 GMT
+Content-Type: application/json
+Content-Length: 725
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 0103mGUUOMCOcBDnIRvNTTDwN9p2qvZq9AagZioVnzh_xOQ
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "identifier": {
+    "type": "dns",
+    "value": "www.worldmiao.com"
+  },
+  "status": "valid",
+  "expires": "2021-01-18T19:35:45Z",
+  "challenges": [
+    {
+      "type": "http-01",
+      "status": "valid",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall-v3/9434883198/m7yM9A",
+      "token": "c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA",
+      "validationRecord": [
+        {
+          "url": "http://www.worldmiao.com/.well-known/acme-challenge/c77XLywUWT10pLKoRcH05VARMrbK87JuE758r4OFLfA",
+          "hostname": "www.worldmiao.com",
+          "port": "80",
+          "addressesResolved": [
+            "159.203.109.225"
+          ],
+          "addressUsed": "159.203.109.225"
+        }
+      ]
+    }
+  ]
+}
+2020-12-19 19:35:45,854:DEBUG:acme.client:Storing nonce: 0103mGUUOMCOcBDnIRvNTTDwN9p2qvZq9AagZioVnzh_xOQ
+2020-12-19 19:35:45,854:DEBUG:certbot.error_handler:Calling registered functions
+2020-12-19 19:35:45,854:INFO:certbot.auth_handler:Cleaning up challenges
+2020-12-19 19:35:46,954:DEBUG:certbot.client:CSR: CSR(file='/etc/letsencrypt/csr/0001_csr-certbot.pem', data=b'-----BEGIN CERTIFICATE REQUEST-----\nMIICgzCCAWsCAQIwADCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMXl\ngO2zaHWmZBc5Pafsy7GBosAyNPe7+TbgTkSa+r4Qu12XNX5QnuqqASkPOgeQOvkR\nTacYa0bmtBRvKvWih4WuRcTOynLgBs8R+L2WSpkCrQgooh5N96Ck2XZTdyOTfEDR\nwBXYJS4NR7FNKFwY0Dj7dc+jgZUM0Wk1NZjv8wyqeP6N7ZF4Wc+mhC+Ka3byN8sV\n+zgQdapU1h7DzY42/sDdVkm64W1/K53L6TrtpXp/zXHTLpATUbypk2bt+FJjP4xy\nGHRVN9PQP5WIUEqUs3ccAzeeDWWhzNyDnamFF9WQbUSsDwlllUuR16HAHlIk5ibC\nQtroAdM4UPVSw8uWIPkCAwEAAaA+MDwGCSqGSIb3DQEJDjEvMC0wKwYDVR0RBCQw\nIoINd29ybGRtaWFvLmNvbYIRd3d3LndvcmxkbWlhby5jb20wDQYJKoZIhvcNAQEL\nBQADggEBAGX5hj8inF6/d4fdTx0cN4cYSvIM/dZNUb4BIEKwgeCDlTJS+kKX0hLO\nFQs3jb9nAgPYgPm3QGCpAncH/e26HWHcWKjlYdvRytBOKreiwEpDuDM91qt0P780\nDpkgEb6Ygbpzc5anAkPB5pEbQVeu/514MM2rh9nfXb3TWYu1pQy5NeLKNwZTdMmb\niBunTWXXSs8/i21eFf1BNPideWVZz2X6vUYc4zNEvvzsqK10u60qdvDx1b3K5Msi\n3ao+DzYpynCIiizwH+sgRfHBtZMhHTd5ElvxsuuK7sVCHfLSGwfEcSsQ8/lfyMFo\nozcxvyKDVGDR7l8li8a5DNu/ZcWoplY=\n-----END CERTIFICATE REQUEST-----\n', form='pem')
+2020-12-19 19:35:46,955:DEBUG:acme.client:JWS payload:
+b'{\n  "resource": "new-cert",\n  "csr": "MIICgzCCAWsCAQIwADCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMXlgO2zaHWmZBc5Pafsy7GBosAyNPe7-TbgTkSa-r4Qu12XNX5QnuqqASkPOgeQOvkRTacYa0bmtBRvKvWih4WuRcTOynLgBs8R-L2WSpkCrQgooh5N96Ck2XZTdyOTfEDRwBXYJS4NR7FNKFwY0Dj7dc-jgZUM0Wk1NZjv8wyqeP6N7ZF4Wc-mhC-Ka3byN8sV-zgQdapU1h7DzY42_sDdVkm64W1_K53L6TrtpXp_zXHTLpATUbypk2bt-FJjP4xyGHRVN9PQP5WIUEqUs3ccAzeeDWWhzNyDnamFF9WQbUSsDwlllUuR16HAHlIk5ibCQtroAdM4UPVSw8uWIPkCAwEAAaA-MDwGCSqGSIb3DQEJDjEvMC0wKwYDVR0RBCQwIoINd29ybGRtaWFvLmNvbYIRd3d3LndvcmxkbWlhby5jb20wDQYJKoZIhvcNAQELBQADggEBAGX5hj8inF6_d4fdTx0cN4cYSvIM_dZNUb4BIEKwgeCDlTJS-kKX0hLOFQs3jb9nAgPYgPm3QGCpAncH_e26HWHcWKjlYdvRytBOKreiwEpDuDM91qt0P780DpkgEb6Ygbpzc5anAkPB5pEbQVeu_514MM2rh9nfXb3TWYu1pQy5NeLKNwZTdMmbiBunTWXXSs8_i21eFf1BNPideWVZz2X6vUYc4zNEvvzsqK10u60qdvDx1b3K5Msi3ao-DzYpynCIiizwH-sgRfHBtZMhHTd5ElvxsuuK7sVCHfLSGwfEcSsQ8_lfyMFoozcxvyKDVGDR7l8li8a5DNu_ZcWoplY"\n}'
+2020-12-19 19:35:46,957:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/finalize/106860736/6833229983:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDNtR1VVT01DT2NCRG5JUnZOVFREd045cDJxdlpxOUFhZ1ppb1ZuemhfeE9RIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9maW5hbGl6ZS8xMDY4NjA3MzYvNjgzMzIyOTk4MyJ9",
+  "signature": "Oq05vfDfKctHC7m8W-7SH_qH1cxeLFB5cW-QAx_GIzwll-9iN43katMBQdW9oA5Io2WyNXAVI38sDMzDhVU6uA8-Frq-Kv5jb5IgmzrlUeAlbZbnw3ANPrdjLEWu9DKNiPw3ZSLwzto4b4izk_deDYgV0uzcGzH5xRhXqb9pFVvePGJb4lxM_5UMXKLMTJLqJyC3tbAk0UCmGm3S27f5G4cQKoc74LlZWUWOI5ICyvm7U5BN9Y4SuT4LTwtzfp6ZWRQLBQ0juPRHVwHqt4MygxaXyl2bVgUDQS9Faw5MH8W_vJQFQ-AL7UJTz6srpdMuQF-32xC757UPqpMQrrKKag",
+  "payload": "ewogICJyZXNvdXJjZSI6ICJuZXctY2VydCIsCiAgImNzciI6ICJNSUlDZ3pDQ0FXc0NBUUl3QURDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTVhsZ08yemFIV21aQmM1UGFmc3k3R0Jvc0F5TlBlNy1UYmdUa1NhLXI0UXUxMlhOWDVRbnVxcUFTa1BPZ2VRT3ZrUlRhY1lhMGJtdEJSdkt2V2loNFd1UmNUT3luTGdCczhSLUwyV1Nwa0NyUWdvb2g1Tjk2Q2syWFpUZHlPVGZFRFJ3QlhZSlM0TlI3Rk5LRndZMERqN2RjLWpnWlVNMFdrMU5aanY4d3lxZVA2TjdaRjRXYy1taEMtS2EzYnlOOHNWLXpnUWRhcFUxaDdEelk0Ml9zRGRWa202NFcxX0s1M0w2VHJ0cFhwX3pYSFRMcEFUVWJ5cGsyYnQtRkpqUDR4eUdIUlZOOVBRUDVXSVVFcVVzM2NjQXplZURXV2h6TnlEbmFtRkY5V1FiVVNzRHdsbGxVdVIxNkhBSGxJazVpYkNRdHJvQWRNNFVQVlN3OHVXSVBrQ0F3RUFBYUEtTUR3R0NTcUdTSWIzRFFFSkRqRXZNQzB3S3dZRFZSMFJCQ1F3SW9JTmQyOXliR1J0YVdGdkxtTnZiWUlSZDNkM0xuZHZjbXhrYldsaGJ5NWpiMjB3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQUdYNWhqOGluRjZfZDRmZFR4MGNONGNZU3ZJTV9kWk5VYjRCSUVLd2dlQ0RsVEpTLWtLWDBoTE9GUXMzamI5bkFnUFlnUG0zUUdDcEFuY0hfZTI2SFdIY1dLamxZZHZSeXRCT0tyZWl3RXBEdURNOTFxdDBQNzgwRHBrZ0ViNllnYnB6YzVhbkFrUEI1cEViUVZldV81MTRNTTJyaDluZlhiM1RXWXUxcFF5NU5lTEtOd1pUZE1tYmlCdW5UV1hYU3M4X2kyMWVGZjFCTlBpZGVXVlp6Mlg2dlVZYzR6TkV2dnpzcUsxMHU2MHFkdkR4MWIzSzVNc2kzYW8tRHpZcHluQ0lpaXp3SC1zZ1JmSEJ0Wk1oSFRkNUVsdnhzdXVLN3NWQ0hmTFNHd2ZFY1NzUThfbGZ5TUZvb3pjeHZ5S0RWR0RSN2w4bGk4YTVETnVfWmNXb3BsWSIKfQ"
+}
+2020-12-19 19:35:47,344:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/finalize/106860736/6833229983 HTTP/1.1" 200 574
+2020-12-19 19:35:47,345:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:47 GMT
+Content-Type: application/json
+Content-Length: 574
+Connection: keep-alive
+Boulder-Requester: 106860736
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Location: https://acme-v02.api.letsencrypt.org/acme/order/106860736/6833229983
+Replay-Nonce: 0103scADPNdoV4STMHBImriAxQR6ZxW2KRv6-aCTHQA0W1s
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "status": "valid",
+  "expires": "2020-12-26T19:03:20Z",
+  "identifiers": [
+    {
+      "type": "dns",
+      "value": "worldmiao.com"
+    },
+    {
+      "type": "dns",
+      "value": "www.worldmiao.com"
+    }
+  ],
+  "authorizations": [
+    "https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883197",
+    "https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883198"
+  ],
+  "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/106860736/6833229983",
+  "certificate": "https://acme-v02.api.letsencrypt.org/acme/cert/0480ba285c1fa63966e3ab32ae4d164db9cd"
+}
+2020-12-19 19:35:47,346:DEBUG:acme.client:Storing nonce: 0103scADPNdoV4STMHBImriAxQR6ZxW2KRv6-aCTHQA0W1s
+2020-12-19 19:35:48,347:DEBUG:acme.client:JWS payload:
+b''
+2020-12-19 19:35:48,349:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/order/106860736/6833229983:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDNzY0FEUE5kb1Y0U1RNSEJJbXJpQXhRUjZaeFcyS1J2Ni1hQ1RIUUEwVzFzIiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9vcmRlci8xMDY4NjA3MzYvNjgzMzIyOTk4MyJ9",
+  "signature": "YKH5ZX2rv0wV7BUKvAmnnUVilxp4oPpEDcZXsUvVG64yatknD7dAY5Z0PIYnkEORocPKWBJXOEMmHsyXvr6XtLKVOIMAyKnyQHJxAByIHwjuRuVzD8NmxHDUPqDMELuEBMQfPRM5e6IfyutUTDXHDODjOJveq40SIoKejRBrP4X0pAzclhsnWdxwI-hCVrV2Bm32SQ1LqBPVUSH46F6UZsnQHlomTb2y2s8V-b4MthhJb6i8tWdOwJC-0G13vjBKeafH1CXid0Qz-U-NajFSBymrVwTQvmf85LRlaX0DcZi_qzrYR8-gg2vgLzYuTLGvI1yw1uZwQ9uYsyh3jZxhDg",
+  "payload": ""
+}
+2020-12-19 19:35:48,425:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/order/106860736/6833229983 HTTP/1.1" 200 574
+2020-12-19 19:35:48,425:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:48 GMT
+Content-Type: application/json
+Content-Length: 574
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: 0103bPvLMF6vj3QHD_2dA9aZ1O0v27AeYZReySWQWSbNiaw
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "status": "valid",
+  "expires": "2020-12-26T19:03:20Z",
+  "identifiers": [
+    {
+      "type": "dns",
+      "value": "worldmiao.com"
+    },
+    {
+      "type": "dns",
+      "value": "www.worldmiao.com"
+    }
+  ],
+  "authorizations": [
+    "https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883197",
+    "https://acme-v02.api.letsencrypt.org/acme/authz-v3/9434883198"
+  ],
+  "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/106860736/6833229983",
+  "certificate": "https://acme-v02.api.letsencrypt.org/acme/cert/0480ba285c1fa63966e3ab32ae4d164db9cd"
+}
+2020-12-19 19:35:48,426:DEBUG:acme.client:Storing nonce: 0103bPvLMF6vj3QHD_2dA9aZ1O0v27AeYZReySWQWSbNiaw
+2020-12-19 19:35:48,426:DEBUG:acme.client:JWS payload:
+b''
+2020-12-19 19:35:48,427:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/cert/0480ba285c1fa63966e3ab32ae4d164db9cd:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMTA2ODYwNzM2IiwgIm5vbmNlIjogIjAxMDNiUHZMTUY2dmozUUhEXzJkQTlhWjFPMHYyN0FlWVpSZXlTV1FXU2JOaWF3IiwgInVybCI6ICJodHRwczovL2FjbWUtdjAyLmFwaS5sZXRzZW5jcnlwdC5vcmcvYWNtZS9jZXJ0LzA0ODBiYTI4NWMxZmE2Mzk2NmUzYWIzMmFlNGQxNjRkYjljZCJ9",
+  "signature": "Fucf4wxY2jz9Z2bBMVWL-TP9GT4_Rw0OS-C8KcUBdCNlKf0UY37XxqtIGoQ34M62ZLQQ7XtEstomnNJYFlXneGTvDkw0jIYvede9GU_SE1-MQy9Idt4qnFZWAsaJf1EDKU8F8ZVGaauCl_b76aVEomtRzFgbJNUtgab4fYexzJKJ9jpxn6D00ZxEMIs1b52li84YNDDxoKuuERGU2CC27V993fznaZw_C-WllFKf25twKJdNrWgYFY5Qd9fqZCLsD8x_FFAwr2_NaGrwsKDeRlwyfYKas9xnwCFXtdapwROv2K0HXMAsk0mdb3OspRh9QnXdYzH29TvY5WqAFP-hjA",
+  "payload": ""
+}
+2020-12-19 19:35:48,501:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/cert/0480ba285c1fa63966e3ab32ae4d164db9cd HTTP/1.1" 200 3453
+2020-12-19 19:35:48,501:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 19 Dec 2020 19:35:48 GMT
+Content-Type: application/pem-certificate-chain
+Content-Length: 3453
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index", <https://acme-v02.api.letsencrypt.org/acme/cert/0480ba285c1fa63966e3ab32ae4d164db9cd/1>;rel="alternate"
+Replay-Nonce: 0103_i9iHcC9P3I51CJY4GEwpdz_WHbr1vpsY1Oeg31AlJo
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+-----BEGIN CERTIFICATE-----
+MIIFNDCCBBygAwIBAgISBIC6KFwfpjlm46syrk0WTbnNMA0GCSqGSIb3DQEBCwUA
+MDIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQD
+EwJSMzAeFw0yMDEyMTkxODM1NDdaFw0yMTAzMTkxODM1NDdaMBgxFjAUBgNVBAMT
+DXdvcmxkbWlhby5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDF
+5YDts2h1pmQXOT2n7MuxgaLAMjT3u/k24E5Emvq+ELtdlzV+UJ7qqgEpDzoHkDr5
+EU2nGGtG5rQUbyr1ooeFrkXEzspy4AbPEfi9lkqZAq0IKKIeTfegpNl2U3cjk3xA
+0cAV2CUuDUexTShcGNA4+3XPo4GVDNFpNTWY7/MMqnj+je2ReFnPpoQvimt28jfL
+Ffs4EHWqVNYew82ONv7A3VZJuuFtfyudy+k67aV6f81x0y6QE1G8qZNm7fhSYz+M
+chh0VTfT0D+ViFBKlLN3HAM3ng1loczcg52phRfVkG1ErA8JZZVLkdehwB5SJOYm
+wkLa6AHTOFD1UsPLliD5AgMBAAGjggJcMIICWDAOBgNVHQ8BAf8EBAMCBaAwHQYD
+VR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAwGA1UdEwEB/wQCMAAwHQYDVR0O
+BBYEFDqMbrLXIgXskVx17abZisZzxyKvMB8GA1UdIwQYMBaAFBQusxe3WFbLrlAJ
+QOYfr52LFMLGMFUGCCsGAQUFBwEBBEkwRzAhBggrBgEFBQcwAYYVaHR0cDovL3Iz
+Lm8ubGVuY3Iub3JnMCIGCCsGAQUFBzAChhZodHRwOi8vcjMuaS5sZW5jci5vcmcv
+MCsGA1UdEQQkMCKCDXdvcmxkbWlhby5jb22CEXd3dy53b3JsZG1pYW8uY29tMEwG
+A1UdIARFMEMwCAYGZ4EMAQIBMDcGCysGAQQBgt8TAQEBMCgwJgYIKwYBBQUHAgEW
+Gmh0dHA6Ly9jcHMubGV0c2VuY3J5cHQub3JnMIIBBQYKKwYBBAHWeQIEAgSB9gSB
+8wDxAHYA9lyUL9F3MCIUVBgIMJRWjuNNExkzv98MLyALzE7xZOMAAAF2fIA62wAA
+BAMARzBFAiA8QOb0MGUSkWeIib6Gt4JvdOg2A974rlkJI5kG7CQVeAIhAJMfUrW4
+jakatq7cLv07YW1hFF5C0r/FtAJ64U3Lu9JLAHcAlCC8Ho7VjWyIcx+CiyIsDdHa
+TV5sT5Q9YdtOL1hNosIAAAF2fIA64wAABAMASDBGAiEA46VGLMOEt6mu+QqQTXei
+/Te02RA6dXAO5jDZ8iy3A6ACIQD+Fv+BYWwRzampW78MJo0D3Wx57SXtgebKNA1Z
+fDW0bTANBgkqhkiG9w0BAQsFAAOCAQEAgYV0GeVAdTnLcZhTORf0SwP4goOtiJmp
+YvyHUQCzv3Y3zPaKtp2WBn3onKefZzZ8ESrHzK0SzLP+6C4NYIB24PZlI0E2o/2B
+4iV7GLpyu/05xr6lUPRKoa8msjfaCjbwOzjKsm66sHGwLCfOwdVE6FRZrHQIYGwS
+QNJIRRZxHZpVooXwYeYOvX39YrTn5LuAQqUhk79ZMH9/RZ+4wnSwUuSjgCK8Za1V
+qE8rCJI1wl2Th6BBErEMd+KxnEGpm2XcHvRKLxj6PX36QuCFjEnPJ8jvdAoSOlGd
+F6CmWgeeEHfMZ6qgOwA5Mmlgh9/9ECCCKqEdFThYLoXZM4WLikA41Q==
+-----END CERTIFICATE-----
+
+-----BEGIN CERTIFICATE-----
+MIIEZTCCA02gAwIBAgIQQAF1BIMUpMghjISpDBbN3zANBgkqhkiG9w0BAQsFADA/
+MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT
+DkRTVCBSb290IENBIFgzMB4XDTIwMTAwNzE5MjE0MFoXDTIxMDkyOTE5MjE0MFow
+MjELMAkGA1UEBhMCVVMxFjAUBgNVBAoTDUxldCdzIEVuY3J5cHQxCzAJBgNVBAMT
+AlIzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuwIVKMz2oJTTDxLs
+jVWSw/iC8ZmmekKIp10mqrUrucVMsa+Oa/l1yKPXD0eUFFU1V4yeqKI5GfWCPEKp
+Tm71O8Mu243AsFzzWTjn7c9p8FoLG77AlCQlh/o3cbMT5xys4Zvv2+Q7RVJFlqnB
+U840yFLuta7tj95gcOKlVKu2bQ6XpUA0ayvTvGbrZjR8+muLj1cpmfgwF126cm/7
+gcWt0oZYPRfH5wm78Sv3htzB2nFd1EbjzK0lwYi8YGd1ZrPxGPeiXOZT/zqItkel
+/xMY6pgJdz+dU/nPAeX1pnAXFK9jpP+Zs5Od3FOnBv5IhR2haa4ldbsTzFID9e1R
+oYvbFQIDAQABo4IBaDCCAWQwEgYDVR0TAQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8E
+BAMCAYYwSwYIKwYBBQUHAQEEPzA9MDsGCCsGAQUFBzAChi9odHRwOi8vYXBwcy5p
+ZGVudHJ1c3QuY29tL3Jvb3RzL2RzdHJvb3RjYXgzLnA3YzAfBgNVHSMEGDAWgBTE
+p7Gkeyxx+tvhS5B1/8QVYIWJEDBUBgNVHSAETTBLMAgGBmeBDAECATA/BgsrBgEE
+AYLfEwEBATAwMC4GCCsGAQUFBwIBFiJodHRwOi8vY3BzLnJvb3QteDEubGV0c2Vu
+Y3J5cHQub3JnMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jcmwuaWRlbnRydXN0
+LmNvbS9EU1RST09UQ0FYM0NSTC5jcmwwHQYDVR0OBBYEFBQusxe3WFbLrlAJQOYf
+r52LFMLGMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjANBgkqhkiG9w0B
+AQsFAAOCAQEA2UzgyfWEiDcx27sT4rP8i2tiEmxYt0l+PAK3qB8oYevO4C5z70kH
+ejWEHx2taPDY/laBL21/WKZuNTYQHHPD5b1tXgHXbnL7KqC401dk5VvCadTQsvd8
+S8MXjohyc9z9/G2948kLjmE6Flh9dDYrVYA9x2O+hEPGOaEOa1eePynBgPayvUfL
+qjBstzLhWVQLGAkXXmNs+5ZnPBxzDJOLxhF2JIbeQAcH5H0tZrUlo5ZYyOqA7s9p
+O5b85o3AM/OJ+CktFBQtfvBhcJVd9wvlwPsk+uyOy2HI7mNxKKgsBTt375teA2Tw
+UdHkhVNcsAKX1H7GNNLOEADksd86wuoXvg==
+-----END CERTIFICATE-----
+
+2020-12-19 19:35:48,502:DEBUG:acme.client:Storing nonce: 0103_i9iHcC9P3I51CJY4GEwpdz_WHbr1vpsY1Oeg31AlJo
+2020-12-19 19:35:48,502:DEBUG:certbot.storage:Creating directory /etc/letsencrypt/archive.
+2020-12-19 19:35:48,503:DEBUG:certbot.storage:Creating directory /etc/letsencrypt/live.
+2020-12-19 19:35:48,503:DEBUG:certbot.storage:Writing README to /etc/letsencrypt/live/README.
+2020-12-19 19:35:48,503:DEBUG:certbot.storage:Archive directory /etc/letsencrypt/archive/worldmiao.com and live directory /etc/letsencrypt/live/worldmiao.com created.
+2020-12-19 19:35:48,503:DEBUG:certbot.storage:Writing certificate to /etc/letsencrypt/live/worldmiao.com/cert.pem.
+2020-12-19 19:35:48,503:DEBUG:certbot.storage:Writing private key to /etc/letsencrypt/live/worldmiao.com/privkey.pem.
+2020-12-19 19:35:48,504:DEBUG:certbot.storage:Writing chain to /etc/letsencrypt/live/worldmiao.com/chain.pem.
+2020-12-19 19:35:48,504:DEBUG:certbot.storage:Writing full chain to /etc/letsencrypt/live/worldmiao.com/fullchain.pem.
+2020-12-19 19:35:48,504:DEBUG:certbot.storage:Writing README to /etc/letsencrypt/live/worldmiao.com/README.
+2020-12-19 19:35:48,511:DEBUG:certbot.plugins.selection:Requested authenticator nginx and installer nginx
+2020-12-19 19:35:48,511:DEBUG:certbot.cli:Var authenticator=nginx (set by user).
+2020-12-19 19:35:48,511:DEBUG:certbot.cli:Var installer=nginx (set by user).
+2020-12-19 19:35:48,512:DEBUG:certbot.storage:Writing new config /etc/letsencrypt/renewal/worldmiao.com.conf.
+2020-12-19 19:35:48,514:DEBUG:certbot.reporter:Reporting to user: Congratulations! Your certificate and chain have been saved at:
+/etc/letsencrypt/live/worldmiao.com/fullchain.pem
+Your key file has been saved at:
+/etc/letsencrypt/live/worldmiao.com/privkey.pem
+Your cert will expire on 2021-03-19. To obtain a new or tweaked version of this certificate in the future, simply run certbot again with the "certonly" option. To non-interactively renew *all* of your certificates, run "certbot renew"
+2020-12-19 19:35:48,555:DEBUG:certbot.crypto_util:Generating key (1024 bits): /var/lib/letsencrypt/snakeoil/0000_key.pem
+2020-12-19 19:35:48,567:INFO:certbot_nginx.configurator:Deploying Certificate to VirtualHost /etc/nginx/sites-enabled/default
+2020-12-19 19:35:48,568:DEBUG:certbot.reverter:Creating backup of /etc/nginx/sites-enabled/default
+2020-12-19 19:35:48,568:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-http-image-filter.conf
+2020-12-19 19:35:48,568:DEBUG:certbot.reverter:Creating backup of /etc/nginx/nginx.conf
+2020-12-19 19:35:48,569:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-mail.conf
+2020-12-19 19:35:48,569:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-stream.conf
+2020-12-19 19:35:48,569:DEBUG:certbot.reverter:Creating backup of /etc/nginx/mime.types
+2020-12-19 19:35:48,569:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-http-xslt-filter.conf
+2020-12-19 19:35:48,571:DEBUG:certbot_nginx.parser:Writing nginx conf tree to /etc/nginx/sites-enabled/default:
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
+
+server {
+	listen 80 ;
+	listen [::]:80 ;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name worldmiao.com; # managed by Certbot
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/worldmiao.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/worldmiao.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+2020-12-19 19:35:48,581:INFO:certbot_nginx.configurator:Deploying Certificate to VirtualHost /etc/nginx/sites-enabled/default
+2020-12-19 19:35:48,583:DEBUG:certbot_nginx.parser:Writing nginx conf tree to /etc/nginx/sites-enabled/default:
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
+
+server {
+	listen 80 ;
+	listen [::]:80 ;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name www.worldmiao.com worldmiao.com; # managed by Certbot
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/worldmiao.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/worldmiao.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+
+}
+2020-12-19 19:35:48,584:DEBUG:certbot_nginx.parser:Writing nginx conf tree to /etc/nginx/sites-enabled/default:
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
+
+server {
+	listen 80 ;
+	listen [::]:80 ;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name www.worldmiao.com worldmiao.com; # managed by Certbot
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/worldmiao.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/worldmiao.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+
+}
+2020-12-19 19:36:16,956:INFO:certbot_nginx.configurator:Redirecting all traffic on port 80 to ssl in /etc/nginx/sites-enabled/default
+2020-12-19 19:36:16,964:INFO:certbot_nginx.configurator:Redirecting all traffic on port 80 to ssl in /etc/nginx/sites-enabled/default
+2020-12-19 19:36:16,965:DEBUG:certbot.reverter:Creating backup of /etc/nginx/sites-enabled/default
+2020-12-19 19:36:16,965:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-http-image-filter.conf
+2020-12-19 19:36:16,966:DEBUG:certbot.reverter:Creating backup of /etc/nginx/nginx.conf
+2020-12-19 19:36:16,966:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-mail.conf
+2020-12-19 19:36:16,966:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-stream.conf
+2020-12-19 19:36:16,966:DEBUG:certbot.reverter:Creating backup of /etc/nginx/mime.types
+2020-12-19 19:36:16,966:DEBUG:certbot.reverter:Creating backup of /etc/nginx/modules-enabled/50-mod-http-xslt-filter.conf
+2020-12-19 19:36:16,968:DEBUG:certbot_nginx.parser:Writing nginx conf tree to /etc/nginx/sites-enabled/default:
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
+
+server {
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name www.worldmiao.com worldmiao.com; # managed by Certbot
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/worldmiao.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/worldmiao.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+
+}
+server {
+    if ($host = www.worldmiao.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = worldmiao.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+	listen 80 ;
+	listen [::]:80 ;
+    server_name www.worldmiao.com worldmiao.com;
+    return 404; # managed by Certbot
+
+
+
+
+}
+2020-12-19 19:36:17,990:DEBUG:certbot.reporter:Reporting to user: If you like Certbot, please consider supporting our work by:
+
+Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+Donating to EFF:                    https://eff.org/donate-le
+
+
