@@ -9,19 +9,26 @@ import UsersModule from '@components/users/users.module';
 import ScraperModule from '@components/scraper/scraper.module';
 import { CacheService } from '@components/scraper/cache/cache.service';
 // import { PuppeteerModule } from 'nest-puppeteer';
+
 import AppController from './app.controller';
 import AppService from './app.service';
 import { LoggerMiddleware } from '../../middleware/logger';
+import {PuppeteerModule} from "nest-puppeteer";
+
+
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      // envFilePath: .env.${process.env.NODE_ENV}',
+      envFilePath: '.env.dev',
     }),
-    // PuppeteerModule.forRoot(
-    //   { pipe: true }, // optional, any Puppeteer launch options here or leave empty for good defaults */,
-    //   // 'BrowserInstanceName', // optional, can be useful for using Chrome and Firefox in the same project
-    // ),
+    PuppeteerModule.forRoot(
+      { pipe: true }, // optional, any Puppeteer launch options here or leave empty for good defaults */,
+      // 'BrowserInstanceName', // optional, can be useful for using Chrome and Firefox in the same project
+    ),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_HOST,

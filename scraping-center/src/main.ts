@@ -12,14 +12,18 @@ import AppModule from './components/app/app.module';
 import AllExceptionsFilter from './filters/all-exceptions.filter';
 
 async function bootstrap() {
+
+
+
   const app = await NestFactory.create(AppModule);
 
+  console.log('MYSQL HOST', process.env.MYSQL_HOST);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  app.enableCors({
-    origin: ['http://vue:80', `http://localhost:${process.env.VUE_DEVELOPMENT_PORT}`],
-  });
+  // app.enableCors({
+  //   origin: ['http://vue:80', `http://localhost:${process.env.VUE_DEVELOPMENT_PORT}`],
+  // });
 
   // rate limit
 

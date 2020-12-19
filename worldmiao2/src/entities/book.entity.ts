@@ -8,22 +8,26 @@ export enum BookProvider {
     MEMORY_OF_THE_WORLD = 'MEMORY_OF_THE_WORLD',
 }
 
-export const BookProviderList: { providerName: string, providerEnum: BookProvider }[] = [
+export const BookProviderList: { providerName: string, providerEnum: BookProvider, url?: string }[] = [
     {
         providerName: "Library Genesis",
-        providerEnum: BookProvider.LIBRARY_GENESIS
+        providerEnum: BookProvider.LIBRARY_GENESIS,
+        url: 'http://gen.lib.rus.ec/'
     },
     {
         providerName: "Internet Archive",
         providerEnum:BookProvider.OPEN_LIBRARY,
+        url: 'http://openlibrary.org/'
     },
     {
         providerName: "eBook Databases",
-        providerEnum: BookProvider.WORLD_CAT
+        providerEnum: BookProvider.WORLD_CAT,
+        url: ''
     },
     {
         providerName: "Google Books",
         providerEnum:   BookProvider.GOOGLE_BOOKS,
+        url: 'https://books.google.com/'
     },
 
     //

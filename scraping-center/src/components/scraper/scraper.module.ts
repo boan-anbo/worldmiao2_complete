@@ -10,6 +10,7 @@ import { PuppeteerModule } from 'nest-puppeteer';
 import { CacheService } from '@components/scraper/cache/cache.service';
 import ScraperController from './scraper.controller';
 import ScraperService from './scraper.service';
+import {ZlibraryService} from "@components/scraper/scraper-services/zlibrary/zlibrary.service";
 
 @Module({
   imports: [TypeOrmModule.forFeature(), HttpModule],
@@ -22,6 +23,7 @@ import ScraperService from './scraper.service';
     WorldcatService,
     // MemoryOfTheWorldService,
     CacheService,
+    ZlibraryService,
   ],
   exports: [ScraperService],
 })

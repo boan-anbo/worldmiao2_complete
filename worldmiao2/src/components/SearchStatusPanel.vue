@@ -1,9 +1,18 @@
 <template>
-  <div class="grid grid-cols-12">
-    <div class="text-center col-span-6">{{getSearchTerm}}</div>
-    <div class="status col-span-2 text-left">{{searchStore[bookProvider].getCurrentStatus()}}</div>
-    <div v-if="searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED" class="result-count col-span-2 text-left">({{searchStore[bookProvider].getSearchResultCount()}} hits.)</div>
-    <div class="text-left col-span-1" id="search-timer">{{getSearchTime}}</div>
+
+  <div class="grid grid-cols-12 text-xs pb-1">
+    <div class="text-center col-span-6 underline">{{getSearchTerm}} </div>
+    <div class="status col-span-3 text-left">
+      {{searchStore[bookProvider].getCurrentStatus()}}
+    </div>
+    <div
+        v-if="searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED"
+         class="result-count col-span-3 text-left"
+    >
+        ({{searchStore[bookProvider].getSearchResultCount()}} hits.)
+    </div>
+    <div class="text-left col-span-2" id="search-timer">{{getSearchTime}}</div>
+    <div v-if="!shelfIsEmpty" @click="closeBookShelf()" class="cursor-pointer col-span-1 text-right pr-2">  [ x ]</div>
   </div>
 </template>
 <script lang="js">
@@ -16,7 +25,8 @@ import {BookStore} from "@/interfaces/AppProps";
 
 export default {
   name: 'SearchStatusPanel',
-  props: ['bookStore', 'searchStore', 'bookProvider'],
+  props: ['bookStore', 'searchStore', 'bookProvider', 'closeBookshelfHandler', 'shelfIsEmpty'],
+  emits: ['close-bookshelf'],
   setup(props) {
     console.log(props)
     const timer = props.searchStore[props.bookProvider].getTimerValue();
@@ -48,8 +58,13 @@ export default {
       return this.searchStore[this.bookProvider].getSearchResultCount() + ' hits.';
     }
   },
-  method: {
+  methods: {
+    closeBookShelf: function() {
+      console.log('emitted')
+      this.$emit('close-bookshelf', true)
 
+      // this.closeBookshelfHandler();
+    }
   }
 }
 </script>
