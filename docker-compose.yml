@@ -1,5 +1,6 @@
 version: "3"
 services:
+
   nginx:
     container_name: nginx
     hostname: nginx
@@ -13,8 +14,9 @@ services:
     volumes:
       - ./nginx/config:/etc/nginx/conf.d
       - ./nginx/certs:/etc/ssl/private
-#      - ./certbot/conf:/etc/nginx/ssl
-#      - ./certbot/data:/var/www/certbot
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+
     links:
       - nest
       - vue
@@ -22,13 +24,16 @@ services:
       - nest
       - vue
 
-#  certbot:
-#    image: certbot/certbot:latest
-#    command: certonly --webroot --webroot-path=/var/www/certbot --email gazagoal@gmail.com--agree-tos --no-eff-email -d worldmiao.com -d www.worldmiao.com
-#    volumes:
-#      - ./certbot/conf:/etc/letsencrypt
-#      - ./certbot/logs:/var/log/letsencrypt
-#      - ./certbot/data:/var/www/certbot
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/var/www/html --email gazagoal@gmail.com --agree-tos --no-eff-email --staging -d worldmiao.com  -d www.worldmiao.com
 
   vue:
     build:
@@ -101,3 +106,8 @@ services:
     restart: always
 #    ports:
 #      - "6379:6379"
+
+volumes:
+  certbot-etc:
+  certbot-var:
+
