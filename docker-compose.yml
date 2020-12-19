@@ -36,9 +36,9 @@ services:
       dockerfile: Dockerfile
     container_name: vue
     restart: always
-    volumes:
+#    volumes:
 #   mapping local dist directly to static serve folder in docker
-      - ./worldmiao2/dist:/usr/share/nginx/html
+#      - ./worldmiao2/dist:/usr/share/nginx/html
 #    ports:
 #      - 90:80
     depends_on:
