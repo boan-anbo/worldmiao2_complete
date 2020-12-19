@@ -15,7 +15,7 @@ services:
     volumes:
       - ./nginx/config:/etc/nginx/conf.d
       - ./nginx/certs:/etc/ssl/private
-      - ./nginx/certbot/conf:/etc/nginx/ssl
+      - ./nginx/certbot/conf:/etc/letsencrypt
       - ./nginx/certbot/data:/var/www/certbot
     restart: always
     links:
