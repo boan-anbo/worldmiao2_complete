@@ -3,40 +3,51 @@
 
     <div style="height:200px; background-color: #f3f3f3 !important;" class="grid  grid-cols-12 content-between">
 
-      <div id="access-header" class="col-span-12">{{book.title}}</div>
-    <div id="displaygrid" class=" col-span-12 grid-cols-12">
+      <div id="access-header" class="col-span-12 pt-4">{{book.title}}</div>
+
+    <div id="displaygrid" class="overflow-scroll space-y-2 col-span-12 content-between  grid-cols-12">
       <!--   Display Panel for direct links. -->
-      <div v-if="fetchStatus === 'FETCHING'" class="col-span-12">
-      <span >{{getStatusString}}</span>
+
+      <div v-if="fetchStatus === 'FETCHING'"
+           class="c text-xs col-span-12 cursor-wait h-full"
+      >
+        <span >{{getStatusString}}</span>
       </div>
-      <div v-for="(access, index) in accesses" :key="index" class="col-span-12 grid grid-cols-12">
 
-          <div id="data-access-type" v-if="access.type" class="col-span-3 text-sm access-type text-right">
-            {{getAccessTypeString(access.type)}}:
-          </div>
+
+      <div v-for="(access, index) in accesses" :key="index" class="col-span-12 grid grid-cols-12 pl-2 overflow-scroll">
+
           <div
-              class=" cursor-pointer truncate px-4 font-light col-span-9  text-left"
-              @click.stop.prevent="openWindow(access.link)">
-            <span class="hover:underline">
-              <span v-if="access.type !== dataType.DATABASE">{{access.link}}</span>
-              <span v-if="access.type === dataType.DATABASE">{{access.name}}</span>
-          </span>
-<!--            <span class="ml-2 lowercase" v-if="book.format">{{'(' + book.format + ')'}}</span>-->
+              :title="`${access.type}. some might require login`"
+              id="data-access-type" v-if="access.type"
+              class="
+              col-span-3
+              text-xs
+              access-type
+              truncate
+              text-right
+              cursor-pointer
+              "
+          >
+            {{index + 1}}: {{getAccessTypeString(access.type)}}:
           </div>
-
-
+        <div  @click.stop.prevent="openWindow(access.link)  "
+              :title="access.link"
+             class="text-xs hover:underline cursor-pointer truncate pl-2 pr-4 col-span-9  text-center">
+          <div class="truncate" v-if="access.type !== dataType.DATABASE">{{access.link}}</div>
+          <div class="truncate" v-if="access.type === dataType.DATABASE">{{access.name}}</div>
+        </div>
 
       </div>
 
 
 
     </div>
-      <div id="access-footer" class="col-span-12  text-xs"><span>
+      <div id="access-footer" class=" text-gray-400 col-span-12 pb-2 text-xs"><span>
               {{libraryName}}
             </span></div>
 
     </div>
-
 
 </template>
 <script lang="js">
@@ -49,21 +60,6 @@ import {BookAccessFetchingState} from "@/entities/book.fetch.entity";
 
 export default {
   name: 'BookAccesses',
-  setup() {
-
-
-
-    // const isLoadingState = () => {
-    //   return state.bookAccess === BookAccessState.LOADING || state.bookAccess === BookAccessState.ERROR
-    //
-    // }
-
-    return {
-      // props,
-      // statusLabel,
-      // isLoadingState
-    }
-  },
   props: {
     links: Array,
     book: Book,
@@ -78,7 +74,7 @@ export default {
       let string = ''
       switch (accessType) {
         case BookAccessType.DATABASE:
-          string = '(login) database'
+          string = 'database'
           break;
         default:
           string = accessType.toLowerCase();

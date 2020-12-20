@@ -91,14 +91,18 @@
 
 <!--    Details -->
 
-    <div class="book-info-title text-base pl-6 pr-4 font-light text-black text-left">
+<!--   Title -->
+    <div class="book-info-title text-base pl-8  pt-4 pr-6 font-light text-black text-left">
       <span class="font-base">{{index + 1 + '.'}}</span><span class="ml-2">{{  book.title }}</span>
     </div>
-    <div class="book-info-description grid grid-col-1">
-          <div class="text-sm my truncate">
 
-          {{ book.author + ', ' }}
-              {{ book.publicationYear}}{{'; ' + book.publisher}}
+<!--  author, year, publisher  -->
+    <div class="book-info-description grid grid-col-1">
+          <div class="text-xs my px-2 truncate">
+
+            <span v-if="book?.author">{{ book?.author + ', ' }}</span>
+            <span v-if="book?.publicationYear !== 0">{{ book?.publicationYear}}</span>
+            <span v-if="book?.publisher">{{'; ' + book?.publisher}}</span>
 
           </div>
       <div
@@ -110,7 +114,9 @@
       </div >
 
     </div>
-    <div class="boot-info-footer text-xs">{{libraryName}}</div>
+    <div class="boot-info-footer pb-2
+    text-gray-500
+    text-xs">{{libraryName}}</div>
 
   <!--  Title -->
 
@@ -221,7 +227,10 @@ export default {
       //     new BookAccess('LinkName', BookAccessType.BORROW),
       //     new BookAccess('proquest.com', BookAccessType.DATABASE, 'Proquest Database'),
       //   ]
-      const url = './api/scraper/access'
+      // const url = './api/scraper/access'
+
+      const url = 'http://localhost:9000/scraper/access';
+
       console.log("Posting your request for ", provider, 'for to fetch access for ', uniqueId, " to", url)
       // update search status
 

@@ -102,7 +102,7 @@ export default defineComponent({
       ,
       bookStore: {
         GOOGLE_BOOKS: {
-          data: new Array(20)
+          // data: new Array(20)
         },
         MEMORY_OF_THE_WORLD: {},
         LIBRARY_GENESIS: {},
@@ -123,7 +123,9 @@ export default defineComponent({
     onSearchRequest: async function (globalProvider: BookProvider) {
       const provider: BookProvider = globalProvider
       const { searchTerm } = this.state;
-      const url = './api/scraper';
+      // const url = './api/scraper';
+      const url = 'http://localhost:9000/scraper';
+
       console.log("Posting your request for ", provider, 'for term', searchTerm, " to", url)
       // update search status
       this.setSearchStatus(provider, LibrarySearchStatus.SEARCHING)

@@ -1,7 +1,11 @@
 export enum DatabaseNames {
   INTERNET_ARCHIVE = 'Internet Archive',
-  HATHI_TRUST = 'Hathi Trust',
+  HATHI_TRUST = 'HathiTrust',
   EBSCO = 'EBSCO',
+  TAYLOR_FRANCIS = 'Taylor & Francis',
+  VLE_BOOKS = 'VLeBooks',
+  HOOPLA = 'hoopla',
+  SPRINGER = 'Springer'
 }
 export class Database {
   // standard name
@@ -76,6 +80,26 @@ export const defaultDatabaseMap: Database[] = [
   {
     worldcatLabel: 'HathiTrust Digital Library',
     name: DatabaseNames.HATHI_TRUST,
+  },
+  {
+    worldcatLabel: 'taylorfrancis.com',
+    name: DatabaseNames.TAYLOR_FRANCIS,
+  },
+  {
+    worldcatLabel: 'VLeBooks',
+    name: DatabaseNames.VLE_BOOKS,
+  },
+  {
+    worldcatLabel: 'hoopla',
+    name: DatabaseNames.HOOPLA,
+  },
+  {
+    worldcatLabel: 'search.ebscohost.com',
+    name: DatabaseNames.EBSCO,
+  },
+  {
+    worldcatLabel: 'SpringerLink',
+    name: DatabaseNames.SPRINGER,
   },
 
 ];

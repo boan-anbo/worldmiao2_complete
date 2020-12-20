@@ -20,7 +20,7 @@
         v-if="searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED"
          class="result-count col-span-2 text-center"
     >
-        ({{searchStore[bookProvider].getSearchResultCount()}} hits.)
+        {{getSearchResultCount}}
 
     </div>
     <div class="text-center col-span-1 overflow-visible " id="search-timer">{{getSearchTime}}</div>
@@ -70,8 +70,15 @@ export default {
       return this.searchStore[this.bookProvider].getTimerValue() + 's';
     },
     getSearchResultCount() {
-      return this.searchStore[this.bookProvider].getSearchResultCount() + ' hits.';
-    }
+      // console.log("CALCULATING COUNT", this.searchStore[this.bookProvider].getSearchResultCount())
+      if (this.searchStore[this.bookProvider].getSearchResultCount() === 0) {
+        return '(0 hits.)'
+      } else {
+        return `(${this.searchStore[this.bookProvider].getSearchResultCount()} hits.)`
+      }
+
+      // return + ' hits.';
+      }
   },
   methods: {
     closeBookShelf: function() {

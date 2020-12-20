@@ -7,6 +7,10 @@ import { MemoryOfTheWorldService } from '@components/scraper/scraper-services/me
 import { BookAccess } from '@components/scraper/entities/book.entity';
 import { ZlibraryService } from '@components/scraper/scraper-services/zlibrary/zlibrary.service';
 
+const { promisify } = require('util')
+
+const sleep = promisify(setTimeout)
+
 @Injectable()
 export default class ScraperService {
   constructor(
@@ -51,10 +55,24 @@ export default class ScraperService {
   }
 
   async fetchAccessFromWorlcat(uniqueId: string): Promise<BookAccess[] | null> {
-    const result = await this.worldcatService.getAvailableDatabases(uniqueId);
-    if (result) {
+
+    let allEditions = await this.worldcatService.getAllEditionIds(uniqueId);
+    console.log(allEditions)
+    if (allEditions?.length > 4) {
+      allEditions = allEditions.slice(0, 4);
+    }
+    const allResults: BookAccess[] = [];
+
+    for await (const editionWorldcatId of allEditions) {
+      const oneEditionResults = await this.worldcatService.getAvailableDatabases(editionWorldcatId);
+      await sleep(1000);
+      oneEditionResults.forEach((access) => allResults.push(access));
+    }
+
+
+    if (allResults) {
       const uniqueResults: BookAccess[] = [];
-      result.forEach((oneInAll) => {
+      allResults.forEach((oneInAll) => {
         const exists = uniqueResults.find((uniqueOne) => uniqueOne.name === oneInAll.name);
         if (!exists) {
           uniqueResults.push(oneInAll);

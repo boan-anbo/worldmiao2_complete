@@ -241,7 +241,6 @@ export default {
       if (this.bookStore !== undefined) {
         this.upshelfBooks(this.bookStore.data)
       }
-
     }
   }
 

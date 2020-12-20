@@ -20,7 +20,7 @@ import { LoggerMiddleware } from '../../middleware/logger';
     ConfigModule.forRoot({
       isGlobal: true,
       // envFilePath: .env.${process.env.NODE_ENV}',
-      envFilePath: '.env.prod',
+      envFilePath: '.env.dev',
     }),
     PuppeteerModule.forRoot(
       // { pipe: true }, //pipe optional, any Puppeteer launch options here or leave empty for good defaults */,
