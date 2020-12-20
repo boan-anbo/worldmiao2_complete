@@ -58,7 +58,7 @@ export class SearchStatus {
     }
 
     getSearchResultCount() {
-        if (this.searchResultCount) {
+        if (this.searchResultCount !== undefined) {
             return this.searchResultCount
         }
     }

@@ -56,6 +56,31 @@ export class WorldcatService {
     return books;
   }
 
+  async getAllEditionIds(worldcatId: string): Promise<string[]> {
+    const url = bookUrl + worldcatId + editionsUrl;
+    const { data } = await this.http.get(url).toPromise();
+    const editions: string[] = [];
+    const $ = cheerio.load(data);
+
+      $('.num')
+          // @ts-ignore
+      .each((i, element) => {
+        const $element = $(element);
+        // console.log($element.text());
+        const $worldcatID = $element.find('input');
+        const worldcatID = $worldcatID.attr('value');
+
+        //
+        // const edition = {
+        //     worldcatID
+        // };
+      if(worldcatID) {
+        editions.push(worldcatID);
+      }
+      });
+    return editions;
+  }
+
   async getAvailableDatabases(worldcatId: string): Promise<BookAccess[]> {
     const { data } = await this.http.get(`${bookUrl}${worldcatId}`).toPromise();
     // const links: any[] = [];
@@ -90,6 +115,7 @@ export class WorldcatService {
           });
         }
       });
+      console.log(accesses);
       return accesses;
     }
     return [];

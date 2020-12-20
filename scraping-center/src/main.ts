@@ -18,9 +18,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  // app.enableCors({
-  //   origin: ['http://vue:80', `http://localhost:${process.env.VUE_DEVELOPMENT_PORT}`],
-  // });
+  app.enableCors({
+    origin: ['http://vue:80', 'http://localhost:8080', `http://localhost:${process.env.VUE_DEVELOPMENT_PORT}`],
+  });
 
   // rate limit
 

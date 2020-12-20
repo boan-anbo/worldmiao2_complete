@@ -16,6 +16,13 @@ export default class ScraperController {
   async fetchBook(@Body() query: {uniqueId: string, provider: BookProvider}) {
     const { uniqueId, provider } = query;
 
+    // FLUSH MODE!!!! DEVELOPMENT ONLY
+    const FLUSH_MODE = true;
+    if (FLUSH_MODE) {
+      await this.cs.flushAllBooks();
+    }
+    /////
+
     // check if there is a cheche.
     const cacheResult = await this.cs.checkBookAccessCache(uniqueId, provider);
     if (cacheResult) {
