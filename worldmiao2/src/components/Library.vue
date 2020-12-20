@@ -1,5 +1,5 @@
 <template>
-  <div style="max-width: 100%; max-height:200px; height: 200px; min-width: 320px"
+  <div style="max-width: 100%; max-height:200px; height: 200px;"
 
         class="search-panel border grid grid-cols-1 content-between"
        >
