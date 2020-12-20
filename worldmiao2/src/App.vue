@@ -1,6 +1,8 @@
 <template>
-  <div class="bg-gray-700 px-4 truncate text-white text-lg text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
-    worldmiao.two <span class="text-xs">| 世界喵兔 |</span> ebook search
+  <div class="bg-gray-700 px-4 truncate text-white text-lg text-center sm:text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
+   <span class="sm:inline hidden"> worldmiao.two | </span>
+    <span class="text-xs"> 世界喵兔 </span>
+    <span class="inline">| ebook search engine</span>
   </div>
 
   <div
@@ -12,22 +14,18 @@
         v-for="(provider, providerIndex) in bookProviderList"
         :key="providerIndex"
   >
-<!--<a-row >-->
-
-<!--  <a-col-->
-<!--      :span="24/4" :xl="24/4" :xs="24" :sm="24" :lg="24/2"-->
-<!--      v-for="(provider, providerIndex) in bookProviderList"-->
-<!--      :key="providerIndex"-->
-<!--      class=""-->
-<!--  >-->
-<!--  <input type="text" v-model="testUrl" />Enter Test Url-->
 
 
     <Library
         :bookStore="bookStore[provider.providerEnum]" :library-name="provider.providerName" :colIsEven="providerIndex % 2 === 0" :book-provider="provider.providerEnum" :library-url="provider.url">
 
       <template v-slot:search-box>
-        <SearchBox  :book-provider="provider.providerEnum"  @search-request="onSearchRequest"   v-model:searchTerm="state.searchTerm"/>
+
+<!--       Panel for showing search box. pass down to library as slot. -->
+        <SearchBox
+            :book-provider="provider.providerEnum"
+            @search-request="onSearchRequest"
+            v-model:searchTerm="state.searchTerm"/>
       </template>
 <!--      Provide searching status-->
       <template   v-slot:search-status="{
@@ -35,10 +33,13 @@
         shelfIsEmpty
       }"
       >
+<!--     Pnale for showing results. pass down to Library.   -->
         <SearchStatusPanel
             @close-bookshelf="closeBookshelfHandler"
             :shelfIsEmpty="shelfIsEmpty"
-            :book-provider="provider.providerEnum" :bookStore="bookStore" :searchStore="searchStore" />
+            :book-provider="provider.providerEnum" :bookStore="bookStore" :searchStore="searchStore"
+            @reuse-search-term="onReuseSearchTerm"
+        />
       </template>
 
     </Library>
@@ -77,9 +78,6 @@ export default defineComponent({
       searchTerm: '',
 
     } as AppProps);
-
-
-
     const bookProviderList = BookProviderList
     return {
       bookProviderList,
@@ -123,8 +121,8 @@ export default defineComponent({
     onSearchRequest: async function (globalProvider: BookProvider) {
       const provider: BookProvider = globalProvider
       const { searchTerm } = this.state;
-      // const url = './api/scraper';
-      const url = 'http://localhost:9000/scraper';
+      const url = './api/scraper';
+      // const url = 'http://localhost:9000/scraper';
 
       console.log("Posting your request for ", provider, 'for term', searchTerm, " to", url)
       // update search status
@@ -161,11 +159,15 @@ export default defineComponent({
     setSearchResultCount: function(provider: BookProvider, count: number) {
 
       this.getSearchStatus(provider).setSearchResultCount(count)
+    },
+    onReuseSearchTerm:function(provider: BookProvider, searchTerm: string) {
+
+
+      console.log('On Reuse Search Term', provider, searchTerm)
+      // this.setSearchTerm(provider, searchTerm)
+      this.state.searchTerm = searchTerm
     }
-
-
-
-  },
+    },
   components: {
     Library,
     SearchBox,

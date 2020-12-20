@@ -58,14 +58,14 @@ export default class ScraperService {
 
     let allEditions = await this.worldcatService.getAllEditionIds(uniqueId);
     console.log(allEditions)
-    if (allEditions?.length > 4) {
-      allEditions = allEditions.slice(0, 4);
+    if (allEditions?.length > 2) {
+      allEditions = allEditions.slice(0, 2);
     }
     const allResults: BookAccess[] = [];
 
     for await (const editionWorldcatId of allEditions) {
       const oneEditionResults = await this.worldcatService.getAvailableDatabases(editionWorldcatId);
-      await sleep(1000);
+      await sleep(1500);
       oneEditionResults.forEach((access) => allResults.push(access));
     }
 

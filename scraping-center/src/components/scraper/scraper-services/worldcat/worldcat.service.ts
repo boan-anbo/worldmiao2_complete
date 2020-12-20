@@ -21,7 +21,7 @@ export class WorldcatService {
   constructor(private http: HttpService) {}
 
   async searchBooks(searchTerm: string) {
-    const { data } = await this.http.get(searchUrl + searchTerm)
+    const { data } = await this.http.get(searchUrl + encodeURI(searchTerm))
       .toPromise();
     const $ = cheerio.load(data);
     const books: Book[] = [];
@@ -58,12 +58,14 @@ export class WorldcatService {
 
   async getAllEditionIds(worldcatId: string): Promise<string[]> {
     const url = bookUrl + worldcatId + editionsUrl;
-    const { data } = await this.http.get(url).toPromise();
+    const res = await this.http.get(url).toPromise();
+    const  { data } = res;
+
     const editions: string[] = [];
     const $ = cheerio.load(data);
 
-      $('.num')
-          // @ts-ignore
+    $('.num')
+    // @ts-ignore
       .each((i, element) => {
         const $element = $(element);
         // console.log($element.text());
@@ -74,9 +76,9 @@ export class WorldcatService {
         // const edition = {
         //     worldcatID
         // };
-      if(worldcatID) {
-        editions.push(worldcatID);
-      }
+        if (worldcatID) {
+          editions.push(worldcatID);
+        }
       });
     return editions;
   }

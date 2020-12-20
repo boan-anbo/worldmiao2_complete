@@ -13,7 +13,7 @@ export class ZlibraryService {
   ) {}
 
   async search(title: string): Promise<Book[]> {
-    const url = `https://b-ok.cc/s/${title}`;
+    const url = `https://b-ok.cc/s/${encodeURI(title)}`;
 
     // const { data } = await this.http.get(url).toPromise();
 

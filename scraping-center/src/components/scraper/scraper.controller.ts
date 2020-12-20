@@ -16,8 +16,10 @@ export default class ScraperController {
   async fetchBook(@Body() query: {uniqueId: string, provider: BookProvider}) {
     const { uniqueId, provider } = query;
 
+    // console.log('Received Request', query)
+
     // FLUSH MODE!!!! DEVELOPMENT ONLY
-    const FLUSH_MODE = true;
+    const FLUSH_MODE = false;
     if (FLUSH_MODE) {
       await this.cs.flushAllBooks();
     }
@@ -55,13 +57,16 @@ export default class ScraperController {
 
   @Post()
   async searchEntrance(@Body() query: { title: string, provider: BookProvider }): Promise<SuccessResponse | ServerErrorResponse> {
+
     // WARNING THIS WILL DELETE ALL REDIS CACHE
+    // console.log("RECEIVEDREQUEST", query)
     const FLUSH_MODE = false;
+    //---------------------------------------------
 
     const { provider } = query;
     const title = query.title?.trim();
 
-    if (!title || !provider || title?.length <= 3) {
+    if (!title || !provider || title?.length < 2) {
       return new ServerErrorResponse('No Title or Provider');
     }
 
