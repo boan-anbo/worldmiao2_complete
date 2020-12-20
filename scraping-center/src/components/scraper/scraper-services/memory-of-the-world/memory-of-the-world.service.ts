@@ -16,7 +16,7 @@ export class MemoryOfTheWorldService {
     const page = await this.browserContext.newPage();
     console.log(page.isClosed());
 
-    await page.goto(`https://library.memoryoftheworld.org/#/search/titles/${searchTitle}`, { waitUntil: 'networkidle0' });
+    await page.goto(`https://library.memoryoftheworld.org/#/search/titles/${encodeURI(searchTitle)}`, { waitUntil: 'networkidle0' });
 
     const rawInfo: {
       author: string,

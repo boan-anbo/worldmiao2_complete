@@ -31,7 +31,10 @@ export class LibgenService {
           extension,
           publisher,
           md5,
+          descr,
+          toc
         } = data[n];
+        // console.log('All Libgen resturn data', JSON.stringify(data[n]))
         const link = `http://gen.lib.rus.ec/book/index.php?md5=${data[n].md5.toLowerCase()}`;
         const newBook = new Book(BookProvider.LIBRARY_GENESIS, { id: md5, idNote: 'Libgen MD5' }, title);
         newBook.author = author;
@@ -40,6 +43,7 @@ export class LibgenService {
         newBook.publisher = publisher;
         newBook.format = extension;
         newBook.access.push(new BookAccess(link, BookAccessType.DOWNLOAD));
+        newBook.description = (descr?.length > 0 ? descr : toc) ?? ''
         books.push(newBook);
       }
 

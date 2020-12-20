@@ -1,15 +1,26 @@
+<style>
+
+
+</style>
 <template>
 
   <div class="grid grid-cols-8 text-xs pb-1">
-    <div class="text-center col-span-8 pb-2">&nbsp;{{getSearchTerm}}</div>
-    <div class="status col-span-3 text-right">
+    <div
+        @click="reuseSearchTerm()"
+        title="reuse this search term"
+         class="cursor-pointer hover:underline text-center col-span-8 pb-2 truncate px-4">&nbsp;{{getSearchTerm}}</div>
+
+    <div
+        class="status col-span-3 text-right text-gray-700"
+        :class="{'done': searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED }"
+    >
       &nbsp;{{searchStore[bookProvider].getCurrentStatus()}}
     </div>
 
 <!--  filler  -->
     <div
         v-if="searchStore[bookProvider].getCurrentStatus() !== librarySearchStatus.SEARCH_FINISHED"
-        class="result-count col-span-2 text-center"
+        class="result-count col-span-2 text-center text-gray-700"
     >
       &nbsp;
     </div>
@@ -18,12 +29,13 @@
 
     <div
         v-if="searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED"
-         class="result-count col-span-2 text-center"
+         class="result-count col-span-2 text-center text-gray-700"
     >
         {{getSearchResultCount}}
 
     </div>
-    <div class="text-center col-span-1 overflow-visible " id="search-timer">{{getSearchTime}}</div>
+    <div class="text-center col-span-1 overflow-visible text-gray-700 "
+         id="search-timer">{{getSearchTime}}</div>
 
     <div v-if="!shelfIsEmpty" title="close results" @click="closeBookShelf()"
          class="cursor-pointer col-span-2 text-right pr-2 hover:underline"
@@ -41,7 +53,7 @@ import {BookStore} from "@/interfaces/AppProps";
 export default {
   name: 'SearchStatusPanel',
   props: ['bookStore', 'searchStore', 'bookProvider', 'closeBookshelfHandler', 'shelfIsEmpty'],
-  emits: ['close-bookshelf'],
+  emits: ['close-bookshelf', 'reuse-search-term'],
   setup(props) {
     console.log(props)
     const timer = props.searchStore[props.bookProvider].getTimerValue();
@@ -86,6 +98,9 @@ export default {
       this.$emit('close-bookshelf', true)
 
       // this.closeBookshelfHandler();
+    },
+    reuseSearchTerm: function() {
+      this.$emit('reuse-search-term', this.bookProvider, this.getSearchTerm?.replace(/"/g, ''))
     }
   }
 }

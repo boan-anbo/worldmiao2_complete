@@ -9,7 +9,7 @@ export class GoogleBooksService {
   constructor(private http: HttpService) {}
 
   async search(title: String, limits?: number, page?: number): Promise<Book []> {
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${title.split(' ').join('+')}&filter=ebooks&maxResults=20`;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURI(title.split(' ').join('+'))}&filter=ebooks&maxResults=20`;
     const { data } = await this.http.get(url).toPromise();
     const result: GoogleBooksResult = data;
     if (result.totalItems > 0) {

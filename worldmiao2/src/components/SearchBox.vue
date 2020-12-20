@@ -14,9 +14,10 @@
 
 
   <label>
-    <input style=" background-color: transparent;"
-           class="search-input outline-none text-black border-b"
-           type="text" :value="searchTerm"
+    <input style=" background-color: transparent; min-width: 200px"
+           maxlength="60"
+           class="search-input outline-none text-black border-b text-xs"
+           type="search" :value="searchTerm"
            @keyup.enter="makeSearchRequest"
            @input="emitSearchTermChanges($event.target.value)"
 
@@ -24,7 +25,9 @@
   </label>
 
 
-  <span :class="{'text-gray-200': !isRequestValid()}" class="pl-2 cursor-pointer text-black hover:underline" @click="makeSearchRequest">search...</span>
+  <span :class="{'text-gray-200': !isRequestValid()}"
+        class="pl-2 cursor-pointer text-black hover:underline outline-none select-none"
+        @click="makeSearchRequest">search...</span>
 
 
 </template>
@@ -61,7 +64,7 @@ export default {
       this.requestEmitter.next(this.bookProvider)
     },
     isRequestValid() {
-      return this.localSearchString?.length > 3 || this.searchTerm?.length > 3
+      return this.localSearchString?.length > 2 || this.searchTerm?.length > 2
     },
     clearInput() {
       this.localSearchString = '';

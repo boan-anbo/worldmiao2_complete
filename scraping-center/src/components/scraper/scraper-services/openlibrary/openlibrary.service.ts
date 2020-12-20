@@ -10,7 +10,7 @@ export class OpenlibraryService {
 
   async search(title: string): Promise<Book[]> {
     // not using general query but limits only to title because the Open Library API could reurn data that's too long.
-    const response = await this.http.get(`http://openlibrary.org/search.json?title=${title}`)
+    const response = await this.http.get(`http://openlibrary.org/search.json?title=${encodeURI(title)}`)
       .toPromise();
     const { data } = response;
 
@@ -18,6 +18,10 @@ export class OpenlibraryService {
     const validBooks: Book[] = (data as OpenLibraryResult).docs.filter((doc) => doc.has_fulltext).map((doc) => {
       const newBook = new Book(BookProvider.OPEN_LIBRARY, { id: doc.cover_edition_key ?? '', idNote: 'open library olid' });
       newBook.title = doc.title;
+      newBook.description = doc.text
+          // filter out meta data.
+          .filter((text) => /[a-z]{3}/.test(text) && !text.includes('OL') && !/[0]{2, 5}/.test(text) && !text.includes('Accessible book'))
+          .join('; ');
       newBook.author = doc.author_name?.join(', ') ?? 'unknown';
       // ISBN is not neede for now
       // doc.isbn?.forEach((i) => newBook.isbns.push(i));

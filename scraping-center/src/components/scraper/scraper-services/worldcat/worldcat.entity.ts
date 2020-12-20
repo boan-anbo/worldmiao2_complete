@@ -5,7 +5,8 @@ export enum DatabaseNames {
   TAYLOR_FRANCIS = 'Taylor & Francis',
   VLE_BOOKS = 'VLeBooks',
   HOOPLA = 'hoopla',
-  SPRINGER = 'Springer'
+  SPRINGER = 'Springer',
+  BRILL = 'Brill'
 }
 export class Database {
   // standard name
@@ -100,6 +101,10 @@ export const defaultDatabaseMap: Database[] = [
   {
     worldcatLabel: 'SpringerLink',
     name: DatabaseNames.SPRINGER,
+  },
+  {
+    worldcatLabel: 'Brill',
+    name: DatabaseNames.BRILL,
   },
 
 ];

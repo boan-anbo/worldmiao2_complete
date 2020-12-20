@@ -80,6 +80,7 @@ export class BookAccess {
 }
 
 export class Book {
+    id: string = ''
     title: string = '';
 
     pages: string = '';
