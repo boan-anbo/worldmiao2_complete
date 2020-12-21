@@ -143,9 +143,9 @@ export default defineComponent({
     },
     sendSearchRequest: async function(provider: BookProvider) {
       const { searchTerm } = this.state;
-      const url = 'https://www.worldmiao.com/api/scraper/'
+      // const url = 'https://www.worldmiao.com/api/scraper/'
       // const url = './api/scraper';
-      // const url = 'http://localhost:9000/scraper';
+      const url = 'http://localhost:9000/scraper';
 
       console.log("Posting your request for ", provider, 'for term', searchTerm, " to", url)
       // update search status
