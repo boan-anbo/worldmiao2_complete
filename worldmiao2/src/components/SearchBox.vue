@@ -23,8 +23,8 @@
            @input="emitSearchTermChanges($event.target.value)"
 
     />
-    <span :class="{'text-gray-200': !isRequestValid()}"
-          class="pl-2 cursor-pointer text-black hover:underline outline-none select-none"
+    <span :class="{'text-gray-200': this.searchTerm.length <= 2, 'hover:underline': this.searchTerm > 2}"
+          class="pl-2 cursor-pointer text-black  outline-none select-none"
           @click="makeSearchRequest">search...</span>
   </label>
 
@@ -33,7 +33,7 @@
     </div>
 
 <!-- search all checkbox-->
-    <div v-show="!isRequestValid()">&nbsp;</div>
+    <div v-show="!isRequestValid()" class="text-center">&nbsp;<span  v-if="isInputTooShort()" class="text-red-400 text-xs" >* too short</span></div>
     <div v-show="isRequestValid()" class="checkbox-div select-none" >
       <div style="width: 205px; " class=" inline-block">&nbsp;</div>
       <div class="inline-block" >
@@ -78,12 +78,15 @@ export default {
       this.$emit('update:searchTerm', value)
     },
     makeSearchRequest() {
-      if (!this.isRequestValid()) {return}
+      if (this.searchTerm.length <= 2) {return}
       this.requestEmitter.next(this.bookProvider)
     },
     // check if the search input is valid
     isRequestValid() {
       return this.localSearchString?.trim().length > 2 || this.searchTerm?.trim().length > 2
+    },
+    isInputTooShort() {
+      return (this.localSearchString?.trim().length > 0 && this.localSearchString?.trim().length <= 2) || (this.searchTerm?.trim().length > 0 && this.searchTerm?.trim().length <= 2)
     },
     clearInput() {
       this.localSearchString = '';
