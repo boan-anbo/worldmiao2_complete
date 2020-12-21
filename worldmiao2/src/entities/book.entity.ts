@@ -17,7 +17,12 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         url: 'https://books.google.com/',
         beingMaintained: null
     },
-
+    {
+        providerName: "Z Library",
+        providerEnum: BookProvider.ZLIBRARY,
+        url: 'https://z-lib.org/',
+        beingMaintained: null
+    },
     {
         providerName: "Open Library",
         providerEnum:BookProvider.OPEN_LIBRARY,
@@ -28,12 +33,6 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         providerName: "Library Genesis",
         providerEnum: BookProvider.LIBRARY_GENESIS,
         url: 'http://gen.lib.rus.ec/',
-        beingMaintained: null
-    },
-    {
-        providerName: "Z Library",
-        providerEnum: BookProvider.ZLIBRARY,
-        url: 'https://z-lib.org/',
         beingMaintained: null
     },
     {

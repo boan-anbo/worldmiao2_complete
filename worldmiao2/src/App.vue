@@ -75,8 +75,8 @@ import SearchBox from "@/components/SearchBox.vue";
 import SearchStatusPanel from "@/components/SearchStatusPanel.vue";
 // eslint-disable-next-line no-unused-vars
 import {LibrarySearchStatus, SearchStatus, SearchStore} from "@/entities/app.entity";
-
-
+import { v4 } from 'uuid';
+import { Subject } from 'rxjs'
 export default defineComponent({
   name: 'App',
   setup(){
@@ -118,8 +118,9 @@ export default defineComponent({
         ZLIBRARY: {}
       } as BookStore
       ,
-      showAllLibraryBoxes: false
-
+      showAllLibraryBoxes: new Subject(),
+      // to check if the current search all request is updated and drop the old one in the process.
+      currentSearchAllRequestId: ''
     }
   },
   computed: {
@@ -132,20 +133,33 @@ export default defineComponent({
     onSearchRequest: async function (globalProvider: BookProvider) {
       // check if need to search all libraries
       if (this.state.searchAll) {
-        // if so, show all library boxes first
-        this.showAllLibraryBoxes = true;
-        for await (const providerEntry of this.bookProviderList) {
-          await this.sendSearchRequest(providerEntry.providerEnum)
-        }
+        this.searchAll()
       } else {
         this.sendSearchRequest(globalProvider)
       }
     },
-    sendSearchRequest: async function(provider: BookProvider) {
+    searchAll: async function() {
+      // if so, show all library boxes first
+      this.showAllLibraryBoxes.next(); // it needs to be reset to false first to trigger vue property change watch in library component.
+      // generate an uuid for the current search all request, and save it globally;
+      const uniqueSearchAllRequestId = v4();
+      this.currentSearchAllRequestId = uniqueSearchAllRequestId;
+
+
+      for await (const providerEntry of this.bookProviderList) {
+        // when the global current search id doesn't match local search id, break out of the loop.
+        if (this.currentSearchAllRequestId !== uniqueSearchAllRequestId) {
+          break;
+        }
+        await this.sendSearchRequest(providerEntry.providerEnum, uniqueSearchAllRequestId)
+      }
+    }
+    ,
+    sendSearchRequest: async function(provider: BookProvider, uniqueSearchAllRequestId?: string) {
       const { searchTerm } = this.state;
       // const url = 'https://www.worldmiao.com/api/scraper/'
-      // const url = './api/scraper';
-      const url = 'http://localhost:9000/scraper';
+      const url = './api/scraper';
+      // const url = 'http://localhost:9000/scraper';
 
       console.log("Posting your request for ", provider, 'for term', searchTerm, " to", url)
       // update search status
@@ -159,6 +173,11 @@ export default defineComponent({
       }
 
       console.log(`Received Response From Server for ${provider}, for term ${searchTerm}, data:`, data)
+
+      if (uniqueSearchAllRequestId && this.currentSearchAllRequestId !== uniqueSearchAllRequestId) {
+        console.log('batch search request dropped, drop the fetched data')
+        return
+      }
 
       const revivedBooks = (data as ScrapingCenterSuccessResponse).data.map(item => Object.assign(new Book(provider), item))
       data.data = revivedBooks;
