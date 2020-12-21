@@ -4,15 +4,23 @@
 </style>
 <template>
 
-  <div class="grid grid-cols-8 text-xs pb-1">
-    <div
-
-
-        class=" text-center col-span-8 pb-2 truncate px-4">&nbsp;
+  <div class="grid grid-cols-8 space-y-0 text-xs ">
+<!--  search term record  -->
+    <div class=" text-center col-span-8  truncate px-4">
       <span
+          v-if="getSearchTerm.length > 0"
           title="reuse this search term"
           @click="reuseSearchTerm()"
-          class="cursor-pointer hover:underline"> {{getSearchTerm}}</span>
+          class="cursor-pointer hover:underline ">
+        {{getSearchTerm}}
+      </span>
+<!--    filler  -->
+      <span
+          v-if="!(getSearchTerm.length > 0)"
+          class="cursor-default">
+        &nbsp;
+      </span>
+<!---->
     </div>
 
     <div
@@ -29,7 +37,7 @@
     >
       &nbsp;
     </div>
-<!--  filler  -->
+<!-- /filler  -->
     <div
         v-if="searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED"
         class="result-count col-span-2 text-center text-gray-700"
@@ -43,9 +51,12 @@
 <!--  button to close bookshelf  -->
     <div v-if="!shelfIsEmpty" title="close results" @click="closeBookShelf()"
          class="cursor-pointer col-span-2 text-right pr-2 hover:underline"
-    >[ x ]</div>
+    >
+      <span>[ x ]</span>
+    </div>
   </div>
 </template>
+
 <script lang="js">
 // eslint-disable-next-line no-unused-vars
 import {BookProvider} from "@/entities/book.entity";

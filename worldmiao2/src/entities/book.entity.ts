@@ -23,11 +23,6 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         url: 'http://openlibrary.org/'
     },
     {
-        providerName: "eBook Databases",
-        providerEnum: BookProvider.WORLD_CAT,
-        url: ''
-    },
-    {
         providerName: "Library Genesis",
         providerEnum: BookProvider.LIBRARY_GENESIS,
         url: 'http://gen.lib.rus.ec/'
@@ -41,6 +36,11 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         providerName: "Memory of the World",
         providerEnum:  BookProvider.MEMORY_OF_THE_WORLD,
         url: 'https://library.memoryoftheworld.org/'
+    },
+    {
+        providerName: "eBook Databases",
+        providerEnum: BookProvider.WORLD_CAT,
+        url: ''
     },
 ]
 

@@ -1,5 +1,6 @@
 <template>
   <div class="bg-gray-700 px-4 truncate text-white text-lg text-center sm:text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
+<!--  noti  -->
    <span class="sm:inline hidden"> worldmiao.two | </span>
     <span class="text-xs"> 世界喵兔 </span>
     <span class="inline">| ebook search engine</span>
@@ -46,7 +47,7 @@
   </div>
   </div>
     <div class="bg-gray-700 text-white text-lg text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
-      (bo an 2020)
+      <span>(bo an 2020)</span>
     </div>
 
 
