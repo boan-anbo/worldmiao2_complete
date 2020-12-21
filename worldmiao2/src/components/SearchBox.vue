@@ -63,8 +63,9 @@ export default {
       if (!this.isRequestValid()) {return}
       this.requestEmitter.next(this.bookProvider)
     },
+    // check if the search input is valid
     isRequestValid() {
-      return this.localSearchString?.length > 2 || this.searchTerm?.length > 2
+      return this.localSearchString?.trim().length > 2 || this.searchTerm?.trim().length > 2
     },
     clearInput() {
       this.localSearchString = '';
