@@ -20,8 +20,11 @@ export class OpenlibraryService {
       newBook.title = doc.title;
       newBook.description = doc.text
           // filter out meta data.
-          .filter((text) => /[a-z]{3}/.test(text) && !text.includes('OL') && !/[0]{2, 5}/.test(text) && !text.includes('Accessible book'))
-          .join('; ');
+          .filter(
+              (text) => /[a-z]{3}/.test(text) && !text.includes('OL') && !/[0]{2, 5}/.test(text) && !text.includes('Accessible book')
+          )
+          // .slice(0, 200)
+          .join('; ').slice(0, 2000);
       newBook.author = doc.author_name?.join(', ') ?? 'unknown';
       // ISBN is not neede for now
       // doc.isbn?.forEach((i) => newBook.isbns.push(i));

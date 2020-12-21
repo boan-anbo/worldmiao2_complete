@@ -8,6 +8,8 @@ import {
 @Injectable()
 export class LibgenService {
   async searchLibGen(searchTitle: string): Promise<Book[]> {
+    // to fix a big in libgen search, the hyphen needs to be replaced by a space
+    searchTitle.replace(/-/g, ' ');
     const options = {
       mirror: 'http://gen.lib.rus.ec',
       query: searchTitle,

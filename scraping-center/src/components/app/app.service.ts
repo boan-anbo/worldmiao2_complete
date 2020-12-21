@@ -10,6 +10,6 @@ export default class AppService {
   }
 
   getHello(): string {
-    return 'Hello world!';
+    return 'last updated 20/12/21';
   }
 }

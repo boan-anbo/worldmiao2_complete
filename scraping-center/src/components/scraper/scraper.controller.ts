@@ -103,6 +103,13 @@ export default class ScraperController {
       return new ServerErrorResponse('Invalid Request');
     }
 
+    const dataLength = newData?.length;
+
+    // save only 20 data entries
+    if (newData?.length > 20) {
+      newData = newData.slice(0, 20);
+    }
+
     // cache new data
     this.cs.saveBooksCache(title, provider, newData);
 
@@ -111,6 +118,7 @@ export default class ScraperController {
       newData,
       provider,
       false,
+      dataLength ?? null,
     );
   }
 }
