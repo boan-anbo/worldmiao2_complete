@@ -1,6 +1,9 @@
 <style>
 .displaygrid::-webkit-scrollbar {
   display: none;
+
+}
+.displaygrid {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }

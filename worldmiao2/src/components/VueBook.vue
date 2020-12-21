@@ -109,7 +109,8 @@
          text-base
          pl-8  pt-4 pr-6  text-black text-left ">
       <span class="font-base">{{index + 1 + '.'}}</span>
-      <span class="ml-2 cursor-text" @click.stop>{{  book.title }}</span>
+      <span class="ml-2 "
+      >{{  book.title }}</span>
     </div>
 
 <!--  author, year, publisher  -->
@@ -212,7 +213,8 @@ export default {
     index: Number,
     bookCoverShown: Boolean,
     libraryName: String,
-    fetchResultRepository: Object
+    fetchResultRepository: Object,
+    beingMaintained: String
   },
   data() {
     return {
@@ -229,6 +231,7 @@ export default {
       this.fetchStatus.BookAccessFetchingState.IDLE
     },
     hasNeedToFetch() {
+      // console.log('check if need to fetch', this.accesses)
       return this.accesses.length === 0;
     }
     ,
@@ -252,47 +255,23 @@ export default {
       this.fetchStatus = BookAccessFetchingState.QUEUING
       this.$emit('fetch-request', { index, uniqueId, bookId })
     },
-    // makeFetchRequest: async function(uniqueId, provider) {
-    //
-    //   // const url = './api/scraper/access'
-    //
-    //   const url = 'http://localhost:9000/scraper/access';
-    //
-    //   console.log("Posting your request for ", provider, 'for to fetch access for ', uniqueId, " to", url)
-    //   // update search status
-    //
-    //   this.fetchStatus = BookAccessFetchingState.FETCHING
-    //   // sending http request
-    //   const payload = {uniqueId: uniqueId
-    //     , provider: provider}
-    //   console.log('payload', payload)
-    //   const res = await this.axios.post(url, payload)
-    //   console.log("Http Response", res)
-    //   const {data} = res
-    //
-    //
-    //   if (!data) {
-    //     this.fetchStatus = BookAccessFetchingState.ERROR
-    //   }
-    //
-    //   console.log(`Received Response From Server ${provider}, for for access fetch id ${uniqueId}, data:`, data)
-    //
-    //   // check if the request is still needed to prevent data racing. that's the last request hasn't been canceld but new book is already loded. then the fetching state should be IDLE. So only load the previously fetch response if the state is still 'fetching'.
-    //   if (this.fetchStatus === BookAccessFetchingState.FETCHING) {
-    //   this.fetchStatus = BookAccessFetchingState.FETCHED;
-    //   console.log('fetched')
-    //
-    //   this.accesses = data.data;
-    //   }
-    //
-    // },
+
     toggleBookInfo: function() {
+      console.log('Checking maintainance status', this.beingMaintained)
+      if (this.beingMaintained !== null) {
+        console.log(this.beingMaintained)
+        return
+      }
       // switch to the other view
       this.state.showInfo = !this.state.showInfo
       // is the view that is switched to is links and the state is IDLE, start fetching
       if (!this.state.showInfo && this.fetchStatus === BookAccessFetchingState.IDLE) {
         // use book's unique id to fetch access
         // this.onFetchAccess(this.book.uniqueIdentifier.id, this.book.provider)
+        if (!this.hasNeedToFetch()) {
+          console.log('no need to fetch has ', this.accesses.length)
+          return
+        }
         this.makeFetchRequest(this.index, this.book.uniqueIdentifier.id, this.book.id)
       }
 
@@ -310,7 +289,8 @@ export default {
           case 'result':
             console.log('Child', this.index, 'received repo update', result)
             this.fetchStatus = BookAccessFetchingState.FETCHED;
-            if (result.data?.data) {
+            // if result is null. it means the fetch failed and since the status is already fetched. it will show no links found.
+            if (result?.data?.data) {
               this.accesses = result.data.data;
             }
             break

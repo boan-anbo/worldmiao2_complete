@@ -2,7 +2,8 @@ import {Book, BookProvider} from "@/entities/book.entity";
 import {ScrapingCenterSuccessResponse} from "@/interfaces/ScrapingCenterSuccessResponse";
 
 export interface AppProps {
-    searchTerm: string
+    searchTerm: string,
+    searchAll: boolean
 
 }
 
