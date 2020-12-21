@@ -15,7 +15,7 @@
 
   <label>
     <input style=" background-color: transparent; min-width: 200px"
-           maxlength="60"
+           maxlength="90"
            class="search-input outline-none text-black border-b text-xs"
            type="search" :value="searchTerm"
            @keyup.enter="makeSearchRequest"

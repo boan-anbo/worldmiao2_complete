@@ -3,6 +3,9 @@
 
 .description::-webkit-scrollbar {
   display: none;
+
+}
+.description {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
