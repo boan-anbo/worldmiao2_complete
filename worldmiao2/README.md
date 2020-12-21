@@ -2,13 +2,18 @@
 
 ## Project setup
 ```
-npm install
+docker-compose up
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Update
+#### Vue:
+- develop localally. 
+- Push to github. 
+- Pull from the other end. 
+- Build on the server.
+    - ```npm run build```
+- restart vue docker via 
+    - `docker-compose up vue`
 
 ### Compiles and minifies for production
 ```

@@ -6,9 +6,14 @@
 
   <div class="grid grid-cols-8 text-xs pb-1">
     <div
-        @click="reuseSearchTerm()"
-        title="reuse this search term"
-         class="cursor-pointer hover:underline text-center col-span-8 pb-2 truncate px-4">&nbsp;{{getSearchTerm}}</div>
+
+
+        class=" text-center col-span-8 pb-2 truncate px-4">&nbsp;
+      <span
+          title="reuse this search term"
+          @click="reuseSearchTerm()"
+          class="cursor-pointer hover:underline"> {{getSearchTerm}}</span>
+    </div>
 
     <div
         class="status col-span-3 text-right text-gray-700"
@@ -25,18 +30,17 @@
       &nbsp;
     </div>
 <!--  filler  -->
-
-
     <div
         v-if="searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED"
-         class="result-count col-span-2 text-center text-gray-700"
+        class="result-count col-span-2 text-center text-gray-700"
     >
-        {{getSearchResultCount}}
+      {{getSearchResultCount}}
 
     </div>
     <div class="text-center col-span-1 overflow-visible text-gray-700 "
          id="search-timer">{{getSearchTime}}</div>
 
+<!--  button to close bookshelf  -->
     <div v-if="!shelfIsEmpty" title="close results" @click="closeBookShelf()"
          class="cursor-pointer col-span-2 text-right pr-2 hover:underline"
     >[ x ]</div>
