@@ -165,7 +165,7 @@ export default {
       books.forEach((bookToLoad, bookIndex) => {
         getThisShelfToSet()[bookIndex].book = bookToLoad;
         getThisShelfToSet()[bookIndex].book.id = v4();
-        console.log("Old Book: ", getThisShelfToSet()[bookIndex].book, "new book", bookToLoad)
+        // console.log("Old Book: ", getThisShelfToSet()[bookIndex].book, "new book", bookToLoad)
         hideOneBookCover(bookIndex);
       })
 
@@ -242,9 +242,17 @@ export default {
     bookStore: Object,
     libraryUrl: String,
     beingMaintained: String,
-    showAllLibraryBoxes: Boolean
+    showAllLibraryBoxes: Object
   },
   mounted() {
+    //start subscribing to showall library boxes. when it emit values, show the boxes
+    this.searchAllRequestSub = this.showAllLibraryBoxes?.subscribe(() => {
+      // received a request to show all book boxes
+      console.log('received the cmd to show boxes')
+      this.showBoxes()
+
+    })
+
     // start subscribing to the pipe. the pipe uses concat Map to steamline multiple http requests into a sequence of requests so the server is not overloaded. it sends http requests one after another. and when it comes the time to send the request, it will check again if the request book id still exists. if it exists, proceed with sending the request. otherwise, cancel and wait for the next order.
     this.fetchRequestQueueSub = this.fetchRequestQueue
         .pipe(
@@ -257,8 +265,8 @@ export default {
               this.updateFetchResultRepoWithStatus({index, result, status: BookAccessFetchingState.FETCHING})
 
               // const url = 'https://www.worldmiao.com/api/scraper/access'
-                // const url = './api/scraper/access'
-              const url = 'http://localhost:9000/scraper/access'
+                const url = './api/scraper/access'
+              // const url = 'http://localhost:9000/scraper/access'
               const payload = {
                 uniqueId
                 , provider: this.bookProvider}
@@ -310,6 +318,7 @@ export default {
   },
   unmounted() {
     this.fetchRequestQueueSub?.unsubscribe();
+    this.searchAllRequestSub?.unsubscribe();
   },
   data() {
     return {
@@ -317,7 +326,8 @@ export default {
       searchStatusShown: false,
       fetchRequestQueue: new Subject(),
       fetchResultRepository: new Subject(),
-      fetchRequestQueueSub: undefined
+      fetchRequestQueueSub: undefined,
+      searchAllRequestSub: undefined,
     }
   },
   methods: {
@@ -363,12 +373,6 @@ export default {
       console.log("Found Book Store Change", this.bookStore)
       if (this.bookStore !== undefined) {
         this.upshelfBooks(this.bookStore.data)
-      }
-    },
-    showAllLibraryBoxes: function() {
-      console.log('received the cmd to show boxes', this.showAllLibraryBoxes)
-      if (this.showAllLibraryBoxes) {
-        this.showBoxes();
       }
     }
   }

@@ -61,8 +61,8 @@ services:
       - ./scraping-center/:/var/www/app:cached
       - ./scraping-center/src:/var/www/app/src
       - /var/www/app/node_modules # anonymous volume for node_modules only
-    ports:
-      - 9000:3000
+#    ports:
+#      - 9000:3000
     depends_on:
       - postgres
       - redis

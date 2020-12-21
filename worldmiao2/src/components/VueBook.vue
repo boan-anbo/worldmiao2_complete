@@ -91,9 +91,12 @@
       style="min-height: 200px; background-color: #b7d4d2"
       :class="{
         'moveUpOutOfView': !this.state.showInfo,
-      'moveIntoViewFromBelow': !bookCoverShown
+      'moveIntoViewFromBelow': !bookCoverShown,
+      'cursor-pointer': this.beingMaintained === null,
+      'cursor-not-allowed': this.beingMaintained !== null,
       }"
-      class="bookInfo grid grid-cols-1 content-between cursor-pointer"
+      class="bookInfo grid grid-cols-1 content-between "
+
   >
 
 <!--    Details -->
@@ -306,7 +309,7 @@ export default {
   watch: {
     book: function() {
       // if book is loaded, reset showInfo To True
-      console.log("FOUND BOOK CHANGED", this.book)
+      // console.log("FOUND BOOK CHANGED", this.book)
       this.state.showInfo = true
       // load book access and reset loading state
       this.accesses = this.book.access
