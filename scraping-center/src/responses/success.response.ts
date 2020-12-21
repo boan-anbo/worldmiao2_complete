@@ -21,15 +21,19 @@ export default class SuccessResponse {
     data: Data | object | null = null,
     provider?: BookProvider | null,
     isCacheData?: boolean,
+    dataCount?: number | null,
   ) {
     if (dataType) {
       this.bookDataType = dataType;
     }
     if (data) {
       this.data = data;
-      if (Array.isArray(data)) {
+      if (Array.isArray(data) && dataCount === null) {
         this.count = data.length;
       }
+    }
+    if (dataCount) {
+      this.count = dataCount;
     }
     if (provider) {
       this.provider = provider;
