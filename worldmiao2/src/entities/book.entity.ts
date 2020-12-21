@@ -10,37 +10,43 @@ export enum BookProvider {
 }
 
 // 3 places to update: (1) this provider list (2) bookstore, (3) search store in App.Vue
-export const BookProviderList: { providerName: string, providerEnum: BookProvider, url?: string }[] = [
+export const BookProviderList: { providerName: string, providerEnum: BookProvider, url?: string, beingMaintained: null | string }[] = [
     {
         providerName: "Google Books",
         providerEnum:   BookProvider.GOOGLE_BOOKS,
-        url: 'https://books.google.com/'
+        url: 'https://books.google.com/',
+        beingMaintained: null
     },
 
     {
         providerName: "Open Library",
         providerEnum:BookProvider.OPEN_LIBRARY,
-        url: 'http://openlibrary.org/'
+        url: 'http://openlibrary.org/',
+        beingMaintained: null
     },
     {
         providerName: "Library Genesis",
         providerEnum: BookProvider.LIBRARY_GENESIS,
-        url: 'http://gen.lib.rus.ec/'
+        url: 'http://gen.lib.rus.ec/',
+        beingMaintained: null
     },
     {
         providerName: "Z Library",
         providerEnum: BookProvider.ZLIBRARY,
-        url: 'https://z-lib.org/'
+        url: 'https://z-lib.org/',
+        beingMaintained: null
     },
     {
         providerName: "Memory of the World",
         providerEnum:  BookProvider.MEMORY_OF_THE_WORLD,
-        url: 'https://library.memoryoftheworld.org/'
+        url: 'https://library.memoryoftheworld.org/',
+        beingMaintained: null
     },
     {
         providerName: "eBook Databases",
         providerEnum: BookProvider.WORLD_CAT,
-        url: ''
+        url: '',
+        beingMaintained: 'under maintenance. fetch disabled.'
     },
 ]
 

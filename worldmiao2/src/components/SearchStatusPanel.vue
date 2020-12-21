@@ -4,7 +4,7 @@
 </style>
 <template>
 
-  <div class="grid grid-cols-8 space-y-0 text-xs ">
+  <div class="grid grid-cols-8 text-xs ">
 <!--  search term record  -->
     <div class=" text-center col-span-8  truncate px-4">
       <span
@@ -50,9 +50,9 @@
 
 <!--  button to close bookshelf  -->
     <div v-if="!shelfIsEmpty" title="close results" @click="closeBookShelf()"
-         class="cursor-pointer col-span-2 text-right pr-2 hover:underline"
+         class=" col-span-2 text-right pr-2 "
     >
-      <span>[ x ]</span>
+      <span class="cursor-pointer hover:underline">[ x ]</span>
     </div>
   </div>
 </template>

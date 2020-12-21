@@ -17,31 +17,37 @@
   >
 
 
-    <Library
-        :bookStore="bookStore[provider.providerEnum]" :library-name="provider.providerName" :colIsEven="providerIndex % 2 === 0" :book-provider="provider.providerEnum" :library-url="provider.url">
+          <Library
+            :bookStore="bookStore[provider.providerEnum]" :library-name="provider.providerName" :colIsEven="providerIndex % 2 === 0" :book-provider="provider.providerEnum" :library-url="provider.url"
+            :being-maintained="provider.beingMaintained"
+            :showAllLibraryBoxes="showAllLibraryBoxes"
+          >
 
-      <template v-slot:search-box>
+        <template v-slot:search-box>
 
 <!--       Panel for showing search box. pass down to library as slot. -->
-        <SearchBox
-            :book-provider="provider.providerEnum"
-            @search-request="onSearchRequest"
-            v-model:searchTerm="state.searchTerm"/>
-      </template>
-<!--      Provide searching status-->
-      <template   v-slot:search-status="{
-        closeBookshelfHandler,
-        shelfIsEmpty
-      }"
-      >
+          <SearchBox
+              class="static"
+              :book-provider="provider.providerEnum"
+              @search-request="onSearchRequest"
+              :search-all="state.searchAll"
+              @on-search-all="onSearchAll"
+              v-model:searchTerm="state.searchTerm"/>
+        </template>
+  <!--      Provide searching status-->
+        <template   v-slot:search-status="{
+          closeBookshelfHandler,
+          shelfIsEmpty
+        }"
+        >
 <!--     Pnale for showing results. pass down to Library.   -->
-        <SearchStatusPanel
-            @close-bookshelf="closeBookshelfHandler"
-            :shelfIsEmpty="shelfIsEmpty"
-            :book-provider="provider.providerEnum" :bookStore="bookStore" :searchStore="searchStore"
-            @reuse-search-term="onReuseSearchTerm"
-        />
-      </template>
+          <SearchStatusPanel
+              @close-bookshelf="closeBookshelfHandler"
+              :shelfIsEmpty="shelfIsEmpty"
+              :book-provider="provider.providerEnum" :bookStore="bookStore" :searchStore="searchStore"
+              @reuse-search-term="onReuseSearchTerm"
+          />
+        </template>
 
     </Library>
   </div>
@@ -77,6 +83,8 @@ export default defineComponent({
 
     const state = reactive({
       searchTerm: '',
+      searchAll: false
+
 
     } as AppProps);
     const bookProviderList = BookProviderList
@@ -110,6 +118,8 @@ export default defineComponent({
         ZLIBRARY: {}
       } as BookStore
       ,
+      showAllLibraryBoxes: false
+
     }
   },
   computed: {
@@ -120,9 +130,21 @@ export default defineComponent({
       console.log("app.vue received close bookshelf")
     },
     onSearchRequest: async function (globalProvider: BookProvider) {
-      const provider: BookProvider = globalProvider
+      // check if need to search all libraries
+      if (this.state.searchAll) {
+        // if so, show all library boxes first
+        this.showAllLibraryBoxes = true;
+        for await (const providerEntry of this.bookProviderList) {
+          await this.sendSearchRequest(providerEntry.providerEnum)
+        }
+      } else {
+        this.sendSearchRequest(globalProvider)
+      }
+    },
+    sendSearchRequest: async function(provider: BookProvider) {
       const { searchTerm } = this.state;
-      const url = './api/scraper';
+      const url = 'https://www.worldmiao.com/api/scraper/'
+      // const url = './api/scraper';
       // const url = 'http://localhost:9000/scraper';
 
       console.log("Posting your request for ", provider, 'for term', searchTerm, " to", url)
@@ -136,17 +158,16 @@ export default defineComponent({
         this.setSearchStatus(provider, LibrarySearchStatus.ERROR)
       }
 
-       console.log(`Received Response From Server for ${provider}, for term ${searchTerm}, data:`, data)
+      console.log(`Received Response From Server for ${provider}, for term ${searchTerm}, data:`, data)
 
-       const revivedBooks = (data as ScrapingCenterSuccessResponse).data.map(item => Object.assign(new Book(provider), item))
-       data.data = revivedBooks;
-       this.bookStore[provider] = {...data};
+      const revivedBooks = (data as ScrapingCenterSuccessResponse).data.map(item => Object.assign(new Book(provider), item))
+      data.data = revivedBooks;
+      this.bookStore[provider] = {...data};
 
-       this.setSearchStatus(provider, LibrarySearchStatus.SEARCH_FINISHED)
+      this.setSearchStatus(provider, LibrarySearchStatus.SEARCH_FINISHED)
       this.setSearchResultCount(provider, data?.data?.length)
-
+      return
     },
-
     setSearchStatus: function(provider: BookProvider, searchStatus: LibrarySearchStatus)  {
        this.getSearchStatus(provider).setSearchStatus(searchStatus)
     },
@@ -167,6 +188,10 @@ export default defineComponent({
       console.log('On Reuse Search Term', provider, searchTerm)
       // this.setSearchTerm(provider, searchTerm)
       this.state.searchTerm = searchTerm
+    },
+    onSearchAll: function(isSearchAllChecked: boolean) {
+      console.log('parent received isSearchALl Checked', isSearchAllChecked)
+      this.state.searchAll = isSearchAllChecked
     }
     },
   components: {

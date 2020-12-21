@@ -10,14 +10,17 @@
 <!--    <button  @click="loadBooks">Load BOoks</button>-->
       <div class="search-header  mt-4 ">
         <span @click.stop.prevent="openLink(libraryUrl)"
-              class="text-lg hover:underline text-black cursor-pointer"
+              class="text-lg  text-black cursor-pointer"
               :title="libraryUrl"
               style="color: #27302f"
         >
-    {{libraryName}}
+          <span class="hover:underline">{{libraryName}} </span>
+  <p v-if="beingMaintained !== null" class="hover:no-underline text-xs text-gray-600">({{beingMaintained}})</p>
       </span>
+
       </div>
 
+    <div class="row-3"></div>
     <div @click="showBoxes">
       <!--      search button-->
 <!--      <button @click="showBookCover">Show Cover</button>-->
@@ -29,13 +32,14 @@
     </div>
 
 
-      <div>
-        <slot
-              :closeBookshelfHandler="hideBoxes"
-              :shelfIsEmpty="shelfIsEmpty()"
-              v-if="searchStatusShown" name="search-status"> </slot>
-        <span v-if="!searchStatusShown" class="white">&nbsp;</span>
-      </div>
+    <div v-if="searchStatusShown">
+      <slot
+          :closeBookshelfHandler="hideBoxes"
+          :shelfIsEmpty="shelfIsEmpty()"
+           name="search-status"> </slot>
+
+    </div>
+    <div v-if="!searchStatusShown" class="white">&nbsp;</div>
 
   </div>
 
@@ -46,6 +50,7 @@
       bg-gray-200
       bg-opacity-25
       overflow-hidden
+
       " v-for="(bookShelfBox, index) in bookShelfRef[bookProvider]" :key="index">
 
     <VueBook
@@ -56,6 +61,7 @@
         :book="bookShelfBox.book"
         :library-name="libraryName"
         :index="index"
+        :beingMaintained="beingMaintained"
         @fetch-request="onReceiveFetchRequest"
     />
 
@@ -73,9 +79,10 @@ import VueBook from "@/components/VueBook.vue";
 import {ref} from "vue";
 // eslint-disable-next-line no-unused-vars
 import {BookShelf, BookShelfBox} from "@/entities/app.entity";
-import { Subject } from 'rxjs'
 // eslint-disable-next-line no-unused-vars
-import { concatMap, catchError, delay  } from 'rxjs/operators'
+import { Subject, empty } from 'rxjs'
+// eslint-disable-next-line no-unused-vars
+import { concatMap, catchError, delay   } from 'rxjs/operators'
 import { v4 } from 'uuid';
 import {filter} from 'rxjs/operators';
 import {BookAccessFetchingState} from "@/entities/book.fetch.entity";
@@ -233,7 +240,9 @@ export default {
     bookProvider: BookProvider,
     colIsEven: Boolean,
     bookStore: Object,
-    libraryUrl: String
+    libraryUrl: String,
+    beingMaintained: String,
+    showAllLibraryBoxes: Boolean
   },
   mounted() {
     // start subscribing to the pipe. the pipe uses concat Map to steamline multiple http requests into a sequence of requests so the server is not overloaded. it sends http requests one after another. and when it comes the time to send the request, it will check again if the request book id still exists. if it exists, proceed with sending the request. otherwise, cancel and wait for the next order.
@@ -243,33 +252,60 @@ export default {
               // before the queued fetch request is sent out. Check if the book is still on the shelf. If not, cancel the result altogather.
               console.log('Checking is BookId Is Valid', this.isBookIdValid(bookId))
               if (!this.isBookIdValid(bookId)) { console.log('bookId', bookId, 'no longer existed, drop the request'); return null }
+              let result;
+              // notify the book that a fetch is starting; here result is yet to be defined
+              this.updateFetchResultRepoWithStatus({index, result, status: BookAccessFetchingState.FETCHING})
 
-              // notify the book that a fetch is starting
-              this.updateFetchResultRepoWithStatus({index,result, status: BookAccessFetchingState.FETCHING})
-
-                const url = './api/scraper/access'
+              const url = 'https://www.worldmiao.com/api/scraper/access'
+                // const url = './api/scraper/access'
               // const url = 'http://localhost:9000/scraper/access'
               const payload = {
                 uniqueId
                 , provider: this.bookProvider}
               console.log('Sending Request', { index, uniqueId, payload, bookId })
-              const result = await this.axios.post(url, payload)
-              console.log('inner response received', index, result)
-              return {index, result}
+              try {
+                result = await this.axios.post(url, payload)
+                console.log('inner response received', index, result)
+                return {index, result}
+              } catch(err) {
+                console.log('catched!')
+                return {index, result: null}
+              }
+              // this.axios.post(url, payload).then(result => {
+              //   console.log('inner response received', index, result)
+              //   return {index, result}
+              // }).catch(error => {
+              //   console.warn('error', error)
+              //   empty()
+              // })
+              //
             }),
-            catchError(err => { console.log('fetch failed', err)}),
+            //
+            // catchError((err, caught) => {
+            //   console.warn('caught', caught)
+            //   console.warn('error', err)
+            //   return empty('test')
+            // }),
             filter(val => val !== null),
-
         )
-        .subscribe(({index, result}) => {
-          if (typeof index !== 'number') {
+        .subscribe((res) => {
+          if (typeof res?.index !== 'number') {
             return
           }
+          // if (!res.result) {}
+          const {index, result} = res
+
           console.log('outter response received', index, result)
           // drop null results.
 
           console.log('Received loaded for index,', index, result)
           this.updateFetchResultRepoWithResult({index, result})
+        }, () => {console.log('error')},
+            () => {
+          // in case the fetch failed.
+          console.log('completed')
+              this.updateFetchResultRepoWithResult(null);
+
         })
   },
   unmounted() {
@@ -327,6 +363,12 @@ export default {
       console.log("Found Book Store Change", this.bookStore)
       if (this.bookStore !== undefined) {
         this.upshelfBooks(this.bookStore.data)
+      }
+    },
+    showAllLibraryBoxes: function() {
+      console.log('received the cmd to show boxes', this.showAllLibraryBoxes)
+      if (this.showAllLibraryBoxes) {
+        this.showBoxes();
       }
     }
   }

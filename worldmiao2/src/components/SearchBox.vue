@@ -12,7 +12,8 @@
 <!--      @click="clearInput()"-->
 <!--         class="pr-2 text-gray-600 cursor-pointer">clear</span></span>-->
 
-
+  <div class="grid grid-cols-1">
+    <div>
   <label>
     <input style=" background-color: transparent; min-width: 200px"
            maxlength="90"
@@ -22,12 +23,28 @@
            @input="emitSearchTermChanges($event.target.value)"
 
     />
+    <span :class="{'text-gray-200': !isRequestValid()}"
+          class="pl-2 cursor-pointer text-black hover:underline outline-none select-none"
+          @click="makeSearchRequest">search...</span>
   </label>
 
 
-  <span :class="{'text-gray-200': !isRequestValid()}"
-        class="pl-2 cursor-pointer text-black hover:underline outline-none select-none"
-        @click="makeSearchRequest">search...</span>
+
+    </div>
+
+<!-- search all checkbox-->
+    <div v-show="!isRequestValid()">&nbsp;</div>
+    <div v-show="isRequestValid()" class="checkbox-div select-none" >
+      <div style="width: 205px; " class=" inline-block">&nbsp;</div>
+      <div class="inline-block" >
+      <label >
+        <input type="checkbox" :checked="searchAll" @change="toggleSearchAll($event.target.checked)">
+        <div class="inline-block pl-2 text-gray-400 text-base">all</div>
+      </label>
+      </div>
+
+    </div>
+  </div>
 
 
 </template>
@@ -36,12 +53,13 @@ import { Subject, interval } from 'rxjs';
 import {debounce} from 'rxjs/operators'
 export default {
   name: 'SearchBox',
-  emits: ['update:searchTerm', 'searchRequest'],
+  emits: ['update:searchTerm', 'searchRequest', 'onSearchAll'],
   props: {
     searchTerm: String,
     hideSearchButton: Boolean,
     libraryName: String,
-    bookProvider: String
+    bookProvider: String,
+    searchAll: Boolean
   },
 
   mounted() {
@@ -73,6 +91,9 @@ export default {
     },
     inputIsEmpty() {
       return !this.localSearchString && !this.searchTerm
+    },
+    toggleSearchAll(searchAllChecked) {
+      this.$emit('onSearchAll', searchAllChecked)
     }
   },
   data() {

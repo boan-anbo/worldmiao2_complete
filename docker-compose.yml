@@ -61,8 +61,8 @@ services:
       - ./scraping-center/:/var/www/app:cached
       - ./scraping-center/src:/var/www/app/src
       - /var/www/app/node_modules # anonymous volume for node_modules only
-    ports:
-      - 9000:3000
+#    ports:
+#      - 9000:3000
     depends_on:
       - postgres
       - redis
@@ -79,8 +79,8 @@ services:
       DB_PASSWORD: worldmiao2
       POSTGRES_PASSWORD: worldmiao2
       POSTGRES_DB: worldmiao2
-    ports:
-      - "6033:5432"
+#    ports:
+#      - "6033:5432"
 #    volumes:
 #      - ./db-data:/var/lib/postgresql/data
 #    volumes:
@@ -103,8 +103,9 @@ services:
   redis:
     image: redis:6
     restart: always
-    ports:
-      - "6379:6379"
+#    exposing 6379 will invite hicks like h2miner
+#    ports:
+#      - "6379:6379"
 #    volumes:
 #      - ./redis/data:/data
 
