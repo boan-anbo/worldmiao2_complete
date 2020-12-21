@@ -1,0 +1,24 @@
+2020-12-21 19:09:54,458:DEBUG:certbot._internal.main:certbot version: 1.10.1
+2020-12-21 19:09:54,458:DEBUG:certbot._internal.main:Arguments: []
+2020-12-21 19:09:54,459:DEBUG:certbot._internal.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2020-12-21 19:09:54,504:DEBUG:certbot._internal.log:Root logging level set at 20
+2020-12-21 19:09:54,505:INFO:certbot._internal.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2020-12-21 19:09:54,525:DEBUG:certbot._internal.plugins.selection:Requested authenticator None and installer None
+2020-12-21 19:09:54,526:DEBUG:certbot._internal.plugins.selection:No candidate plugin
+2020-12-21 19:09:54,526:DEBUG:certbot._internal.plugins.selection:Selected authenticator None and installer None
+2020-12-21 19:42:03,736:DEBUG:certbot._internal.main:certbot version: 1.10.1
+2020-12-21 19:42:03,737:DEBUG:certbot._internal.main:Arguments: []
+2020-12-21 19:42:03,737:DEBUG:certbot._internal.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2020-12-21 19:42:03,769:DEBUG:certbot._internal.log:Root logging level set at 20
+2020-12-21 19:42:03,769:INFO:certbot._internal.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2020-12-21 19:42:03,782:DEBUG:certbot._internal.plugins.selection:Requested authenticator None and installer None
+2020-12-21 19:42:03,782:DEBUG:certbot._internal.plugins.selection:No candidate plugin
+2020-12-21 19:42:03,783:DEBUG:certbot._internal.plugins.selection:Selected authenticator None and installer None
+2020-12-21 20:13:10,282:DEBUG:certbot._internal.main:certbot version: 1.10.1
+2020-12-21 20:13:10,283:DEBUG:certbot._internal.main:Arguments: []
+2020-12-21 20:13:10,284:DEBUG:certbot._internal.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2020-12-21 20:13:10,355:DEBUG:certbot._internal.log:Root logging level set at 20
+2020-12-21 20:13:10,357:INFO:certbot._internal.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2020-12-21 20:13:10,377:DEBUG:certbot._internal.plugins.selection:Requested authenticator None and installer None
+2020-12-21 20:13:10,378:DEBUG:certbot._internal.plugins.selection:No candidate plugin
+2020-12-21 20:13:10,378:DEBUG:certbot._internal.plugins.selection:Selected authenticator None and installer None
