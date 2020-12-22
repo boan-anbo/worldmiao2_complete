@@ -1,7 +1,7 @@
 import { HttpService, Injectable } from '@nestjs/common';
 import {
   Book, BookAccess, BookAccessType, BookProvider,
-} from '@components/scraper/entities/book.entity';
+} from '@components/scraper/entities/book.model';
 import { defaultDatabaseMap } from '@components/scraper/scraper-services/worldcat/worldcat.entity';
 
 const cheerio = require('cheerio');

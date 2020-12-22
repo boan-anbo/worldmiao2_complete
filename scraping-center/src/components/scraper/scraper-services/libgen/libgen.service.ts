@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import * as libgen from 'libgen';
 import {
   Book, BookAccess, BookAccessType, BookProvider,
-} from '@components/scraper/entities/book.entity';
+} from '@components/scraper/entities/book.model';
 
 @Injectable()
 export class LibgenService {

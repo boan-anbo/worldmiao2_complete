@@ -1,7 +1,7 @@
 import { HttpService, Injectable, NotFoundException } from '@nestjs/common';
 import {
   Book, BookAccess, BookAccessType, BookProvider,
-} from '@components/scraper/entities/book.entity';
+} from '@components/scraper/entities/book.model';
 import { OpenLibraryResult, OpenLibrarySingleBookResult } from '@components/scraper/scraper-services/openlibrary/openlibrary.entity';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { InjectContext } from 'nest-puppeteer';
 import { BrowserContext } from 'puppeteer';
 import {
   Book, BookAccess, BookAccessType, BookProvider,
-} from '@components/scraper/entities/book.entity';
+} from '@components/scraper/entities/book.model';
 
 @Injectable()
 export class MemoryOfTheWorldService {
