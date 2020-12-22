@@ -4,7 +4,7 @@ import { OpenlibraryService } from '@components/scraper/scraper-services/openlib
 import { GoogleBooksService } from '@components/scraper/scraper-services/google-books/google-books.service';
 import { WorldcatService } from '@components/scraper/scraper-services/worldcat/worldcat.service';
 import { MemoryOfTheWorldService } from '@components/scraper/scraper-services/memory-of-the-world/memory-of-the-world.service';
-import { BookAccess } from '@components/scraper/entities/book.entity';
+import { BookAccess } from '@components/scraper/entities/book.model';
 import { ZlibraryService } from '@components/scraper/scraper-services/zlibrary/zlibrary.service';
 
 const { promisify } = require('util')

@@ -1,9 +1,16 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body, Controller, Get, Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import SuccessResponse from '@responses/success.response';
 import { CacheService } from '@components/scraper/cache/cache.service';
-import { BookAccess, BookDataType, BookProvider } from '@components/scraper/entities/book.entity';
+import {
+  BookAccess, BookAccessType, BookDataType, BookProvider,
+} from '@components/scraper/entities/book.model';
 import ServerErrorResponse from '@responses/server-error.response';
+import BookEntity from '@components/scraper/entities/bookEntity.entity';
+import { getManager } from 'typeorm';
+import * as fs from 'fs';
 import ScraperService from './scraper.service';
 
 @ApiTags('Scraper')
@@ -23,7 +30,7 @@ export default class ScraperController {
     if (FLUSH_MODE) {
       await this.cs.flushAllBooks();
     }
-    /////
+    /// //
 
     // check if there is a cheche.
     const cacheResult = await this.cs.checkBookAccessCache(uniqueId, provider);
@@ -55,9 +62,84 @@ export default class ScraperController {
     return this.ss.searchZLibrary(title);
   }
 
+  @Post('search')
+  async searchTitle(@Body() query: {title: string}) {
+    const manager = getManager();
+    const { title } = query;
+    console.log('query', title)
+    const result = await manager.getRepository<BookEntity>(BookEntity)
+      .createQueryBuilder('book')
+      .where(`tsv_search_text @@ plainto_tsquery('${title}')`)
+      .leftJoinAndSelect('book.access', 'access')
+        .leftJoinAndSelect('book.uniqueIdentifier', 'uniqueId')
+      .getMany()
+    return result
+  }
+
+  @Get('automate')
+  async automate() {
+    return;
+    fs.readFile('C:\\Users\\Bo\\PycharmProjects\\mark_record_reader\\data.json', 'utf8', async (err, jsonString) => {
+      if (err) {
+        console.log('File read failed:', err);
+        return;
+      }
+
+      // const result = JSON.parse(jsonString).filter((item: Book) => !(item.access?.length > 0));
+      const result: Partial<BookEntity>[] = JSON.parse(jsonString);
+      const entityManager = getManager();
+      let counter = 0;
+      let emptycounter = 0;
+
+      const allEntitiesToAdd = [];
+      for (let i = 0; i < result.length; i++) {
+        const bookEntity = result[i];
+        counter += 1;
+        // console.log(bookEntity)
+        if (!(counter >= 300000 && counter < 400000)) {
+          continue;
+        }
+
+        if (bookEntity.access?.find((access) => !access.link)) {
+          emptycounter += 1;
+          continue;
+        }
+        const entity = new BookEntity({ provider: BookProvider.WORLD_CAT, ...bookEntity });
+        entity.access = entity.access.map((access) => {
+          access.type = BookAccessType.DATABASE;
+          if (!access.name) {
+            access.name = '';
+          }
+          return access;
+        });
+        allEntitiesToAdd.push(entity);
+      }
+      console.log('valid records', counter);
+      console.log('empty records', emptycounter);
+
+      const res = await entityManager.save([...allEntitiesToAdd], { chunk: 1000 });
+      console.log(res);
+
+      //
+      // // const result: Book[] = JSON.parse(jsonString).filter((item: Book) => item.author === null);
+      // console.log('Record total', result.length)
+      //
+      // const set = new Set();
+      // result.forEach((book: Book) => {
+      //   // @ts-ignore
+      //   if (!set.has(book.filename)) {
+      //     // @ts-ignore
+      //     set.add(book.filename)
+      //   }
+
+      // })
+
+      // set.forEach(i => console.log('File data:', i))
+    });
+  }
+
   @Post()
   async searchEntrance(@Body() query: { title: string, provider: BookProvider }): Promise<SuccessResponse | ServerErrorResponse> {
-
     // WARNING THIS WILL DELETE ALL REDIS CACHE
     // console.log("RECEIVEDREQUEST", query)
     const FLUSH_MODE = false;

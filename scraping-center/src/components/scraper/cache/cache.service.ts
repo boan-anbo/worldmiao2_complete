@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as Redis from 'ioredis';
 import { RedisService } from 'nestjs-redis';
-import { Book, BookAccess, BookProvider } from '@components/scraper/entities/book.entity';
+import { Book, BookAccess, BookProvider } from '@components/scraper/entities/book.model';
 
 @Injectable()
 export class CacheService {

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Book, BookDataType, BookProvider } from '@components/scraper/entities/book.entity';
+import { Book, BookDataType, BookProvider } from '@components/scraper/entities/book.model';
 import Data from './types/data.type';
 
 export default class SuccessResponse {
