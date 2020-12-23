@@ -11,15 +11,17 @@ import ServerErrorResponse from '@responses/server-error.response';
 import BookEntity from '@components/scraper/entities/bookEntity.entity';
 import { getManager } from 'typeorm';
 import * as fs from 'fs';
+import { SuggestionService } from '@components/scraper/scraper-services/suggestion/suggestion.service';
 import ScraperService from './scraper.service';
 
-@ApiTags('Scraper')
-@Controller('scraper')
+@ApiTags('')
+@Controller('')
 export default class ScraperController {
   constructor(private readonly ss: ScraperService,
-    private readonly cs: CacheService) {}
+    private readonly cs: CacheService,
+              private readonly suggestionService: SuggestionService) {}
 
-  @Post('access')
+  @Post('scraper/access')
   async fetchBook(@Body() query: {uniqueId: string, provider: BookProvider}) {
     const { uniqueId, provider } = query;
 
@@ -56,25 +58,16 @@ export default class ScraperController {
     return new SuccessResponse(BookDataType.BOOK_ACCESS, newResult, provider, false);
   }
 
-  @Post('test')
+  @Post('scraper/test')
   async developService(@Body() query: { title: string, provider: BookProvider }) {
-    const { title, provider } = query;
-    return this.ss.searchZLibrary(title);
+    // const { title, provider } = query;
+    // return this.ss.searchZLibrary(title);
   }
 
-  @Post('search')
-  async searchTitle(@Body() query: {title: string}) {
-    const manager = getManager();
-    const { title } = query;
-    console.log('query', title)
-    const result = await manager.getRepository<BookEntity>(BookEntity)
-      .createQueryBuilder('book')
-      .where(`tsv_search_text @@ plainto_tsquery('${title}')`)
-      .leftJoinAndSelect('book.access', 'access')
-        .leftJoinAndSelect('book.uniqueIdentifier', 'uniqueId')
-      .getMany()
-    return result
-  }
+  // @Post('search')
+  // async searchTitle(@Body() query: {title: string}) {
+  //
+  // }
 
   @Get('automate')
   async automate() {
@@ -138,7 +131,25 @@ export default class ScraperController {
     });
   }
 
-  @Post()
+
+  @Post('suggestion')
+  async getSuggestion(@Body() query: { password: string }) {
+    const { password } = query;
+    if (password === 'mypass') {
+      return this.suggestionService.getAllSuggestions();
+    }
+    return 'request invalid';
+  }
+
+  @Post('suggestion')
+  async addSuggestion(@Body() query: { content: string }) {
+    const { content } = query;
+    if (content.length > 2) {
+      return this.suggestionService.addOneSuggestion(query.content);
+    }
+  }
+
+  @Post('scraper')
   async searchEntrance(@Body() query: { title: string, provider: BookProvider }): Promise<SuccessResponse | ServerErrorResponse> {
     // WARNING THIS WILL DELETE ALL REDIS CACHE
     // console.log("RECEIVEDREQUEST", query)

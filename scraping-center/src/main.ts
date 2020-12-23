@@ -5,8 +5,9 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-import * as RateLimit from 'express-rate-limit';
+import RateLimit from 'express-rate-limit';
 
+import { json } from 'express';
 import AppModule from './components/app/app.module';
 
 import AllExceptionsFilter from './filters/all-exceptions.filter';
@@ -24,13 +25,14 @@ async function bootstrap() {
 
   // rate limit
 
-  // app.use(RateLimit({
-  //     // windowMs: 15 * 60 * 1000, // 15 minutes
-  //     // max: 100, // limit each IP to 100 requests per windowMs
-  //     windowMs: 1 * 60 * 1000,
-  //     max: 1,
-  //   }),
-  // );
+  app.use(RateLimit({
+    // windowMs: 15 * 60 * 1000, // 15 minutes
+    // max: 100, // limit each IP to 100 requests per windowMs
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+  }));
+  // limit request json size
+  app.use(json({ limit: '50kb' }));
 
   const port = process.env.SERVER_PORT || 3000;
 
@@ -44,6 +46,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
 
   SwaggerModule.setup('api', app, document);
+
 
   await app.listen(port, async () => {
     console.log(`The server is running on ${port} port: http://localhost:${port}/api`);

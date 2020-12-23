@@ -52,8 +52,18 @@
     </Library>
   </div>
   </div>
-    <div class="bg-gray-700 text-white text-lg text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
-      <span>(bo an 2020)</span>
+    <div class="cursor-pointer bg-gray-700 grid-cols-2 grid text-white text-lg text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
+      <div class="text-left pl-6 col-span-2">
+        <span class="pr-2 ">add:</span>
+<!--        <span>suggestion</span>-->
+        <input type="text"
+               maxlength="300"
+               v-model="suggestion"
+               class="text-xs px-1  placeholder-gray-100"
+               style="background: #5D8D89;  min-width: 100px; width: 250px" placeholder="links, bugs, suggestions etc." />
+        <span @click="makeSuggestion()" class="pl-2">submit</span>
+      </div>
+<!--      <div class="text-right">(bo an 2020)</div>-->
     </div>
 
 
@@ -95,6 +105,7 @@ export default defineComponent({
   },
   data() {
     return {
+      suggestion: '',
       bookProvider: BookProvider,
       libraryOrder: [
       ],
@@ -211,6 +222,13 @@ export default defineComponent({
     onSearchAll: function(isSearchAllChecked: boolean) {
       console.log('parent received isSearchALl Checked', isSearchAllChecked)
       this.state.searchAll = isSearchAllChecked
+    },
+    makeSuggestion: async function () {
+      if (this.suggestion.length > 2) {
+        const url = 'localhost:9000/suggestion';
+        console.log('sending suggestion to back end', this.suggestion, url)
+        await this.axios.post(url, {content: this.suggestion})
+      }
     }
     },
   components: {
