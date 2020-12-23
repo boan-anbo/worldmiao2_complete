@@ -6,6 +6,8 @@ import { WorldcatService } from '@components/scraper/scraper-services/worldcat/w
 import { MemoryOfTheWorldService } from '@components/scraper/scraper-services/memory-of-the-world/memory-of-the-world.service';
 import { BookAccess } from '@components/scraper/entities/book.model';
 import { ZlibraryService } from '@components/scraper/scraper-services/zlibrary/zlibrary.service';
+import {EbookDatabasesService} from "@components/scraper/scraper-services/ebook-databases/ebook-databases.service";
+import {SuggestionService} from "@components/scraper/scraper-services/suggestion/suggestion.service";
 
 const { promisify } = require('util')
 
@@ -20,6 +22,8 @@ export default class ScraperService {
     private worldcatService: WorldcatService,
     private zlibraryService: ZlibraryService,
     private memoryOfTheWorld: MemoryOfTheWorldService,
+    private ebookDatabaseService: EbookDatabasesService,
+    private suggestionService: SuggestionService
   ) {
   }
 
@@ -41,7 +45,8 @@ export default class ScraperService {
   }
 
   async searchWorldCat(title: string) {
-    const result = await this.worldcatService.searchBooks(title);
+    // const result = await this.worldcatService.searchBooks(title);
+    const result = this.ebookDatabaseService.search(title);
     return result;
   }
 
@@ -85,5 +90,10 @@ export default class ScraperService {
 
   async searchZLibrary(title: string) {
     return this.zlibraryService.search(title);
+  }
+
+
+  async getAllSuggestions() {
+    return this.suggestionService.getAllSuggestions()
   }
 }
