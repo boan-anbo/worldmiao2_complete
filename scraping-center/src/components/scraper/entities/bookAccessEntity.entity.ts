@@ -9,6 +9,12 @@ import BookEntity from "@components/scraper/entities/bookEntity.entity";
 
 @Entity('bookAccesses')
 export default class BookAccessEntity {
+
+
+    constructor(partialBookAccess: Partial<BookAccessEntity>) {
+        Object.assign(this,partialBookAccess);
+    }
+
     @PrimaryGeneratedColumn('uuid')
     id: string;
 

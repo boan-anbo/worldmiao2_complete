@@ -69,7 +69,7 @@ export class ZlibraryService {
       newBook.format = item.format;
       newBook.publisher = item.publisher;
       newBook.access.push(new BookAccess(item.link, BookAccessType.DOWNLOAD));
-      newBook.publicationYear = item.publicationYear;
+      newBook.publicationYear = String(item.publicationYear);
       newBook.thumbnail = item.thumbnail;
       return newBook;
     });

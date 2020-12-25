@@ -1,4 +1,7 @@
 <style>
+.greendone {
+  color: #5d8d89;
+}
 
 
 </style>
@@ -25,7 +28,10 @@
 
     <div
         class="status col-span-3 text-right text-gray-700"
-        :class="{'done': searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED }"
+        :class="{
+      'done greendone': searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED ,
+      'text-red-400': searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCHING
+        }"
     >
       &nbsp;{{searchStore[bookProvider].getCurrentStatus()}}
     </div>

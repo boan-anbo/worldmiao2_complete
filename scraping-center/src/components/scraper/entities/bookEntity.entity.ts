@@ -7,9 +7,15 @@ import UniqueIdEntity from '@components/scraper/entities/bookUniqueId.entity';
 
 @Entity('books')
 export default class BookEntity {
+
     @PrimaryGeneratedColumn('uuid')
 
     id: string;
+
+
+    constructor(bookEntity: Partial<BookEntity>) {
+        Object.assign(this, bookEntity);
+    }
 
     @CreateDateColumn()
     createdAt: Date
@@ -52,25 +58,21 @@ export default class BookEntity {
     })
     provider: BookProvider
 
-    @Column()
+    @Column({nullable: true})
     thumbnail: string = '';
 
-    constructor(bookEntity: Partial<BookEntity>) {
-      Object.assign(this, bookEntity);
-    }
 
-    @OneToMany(() => BookAccessEntity, (bookAccess) => bookAccess.book, { cascade: true, eager: true })
+    @OneToMany(() => BookAccessEntity, (bookAccess) => bookAccess.book, { cascade: true, eager: true, onDelete: 'CASCADE' })
     access: BookAccessEntity[];
 
-    @OneToOne(() => UniqueIdEntity, { cascade: true, eager: true })
+    @OneToOne(() => UniqueIdEntity, uniqueId => uniqueId.book, { cascade: true, eager: true, onDelete: 'CASCADE' })
     @JoinColumn()
     uniqueIdentifier: UniqueIdEntity;
 
-
     @Column({
-        type: 'tsvector',
-        nullable: true,
-        select: false // select set to false so it won't be returned as part of the result
+      type: 'tsvector',
+      nullable: true,
+      select: false, // select set to false so it won't be returned as part of the result
     })
     tsv_search_text: string
 }

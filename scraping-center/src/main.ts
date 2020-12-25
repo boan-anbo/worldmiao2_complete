@@ -32,7 +32,7 @@ async function bootstrap() {
     max: 200,
   }));
   // limit request json size
-  app.use(json({ limit: '50kb' }));
+  app.use(json({ limit: '25kb' }));
 
   const port = process.env.SERVER_PORT || 3000;
 

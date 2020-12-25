@@ -9,7 +9,7 @@
   <div
       id="main-panel-layout"
 
-      class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-6"
+      class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4 4xl:grid-cols-8"
   >
   <div
         v-for="(provider, providerIndex) in bookProviderList"
@@ -21,6 +21,8 @@
             :bookStore="bookStore[provider.providerEnum]" :library-name="provider.providerName" :colIsEven="providerIndex % 2 === 0" :book-provider="provider.providerEnum" :library-url="provider.url"
             :being-maintained="provider.beingMaintained"
             :showAllLibraryBoxes="showAllLibraryBoxes"
+            :holdings="provider.holdings"
+            :library-index="providerIndex"
           >
 
         <template v-slot:search-box>
@@ -28,6 +30,7 @@
 <!--       Panel for showing search box. pass down to library as slot. -->
           <SearchBox
               class="static"
+              :searchInputMinLength="searchInputMinLength"
               :book-provider="provider.providerEnum"
               @search-request="onSearchRequest"
               :search-all="state.searchAll"
@@ -49,22 +52,34 @@
           />
         </template>
 
-    </Library>
-  </div>
-  </div>
-    <div class="cursor-pointer bg-gray-700 grid-cols-2 grid text-white text-lg text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
-      <div class="text-left pl-6 col-span-2">
-        <span class="pr-2 ">add:</span>
+</Library>
+</div>
+</div>
+<div class=" bg-gray-700  text-white text-lg px-4" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
+
+  <div class=" w-full">
+
 <!--        <span>suggestion</span>-->
-        <input type="text"
-               maxlength="300"
-               v-model="suggestion"
-               class="text-xs px-1  placeholder-gray-100"
-               style="background: #5D8D89;  min-width: 100px; width: 250px" placeholder="links, bugs, suggestions etc." />
-        <span @click="makeSuggestion()" class="pl-2">submit</span>
-      </div>
-<!--      <div class="text-right">(bo an 2020)</div>-->
-    </div>
+    <input type="text"
+           maxlength="300"
+           v-model="suggestionContent"
+           @focus="onSuggestionInputFocused"
+           @blur="suggestionFocused = false"
+           :class="{
+             'hover:underline': this.suggestionFocused === false && this.suggestionSent === false && this.suggestionContent.length === 0,
+           'text-center': this.suggestionContent.length === 0,
+           'cursor-pointer': this.suggestionFocused === false,
+           'border-b': this.suggestionFocused === true,
+           }"
+           class="text-base px-1 outline-none   placeholder-gray-100 text-center "
+           style="background: #5D8D89;  min-width: 100px; width: 250px"
+           :placeholder="this.suggestionFocused ? '' : ( this.suggestionSent ? 'thank you for contributing.' : 'click to add links, bugs, & suggestions.')" />
+    <span v-if="suggestionFocused || suggestionContent.length > 0" @click="makeSuggestion()" @keyup.enter="makeSuggestion()" class="  pl-2">
+      <span :class="{ 'text-gray-400' : suggestionContent.length === 0 }" class="cursor-pointer hover:underline">submit</span>
+    </span>
+  </div>
+  <div class="text-center text-base  sm:inline sm:col-span-1"> (bo an 2020)</div>
+</div>
 
 
 </template>
@@ -105,7 +120,9 @@ export default defineComponent({
   },
   data() {
     return {
-      suggestion: '',
+      suggestionContent: '',
+      suggestionSent: false,
+      suggestionFocused: false,
       bookProvider: BookProvider,
       libraryOrder: [
       ],
@@ -116,6 +133,8 @@ export default defineComponent({
         OPEN_LIBRARY: new SearchStatus(BookProvider.OPEN_LIBRARY),
         WORLD_CAT: new SearchStatus(BookProvider.WORLD_CAT),
         ZLIBRARY: new SearchStatus(BookProvider.ZLIBRARY),
+        GUTENBERG: new SearchStatus(BookProvider.GUTENBERG),
+        PROLETARIAT: new SearchStatus(BookProvider.PROLETARIAT),
       } as SearchStore
       ,
       bookStore: {
@@ -126,17 +145,18 @@ export default defineComponent({
         LIBRARY_GENESIS: {},
         OPEN_LIBRARY: {},
         WORLD_CAT: {},
-        ZLIBRARY: {}
+        ZLIBRARY: {},
+        PROLETARIAT: {},
+        GUTENBERG: {}
       } as BookStore
       ,
       showAllLibraryBoxes: new Subject(),
       // to check if the current search all request is updated and drop the old one in the process.
-      currentSearchAllRequestId: ''
+      currentSearchAllRequestId: '',
+      searchInputMinLength: 1
     }
   },
-  computed: {
 
-  },
   methods: {
     test() {
       console.log("app.vue received close bookshelf")
@@ -151,7 +171,10 @@ export default defineComponent({
     },
     searchAll: async function() {
       // if so, show all library boxes first
-      this.showAllLibraryBoxes.next(); // it needs to be reset to false first to trigger vue property change watch in library component.
+      this.bookProviderList.forEach((provider) => {
+        this.showAllLibraryBoxes.next(provider.providerEnum);
+      })
+
       // generate an uuid for the current search all request, and save it globally;
       const uniqueSearchAllRequestId = v4();
       this.currentSearchAllRequestId = uniqueSearchAllRequestId;
@@ -169,8 +192,8 @@ export default defineComponent({
     sendSearchRequest: async function(provider: BookProvider, uniqueSearchAllRequestId?: string) {
       const { searchTerm } = this.state;
       // const url = 'https://www.worldmiao.com/api/scraper/'
-      const url = './api/scraper';
-      // const url = 'http://localhost:9000/scraper';
+      // const url = './api/scraper';
+      const url = 'http://localhost:9000/scraper';
 
       console.log("Posting your request for ", provider, 'for term', searchTerm, " to", url)
       // update search status
@@ -224,11 +247,24 @@ export default defineComponent({
       this.state.searchAll = isSearchAllChecked
     },
     makeSuggestion: async function () {
-      if (this.suggestion.length > 2) {
-        const url = 'localhost:9000/suggestion';
-        console.log('sending suggestion to back end', this.suggestion, url)
-        await this.axios.post(url, {content: this.suggestion})
+      if (this.suggestionContent.length > this.searchInputMinLength) {
+        const url = 'http://localhost:9000/suggestion';
+        console.log('sending suggestion to back end', this.suggestionContent, url)
+        this.suggestionSent = false
+        const res = await this.axios.post(url, {content: this.suggestionContent})
+        console.log(res)
+        // if suggestion submission is successful
+        if (res.status === 201) {
+          this.suggestionSent = true
+          this.suggestionContent = ''
+        }
       }
+    },
+    onSuggestionInputFocused() {
+
+        this.suggestionFocused = true
+        this.suggestionSent = false
+
     }
     },
   components: {

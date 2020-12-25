@@ -12,7 +12,7 @@ export class SuggestionService {
   }
 
   async addOneSuggestion(content: string) {
-    const newSuggestion = new SuggestionEntity(suggestion);
+    const newSuggestion = new SuggestionEntity(content);
     const result = getManager().save(newSuggestion);
     return result;
   }

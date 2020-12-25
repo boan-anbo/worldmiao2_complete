@@ -10,12 +10,19 @@
 <!--    <button  @click="loadBooks">Load BOoks</button>-->
       <div class="search-header  mt-4 ">
         <span @click.stop.prevent="openLink(libraryUrl)"
-              class="text-lg  text-black cursor-pointer"
-              :title="libraryUrl"
-              style="color: #27302f"
+              class="text-lg  text-black "
+
+              style="color: #668885"
         >
-          <span class="hover:underline">{{libraryName}} </span>
-  <p v-if="beingMaintained !== null" class="hover:no-underline text-xs text-gray-600">({{beingMaintained}})</p>
+          <span class="hover:underline cursor-pointer" :title="libraryUrl">{{libraryName}} </span>
+<!--          Maintainance notice -->
+        <p v-if="beingMaintained !== null" class="hover:no-underline text-xs text-gray-600">({{beingMaintained}})</p>
+
+<!--         holdings count -->
+          <p class="hover:no-underline text-xs cursor-default text-gray-600">
+            <span v-if="beingMaintained === null && holdings" >({{holdings}})</span>
+            <span v-if="!(beingMaintained === null && holdings)" >&nbsp;</span>
+          </p>
       </span>
 
       </div>
@@ -86,6 +93,8 @@ import { concatMap, catchError, delay   } from 'rxjs/operators'
 import { v4 } from 'uuid';
 import {filter} from 'rxjs/operators';
 import {BookAccessFetchingState} from "@/entities/book.fetch.entity";
+// eslint-disable-next-line no-unused-vars
+import {getEmptyBookShelfBxoes} from "@/workers/upshelf.worker";
 
 // eslint-disable-next-line no-unused-vars
 // const faker = require('faker');
@@ -110,17 +119,19 @@ export default {
 
     const fillBookShelfWithEmptyBoxes = () => {
       console.log('filling empty boxes')
-      for (let i = 0; i < BookProviderList.length; i ++) {
+      let bookShelfBoxes = [];
+      // for (let i = 0; i < BookProviderList.length; i ++) {
         // give each provider a shelf.
-        let bookShelfBoxes = [];
+
         for (let i = 0; i < 20; i++) {
           bookShelfBoxes.push(
             // give each shelf box an empty book and a book cover toggle.
             new BookShelfBox()
           )
         }
-        bookShelfRef.value[BookProviderList[i].providerEnum] = bookShelfBoxes
-      }
+
+      // }
+      bookShelfRef.value[props.bookProvider] = bookShelfBoxes
     }
 
 
@@ -242,14 +253,18 @@ export default {
     bookStore: Object,
     libraryUrl: String,
     beingMaintained: String,
-    showAllLibraryBoxes: Object
+    holdings: String,
+    showAllLibraryBoxes: Object,
+    libraryIndex: Number
   },
   mounted() {
     //start subscribing to showall library boxes. when it emit values, show the boxes
-    this.searchAllRequestSub = this.showAllLibraryBoxes?.subscribe(() => {
+    this.searchAllRequestSub = this.showAllLibraryBoxes?.pipe(delay(100)).subscribe((providerEnum) => {
       // received a request to show all book boxes
-      console.log('received the cmd to show boxes')
+      // console.log('received the cmd to show boxes')
+      if (providerEnum === this.bookProvider) {
       this.showBoxes()
+      }
 
     })
 
@@ -265,8 +280,8 @@ export default {
               this.updateFetchResultRepoWithStatus({index, result, status: BookAccessFetchingState.FETCHING})
 
               // const url = 'https://www.worldmiao.com/api/scraper/access'
-                const url = './api/scraper/access'
-              // const url = 'http://localhost:9000/scraper/access'
+              //   const url = './api/scraper/access'
+              const url = 'http://localhost:9000/scraper/access'
               const payload = {
                 uniqueId
                 , provider: this.bookProvider}
@@ -347,9 +362,12 @@ export default {
     },
     showBoxes: function() {
       if (!this.boxesShown) {
+
         setTimeout(() => this.boxesShown = true, 0)
         setTimeout(() => this.searchStatusShown = true, 0.8)
         this.fillBookShelfWithEmptyBoxes()
+        this.boxesShown = true;
+        this.searchStatusShown = true;
       }
     },
     hideBoxes: function() {
