@@ -31,6 +31,13 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         url: 'https://books.google.com/',
         beingMaintained: null
     },
+
+    {
+        providerName: "Library Genesis",
+        providerEnum: BookProvider.LIBRARY_GENESIS,
+        url: 'http://gen.lib.rus.ec/',
+        beingMaintained: null
+    },
     {
         providerName: "Project Gutenberg",
         providerEnum: BookProvider.GUTENBERG,
@@ -39,12 +46,12 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         holdings: '60,000 +'
     },
     {
-        providerName: "Library Genesis",
-        providerEnum: BookProvider.LIBRARY_GENESIS,
-        url: 'http://gen.lib.rus.ec/',
-        beingMaintained: null
+        providerName: "Open Library",
+        providerEnum:BookProvider.OPEN_LIBRARY,
+        url: 'http://openlibrary.org/',
+        beingMaintained: null,
+        holdings: '1,400,000 +'
     },
-
 
     {
         providerName: "Proletariat Library",
@@ -59,13 +66,6 @@ export const BookProviderList: { providerName: string, providerEnum: BookProvide
         url: 'https://library.memoryoftheworld.org/',
         beingMaintained: null,
         holdings: '150,000 +'
-    },
-    {
-        providerName: "Open Library",
-        providerEnum:BookProvider.OPEN_LIBRARY,
-        url: 'http://openlibrary.org/',
-        beingMaintained: null,
-        holdings: '1,400,000 +'
     },
 
 

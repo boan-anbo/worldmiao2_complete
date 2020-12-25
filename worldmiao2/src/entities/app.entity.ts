@@ -83,5 +83,5 @@ export enum LibrarySearchStatus {
     SEARCH_FINISHED = "done.",
     IDLE = 'ready.',
     SEARCHING = 'searching...',
-    ERROR = 'error.'
+    ERROR = 'timeout.'
 }

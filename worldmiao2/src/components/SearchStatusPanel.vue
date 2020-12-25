@@ -30,7 +30,8 @@
         class="status col-span-3 text-right text-gray-700"
         :class="{
       'done greendone': searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCH_FINISHED ,
-      'text-red-400': searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCHING
+      'text-red-400': searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.SEARCHING,
+      'text-red-800': searchStore[bookProvider].getCurrentStatus() === librarySearchStatus.ERROR,
         }"
     >
       &nbsp;{{searchStore[bookProvider].getCurrentStatus()}}
