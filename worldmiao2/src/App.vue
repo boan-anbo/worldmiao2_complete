@@ -192,8 +192,8 @@ export default defineComponent({
     sendSearchRequest: async function(provider: BookProvider, uniqueSearchAllRequestId?: string) {
       const { searchTerm } = this.state;
       // const url = 'https://www.worldmiao.com/api/scraper/'
-      // const url = './api/scraper';
-      const url = 'http://localhost:9000/scraper';
+      const url = './api/scraper';
+      // const url = 'http://localhost:9000/scraper';
 
       console.log("Posting your request for ", provider, 'for term', searchTerm, " to", url)
       // update search status
@@ -248,7 +248,8 @@ export default defineComponent({
     },
     makeSuggestion: async function () {
       if (this.suggestionContent.length > this.searchInputMinLength) {
-        const url = 'http://localhost:9000/suggestion';
+        // const url = 'http://localhost:9000/suggestion';
+        const url = './api/suggestion';
         console.log('sending suggestion to back end', this.suggestionContent, url)
         this.suggestionSent = false
         const res = await this.axios.post(url, {content: this.suggestionContent})

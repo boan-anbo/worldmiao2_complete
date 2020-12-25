@@ -4,26 +4,10 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import SuccessResponse from '@responses/success.response';
 import { CacheService } from '@components/scraper/cache/cache.service';
-import {
-  BookAccess,
-  BookAccessType,
-  BookDataType,
-  BookProvider,
-  UniqueId,
-} from '@components/scraper/entities/book.model';
+import { BookAccess, BookDataType, BookProvider } from '@components/scraper/entities/book.model';
 import ServerErrorResponse from '@responses/server-error.response';
-import BookEntity from '@components/scraper/entities/bookEntity.entity';
-import { getManager } from 'typeorm';
-import * as fs from 'fs';
 import { SuggestionService } from '@components/scraper/scraper-services/suggestion/suggestion.service';
-import { GutenbergBook } from '@components/scraper/interfaces/gutenberg-book';
-import BookAccessEntity from '@components/scraper/entities/bookAccessEntity.entity';
-import UniqueIdEntity from '@components/scraper/entities/bookUniqueId.entity';
-import { v4 } from 'uuid';
 import ScraperService from './scraper.service';
-import {ProcessProletariate} from "@components/scraper/scripts/proletariate-processing";
-import {ImportGutenberg} from "@components/scraper/scripts/import-gutenberg";
-import {ImportYaleCatalogue} from "@components/scraper/scripts/import_yale_records";
 
 @ApiTags('')
 @Controller('')
@@ -69,16 +53,16 @@ export default class ScraperController {
     return new SuccessResponse(BookDataType.BOOK_ACCESS, newResult, provider, false);
   }
 
-  @Post('scraper/test')
-  async developService(@Body() query: { title: string, provider: BookProvider }) {
-  }
-
-  @Get('automate')
-  async automate() {
-    // ProcessProletariate();
-    // ImportGutenberg()
-
-    ImportYaleCatalogue()
+  // @Post('scraper/test')
+  // async developService(@Body() query: { title: string, provider: BookProvider }) {
+  // }
+  //
+  // @Get('automate')
+  // async automate() {
+  //   // ProcessProletariate();
+  //   // ImportGutenberg()
+  //
+  //   ImportYaleCatalogue();
   //   const manager = getManager();
   //   const distinctBook: BookEntity [] = [];
   //
@@ -101,13 +85,13 @@ export default class ScraperController {
   //
   //   const saveResult = await manager.save([...distinctBook], { chunk: 1000 });
   //   console.log('Result', saveResult);
-    // console.log('preupdate result', distinctBook[1]);
-    // for (let i = 0; i < distinctBook.length; i++) {
-    //
-    // }
-    // const saveResult = await manager.getRepository(BookEntity).save(distinctBook[1]);
-    // console.log('update result', saveResult);
-  }
+  // console.log('preupdate result', distinctBook[1]);
+  // for (let i = 0; i < distinctBook.length; i++) {
+  //
+  // }
+  // const saveResult = await manager.getRepository(BookEntity).save(distinctBook[1]);
+  // console.log('update result', saveResult);
+  // }
 
   @Get('suggestion')
   async getSuggestion(@Body() query: { password: string }) {
@@ -130,7 +114,7 @@ export default class ScraperController {
   async searchEntrance(@Body() query: { title: string, provider: BookProvider }): Promise<SuccessResponse | ServerErrorResponse> {
     // WARNING THIS WILL DELETE ALL REDIS CACHE
     // console.log("RECEIVEDREQUEST", query)
-    const FLUSH_MODE = true;
+    const FLUSH_MODE = false;
     //---------------------------------------------
 
     const { provider } = query;
