@@ -14,7 +14,10 @@
     <div style="height:200px; background-color: #fffffc !important;"
          class="grid  grid-cols-12 content-between cursor-pointer">
 
-      <div :title="book.title" id="access-header" style="max-height: 60px; min-height: 60px"  class=" overflow-y-hidden col-span-12 pt-4 px-4">
+      <div :title="book.title"
+
+
+           id="access-header" style="max-height: 60px; min-height: 60px; color: #668885"  class=" overflow-y-hidden col-span-12 pt-4 px-4">
         <span @click.stop class="cursor-text">{{book.title}}</span></div>
 
     <div class="displaygrid space-y-2 col-span-12 content-between overflow-y-scroll  grid-cols-12">

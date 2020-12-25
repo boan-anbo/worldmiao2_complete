@@ -54,7 +54,7 @@
   background-color: #5D8D89;
 }
 .bookInfoBgColor {
-  background-color: #b7d4d2;
+  background-color: #c9dedd;
 }
 .bookLinksBgColor {
  background-color: #f3f3f3;
