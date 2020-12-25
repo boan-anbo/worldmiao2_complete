@@ -5,21 +5,32 @@ import { ApiTags } from '@nestjs/swagger';
 import SuccessResponse from '@responses/success.response';
 import { CacheService } from '@components/scraper/cache/cache.service';
 import {
-  BookAccess, BookAccessType, BookDataType, BookProvider,
+  BookAccess,
+  BookAccessType,
+  BookDataType,
+  BookProvider,
+  UniqueId,
 } from '@components/scraper/entities/book.model';
 import ServerErrorResponse from '@responses/server-error.response';
 import BookEntity from '@components/scraper/entities/bookEntity.entity';
 import { getManager } from 'typeorm';
 import * as fs from 'fs';
 import { SuggestionService } from '@components/scraper/scraper-services/suggestion/suggestion.service';
+import { GutenbergBook } from '@components/scraper/interfaces/gutenberg-book';
+import BookAccessEntity from '@components/scraper/entities/bookAccessEntity.entity';
+import UniqueIdEntity from '@components/scraper/entities/bookUniqueId.entity';
+import { v4 } from 'uuid';
 import ScraperService from './scraper.service';
+import {ProcessProletariate} from "@components/scraper/scripts/proletariate-processing";
+import {ImportGutenberg} from "@components/scraper/scripts/import-gutenberg";
+import {ImportYaleCatalogue} from "@components/scraper/scripts/import_yale_records";
 
 @ApiTags('')
 @Controller('')
 export default class ScraperController {
   constructor(private readonly ss: ScraperService,
     private readonly cs: CacheService,
-              private readonly suggestionService: SuggestionService) {}
+      private readonly suggestionService: SuggestionService) {}
 
   @Post('scraper/access')
   async fetchBook(@Body() query: {uniqueId: string, provider: BookProvider}) {
@@ -60,79 +71,45 @@ export default class ScraperController {
 
   @Post('scraper/test')
   async developService(@Body() query: { title: string, provider: BookProvider }) {
-    // const { title, provider } = query;
-    // return this.ss.searchZLibrary(title);
   }
-
-  // @Post('search')
-  // async searchTitle(@Body() query: {title: string}) {
-  //
-  // }
 
   @Get('automate')
   async automate() {
-    return;
-    fs.readFile('C:\\Users\\Bo\\PycharmProjects\\mark_record_reader\\data.json', 'utf8', async (err, jsonString) => {
-      if (err) {
-        console.log('File read failed:', err);
-        return;
-      }
+    // ProcessProletariate();
+    // ImportGutenberg()
 
-      // const result = JSON.parse(jsonString).filter((item: Book) => !(item.access?.length > 0));
-      const result: Partial<BookEntity>[] = JSON.parse(jsonString);
-      const entityManager = getManager();
-      let counter = 0;
-      let emptycounter = 0;
-
-      const allEntitiesToAdd = [];
-      for (let i = 0; i < result.length; i++) {
-        const bookEntity = result[i];
-        counter += 1;
-        // console.log(bookEntity)
-        if (!(counter >= 300000 && counter < 400000)) {
-          continue;
-        }
-
-        if (bookEntity.access?.find((access) => !access.link)) {
-          emptycounter += 1;
-          continue;
-        }
-        const entity = new BookEntity({ provider: BookProvider.WORLD_CAT, ...bookEntity });
-        entity.access = entity.access.map((access) => {
-          access.type = BookAccessType.DATABASE;
-          if (!access.name) {
-            access.name = '';
-          }
-          return access;
-        });
-        allEntitiesToAdd.push(entity);
-      }
-      console.log('valid records', counter);
-      console.log('empty records', emptycounter);
-
-      const res = await entityManager.save([...allEntitiesToAdd], { chunk: 1000 });
-      console.log(res);
-
-      //
-      // // const result: Book[] = JSON.parse(jsonString).filter((item: Book) => item.author === null);
-      // console.log('Record total', result.length)
-      //
-      // const set = new Set();
-      // result.forEach((book: Book) => {
-      //   // @ts-ignore
-      //   if (!set.has(book.filename)) {
-      //     // @ts-ignore
-      //     set.add(book.filename)
-      //   }
-
-      // })
-
-      // set.forEach(i => console.log('File data:', i))
-    });
+    ImportYaleCatalogue()
+  //   const manager = getManager();
+  //   const distinctBook: BookEntity [] = [];
+  //
+  //   const res = await manager.getRepository(BookEntity).find({ where: { provider: BookProvider.WORLD_CAT }, take: 50000, skip: 350000 });
+  //   res.forEach((book) => {
+  //     const existing: string[] = [];
+  //     const originalLength = book.access.length;
+  //     book.access = book.access.filter((access) => {
+  //       if (existing.indexOf(access.link) === -1) {
+  //         existing.push(access.link);
+  //       }
+  //     });
+  //
+  //     if (existing.length < originalLength) {
+  //       distinctBook.push(book);
+  //     }
+  //   });
+  //
+  //   console.log(distinctBook.length);
+  //
+  //   const saveResult = await manager.save([...distinctBook], { chunk: 1000 });
+  //   console.log('Result', saveResult);
+    // console.log('preupdate result', distinctBook[1]);
+    // for (let i = 0; i < distinctBook.length; i++) {
+    //
+    // }
+    // const saveResult = await manager.getRepository(BookEntity).save(distinctBook[1]);
+    // console.log('update result', saveResult);
   }
 
-
-  @Post('suggestion')
+  @Get('suggestion')
   async getSuggestion(@Body() query: { password: string }) {
     const { password } = query;
     if (password === 'mypass') {
@@ -153,7 +130,7 @@ export default class ScraperController {
   async searchEntrance(@Body() query: { title: string, provider: BookProvider }): Promise<SuccessResponse | ServerErrorResponse> {
     // WARNING THIS WILL DELETE ALL REDIS CACHE
     // console.log("RECEIVEDREQUEST", query)
-    const FLUSH_MODE = false;
+    const FLUSH_MODE = true;
     //---------------------------------------------
 
     const { provider } = query;
@@ -190,13 +167,21 @@ export default class ScraperController {
       newData = await this.ss.searchOpenlibrary(title);
       break;
     case BookProvider.WORLD_CAT:
-      newData = await this.ss.searchWorldCat(title);
+      newData = await this.ss.searchDatabase(title, provider);
+      break;
+    case BookProvider.PROLETARIAT:
+      newData = await this.ss.searchDatabase(title, provider);
+      break;
+    case BookProvider.GUTENBERG:
+      newData = await this.ss.searchDatabase(title, provider);
       break;
     default:
       return new ServerErrorResponse('Invalid Request');
     }
 
     const dataLength = newData?.length;
+
+    console.log('result count', dataLength);
 
     // save only 20 data entries
     if (newData?.length > 20) {

@@ -85,10 +85,12 @@
 <!--  Book info card-->
 
 
+<!--  old color: #b7d4d2 -->
   <div
 
       @click="this.toggleBookInfo()"
-      style="min-height: 200px; background-color: #b7d4d2"
+      style="min-height: 200px; background-color: #c9dedd"
+
       :class="{
         'moveUpOutOfView': !this.state.showInfo,
       'moveIntoViewFromBelow': !bookCoverShown,
@@ -102,7 +104,7 @@
 <!--    Details -->
 
 <!--   Title -->
-    <div style="max-height: 60px; min-height: 60px"
+    <div style="max-height: 55px; min-height: 60px"
          :title="book.title"
          class="
          overflow-truncate
@@ -134,7 +136,7 @@
           word-wrap: break-word;"
 
 
-          class="description text-left text-xs  py-2 px-6 mx-4 overflow-y-scroll select-none"
+          class="description text-left text-xs text-gray-600  py-2 px-6 mx-4 overflow-y-scroll select-none"
       >
 
         {{book.description}}
@@ -142,8 +144,12 @@
       </div >
 
     </div>
-    <div class="boot-info-footer pb-2
-    text-gray-500
+<!--    old color: text-gray-500 |-->
+    <div
+        style="color: #668885"
+        class="boot-info-footer pb-2
+
+
     text-xs">{{libraryName}}</div>
 
   <!--  Title -->
@@ -177,7 +183,6 @@
 
 </template>
 <script lang="js">
-import {Book, } from "@/entities/book.entity";
 import {fetchAccess} from "@/functions/fetchBookAccess";
 import {BookAccessFetchingState} from "@/entities/book.fetch.entity";
 import {reactive} from "vue";
@@ -212,7 +217,7 @@ export default {
     }
   },
   props: {
-    book: Book,
+    book: Object,
     index: Number,
     bookCoverShown: Boolean,
     libraryName: String,

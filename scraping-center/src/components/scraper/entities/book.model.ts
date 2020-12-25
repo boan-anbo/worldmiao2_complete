@@ -4,7 +4,9 @@ export enum BookProvider {
   GOOGLE_BOOKS = 'GOOGLE_BOOKS',
   WORLD_CAT = 'WORLD_CAT',
   MEMORY_OF_THE_WORLD = 'MEMORY_OF_THE_WORLD',
-  ZLIBRARY = 'ZLIBRARY'
+  ZLIBRARY = 'ZLIBRARY',
+  PROLETARIAT = 'PROLETARIAT',
+  GUTENBERG = 'GUTENBERG',
 }
 
 export enum BookDataType {
@@ -17,7 +19,8 @@ export enum BookAccessType {
   BORROW = 'BORROW',
   PURCHASE = 'PURCHASE',
   EBOOK = 'EBOOK',
-  DATABASE = 'DATABASE'
+  DATABASE = 'DATABASE',
+  BROWSE = 'BROWSE'
 }
 
 export interface UniqueId {
@@ -26,9 +29,10 @@ export interface UniqueId {
 }
 
 export class BookAccess {
-  constructor(link: string, type: BookAccessType) {
+  constructor(link: string, type: BookAccessType, name?: string) {
     this.link = link;
     this.type = type;
+    this.name = name ?? ''
   }
 
   link: string;
@@ -51,7 +55,7 @@ export class Book {
 
   author: string = ' ';
 
-  publicationYear: number = 0;
+  publicationYear: string = '';
 
   isbns: string [] = [];
 
@@ -62,6 +66,8 @@ export class Book {
   format: string = '';
 
   provider: BookProvider
+
+  size? = '';
 
   thumbnail: string = '';
 

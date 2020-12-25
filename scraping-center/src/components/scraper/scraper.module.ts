@@ -12,6 +12,8 @@ import BookEntity from '@components/scraper/entities/bookEntity.entity';
 import BookAccessEntity from '@components/scraper/entities/bookAccessEntity.entity';
 import UniqueIdEntity from '@components/scraper/entities/bookUniqueId.entity';
 import SuggestionEntity from '@components/scraper/entities/suggestion.entity';
+import { SuggestionService } from '@components/scraper/scraper-services/suggestion/suggestion.service';
+import { EbookDatabasesService } from '@components/scraper/scraper-services/ebook-databases/ebook-databases.service';
 import ScraperService from './scraper.service';
 import ScraperController from './scraper.controller';
 
@@ -31,10 +33,11 @@ import ScraperController from './scraper.controller';
     OpenlibraryService,
     GoogleBooksService,
     WorldcatService,
-    // MemoryOfTheWorldService,
     CacheService,
     ZlibraryService,
     MemoryOfTheWorldService,
+    EbookDatabasesService,
+    SuggestionService,
   ],
   exports: [ScraperService],
 })

@@ -4,7 +4,7 @@ import { OpenlibraryService } from '@components/scraper/scraper-services/openlib
 import { GoogleBooksService } from '@components/scraper/scraper-services/google-books/google-books.service';
 import { WorldcatService } from '@components/scraper/scraper-services/worldcat/worldcat.service';
 import { MemoryOfTheWorldService } from '@components/scraper/scraper-services/memory-of-the-world/memory-of-the-world.service';
-import { BookAccess } from '@components/scraper/entities/book.model';
+import {BookAccess, BookProvider} from '@components/scraper/entities/book.model';
 import { ZlibraryService } from '@components/scraper/scraper-services/zlibrary/zlibrary.service';
 import {EbookDatabasesService} from "@components/scraper/scraper-services/ebook-databases/ebook-databases.service";
 import {SuggestionService} from "@components/scraper/scraper-services/suggestion/suggestion.service";
@@ -44,9 +44,9 @@ export default class ScraperService {
     return result;
   }
 
-  async searchWorldCat(title: string) {
+  async searchDatabase(query: string, provider: BookProvider) {
     // const result = await this.worldcatService.searchBooks(title);
-    const result = this.ebookDatabaseService.search(title);
+    const result = this.ebookDatabaseService.search(query, provider);
     return result;
   }
 

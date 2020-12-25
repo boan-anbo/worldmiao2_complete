@@ -1,11 +1,8 @@
 import {
-  Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn,
+  Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
-import {
-  Book,
-  BookAccess, BookAccessType, BookProvider, UniqueId,
-} from '@components/scraper/entities/book.model';
 import BookEntity from '@components/scraper/entities/bookEntity.entity';
+import { v4 } from 'uuid';
 
 @Entity('uniqueIds')
 export default class UniqueIdEntity {
@@ -18,8 +15,6 @@ export default class UniqueIdEntity {
     @Column()
     idNote: string = ''
 
-    constructor() {
-      // this.link = link;
-    }
-
+    @OneToOne(() => BookEntity, book => book.uniqueIdentifier)
+    book: BookEntity
 }

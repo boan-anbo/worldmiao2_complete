@@ -32,9 +32,9 @@
       <!--   show no result   -->
 
       <div v-if="(fetchStatus === 'FETCHED' || fetchStatus === 'ERROR') && accesses?.length === 0 "
-           class="c text-xs col-span-12 cursor-not-allowed h-full"
+           class="text-xs col-span-12  h-full"
       >
-        <span >no links found.</span>
+        <span class="cursor-not-allowed">no links found.</span>
       </div>
 
       <!-- show results -->
@@ -58,20 +58,23 @@
         <div
               :title="access.link"
               class="text-xs   truncate pl-2 pr-4 col-span-9  text-center">
-          <div  class="truncate" v-if="access.type !== dataType.DATABASE">
-            <span @click.stop.prevent="openWindow(access.link)  " class="cursor-pointer hover:underline">{{access.link}}</span>
+          <div  class="truncate" >
+            <span @click.stop.prevent="openWindow(access.link)  " class="cursor-pointer hover:underline">{{getDisplayString(access)}}</span>
           </div>
-          <div class="truncate " v-if="access.type === dataType.DATABASE">
-            <span @click.stop.prevent="openWindow(access.link)  " class="cursor-pointer hover:underline">{{access.name}}</span>
-          </div>
+<!--          -->
+<!--          <div class="truncate " v-if="access.type === dataType.DATABASE">-->
+<!--            <span @click.stop.prevent="openWindow(access.link)  " class="cursor-pointer hover:underline">{{access.name}}</span>-->
+<!--          </div>-->
+<!--        </div>-->
         </div>
-
       </div>
 
 
 
     </div>
-    <div id="access-footer" class=" text-gray-400 col-span-12 pb-2 text-xs"><span>
+    <div id="access-footer"
+         style="color: #668885"
+         class="  col-span-12 pb-2 text-xs"><span>
       {{libraryName}}
       </span></div>
 
@@ -90,7 +93,7 @@ export default {
   name: 'BookAccesses',
   props: {
     links: Array,
-    book: Book,
+    book: Object,
     accesses: Array,
     fetchStatus: BookAccessFetchingState,
     libraryName: String
@@ -109,6 +112,12 @@ export default {
           break;
       }
       return string;
+    },
+    getDisplayString: function (access) {
+      if (access) {
+        return access.name.length > 0 ? access.name : access.link
+      }
+      return ''
     }
   },
   computed: {
@@ -124,6 +133,7 @@ export default {
       }
       return string;
     },
+
   },
   data() {
     return {

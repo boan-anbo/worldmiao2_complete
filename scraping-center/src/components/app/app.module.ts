@@ -3,9 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RedisModule } from 'nestjs-redis';
 import { ConfigModule } from '@nestjs/config';
 
-import AuthModule from '@components/auth/auth.module';
-import UsersModule from '@components/users/users.module';
-
 import ScraperModule from '@components/scraper/scraper.module';
 import { CacheService } from '@components/scraper/cache/cache.service';
 // import { PuppeteerModule } from 'nest-puppeteer';

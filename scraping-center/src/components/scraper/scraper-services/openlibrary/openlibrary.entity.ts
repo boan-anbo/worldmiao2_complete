@@ -17,7 +17,7 @@ export interface Doc {
   first_publish_year: number;
   author_name?: string[];
   id_goodreads?: string[];
-  publish_year: number[];
+  publish_year: string[];
   author_key?: string[];
   seed: string[];
   isbn?: string[];

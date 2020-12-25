@@ -13,6 +13,7 @@ import VueAxios from "vue-axios";
 // @ts-ignore
 createApp(App)
     .use(VueAxios, axios)
+
     .mount('#app')
 
 

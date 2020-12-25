@@ -28,7 +28,7 @@ export class OpenlibraryService {
       newBook.author = doc.author_name?.join(', ') ?? 'unknown';
       // ISBN is not neede for now
       // doc.isbn?.forEach((i) => newBook.isbns.push(i));
-      newBook.publicationYear = doc.first_publish_year;
+      newBook.publicationYear = String(doc.first_publish_year);
 
       return newBook;
     });

@@ -19,7 +19,7 @@ export class GoogleBooksService {
           newBook.isbns = item.volumeInfo.industryIdentifiers?.map((id) => id.identifier);
           newBook.author = item.volumeInfo.authors?.join('; ');
           newBook.title = item.volumeInfo.title;
-          newBook.publicationYear = parseInt(item.volumeInfo.publishedDate?.split('-')[0]);
+          newBook.publicationYear = item.volumeInfo.publishedDate?.split('-')[0];
           newBook.description = item.volumeInfo.description ?? '';
           newBook.thumbnail = item.volumeInfo.imageLinks.smallThumbnail;
           newBook.access.push(new BookAccess(item.volumeInfo.canonicalVolumeLink, BookAccessType.EBOOK));
