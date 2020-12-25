@@ -280,8 +280,8 @@ export default {
               this.updateFetchResultRepoWithStatus({index, result, status: BookAccessFetchingState.FETCHING})
 
               // const url = 'https://www.worldmiao.com/api/scraper/access'
-              //   const url = './api/scraper/access'
-              const url = 'http://localhost:9000/scraper/access'
+                const url = './api/scraper/access'
+              // const url = 'http://localhost:9000/scraper/access'
               const payload = {
                 uniqueId
                 , provider: this.bookProvider}

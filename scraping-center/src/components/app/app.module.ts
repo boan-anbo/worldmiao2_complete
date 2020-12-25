@@ -17,7 +17,7 @@ import { LoggerMiddleware } from '../../middleware/logger';
     ConfigModule.forRoot({
       isGlobal: true,
       // envFilePath: .env.${process.env.NODE_ENV}',
-      envFilePath: '.env.dev',
+      envFilePath: '.env.prod',
     }),
     PuppeteerModule.forRoot(
       // { pipe: true }, //pipe optional, any Puppeteer launch options here or leave empty for good defaults */,
@@ -31,8 +31,8 @@ import { LoggerMiddleware } from '../../middleware/logger';
       database: process.env.POSTGRES_DB,
       username: 'postgres',
       password: process.env.POSTGRES_PASSWORD,
-      // entities: ['dist/**/*.entity{.ts,.js}'],
-      entities: ['src/**/*.entity{.js}'],
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      // entities: ['src/**/*.entity{.js}'],
       synchronize: true,
       autoLoadEntities: true,
     }),
