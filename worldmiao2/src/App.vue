@@ -1,5 +1,9 @@
 <template>
-  <div class="bg-gray-700 px-4 truncate text-white text-lg text-center sm:text-right pr-8" style="font-family: 'Iceland', sans-serif; background-color: #5D8D89" >
+  <div
+      class="bg-gray-700 px-4  truncate text-white text-lg text-center sm:text-right pr-8"
+       style="font-family: 'Iceland', sans-serif; background-color: #5D8D89"
+
+  >
 <!--  noti  -->
    <span class="sm:inline hidden"> worldmiao.two | </span>
     <span class="text-xs"> 世界喵兔 </span>
@@ -201,25 +205,31 @@ export default defineComponent({
       this.setSearchTerm(provider, searchTerm);
 
       // sending http request
-      const {data} = await this.axios.post<ScrapingCenterSuccessResponse>(url, {title:searchTerm, provider})
-      if (!data) {
+
+
+      try {
+        const {data} = await this.axios.post<ScrapingCenterSuccessResponse>(url, {title:searchTerm, provider}, {timeout: 30000})
+        console.log(`Received Response From Server for ${provider}, for term ${searchTerm}, data:`, data)
+
+        if (uniqueSearchAllRequestId && this.currentSearchAllRequestId !== uniqueSearchAllRequestId) {
+          console.log('batch search request dropped, drop the fetched data')
+          return
+        }
+
+        const revivedBooks = (data as ScrapingCenterSuccessResponse).data.map(item => Object.assign(new Book(provider), item))
+        data.data = revivedBooks;
+        this.bookStore[provider] = {...data};
+
+        this.setSearchStatus(provider, LibrarySearchStatus.SEARCH_FINISHED)
+        this.setSearchResultCount(provider, data?.data?.length)
+        return
+      } catch(err) {
+
         this.setSearchStatus(provider, LibrarySearchStatus.ERROR)
       }
 
-      console.log(`Received Response From Server for ${provider}, for term ${searchTerm}, data:`, data)
 
-      if (uniqueSearchAllRequestId && this.currentSearchAllRequestId !== uniqueSearchAllRequestId) {
-        console.log('batch search request dropped, drop the fetched data')
-        return
-      }
 
-      const revivedBooks = (data as ScrapingCenterSuccessResponse).data.map(item => Object.assign(new Book(provider), item))
-      data.data = revivedBooks;
-      this.bookStore[provider] = {...data};
-
-      this.setSearchStatus(provider, LibrarySearchStatus.SEARCH_FINISHED)
-      this.setSearchResultCount(provider, data?.data?.length)
-      return
     },
     setSearchStatus: function(provider: BookProvider, searchStatus: LibrarySearchStatus)  {
        this.getSearchStatus(provider).setSearchStatus(searchStatus)
