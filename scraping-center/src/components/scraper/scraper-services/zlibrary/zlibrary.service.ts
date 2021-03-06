@@ -13,7 +13,7 @@ export class ZlibraryService {
   ) {}
 
   async search(title: string): Promise<Book[]> {
-    const url = `https://b-ok.cc/s/${encodeURI(title)}`;
+    const url = `https://de1lib.org/s/${encodeURI(title)}`;
 
     // const { data } = await this.http.get(url).toPromise();
 
@@ -33,7 +33,7 @@ export class ZlibraryService {
       thumbnail: string
     }[] = await page.evaluate(() => {
       return Array.from(document.querySelectorAll('table .resItemTable'))?.map((element) => {
-        const bookBaseUrl = 'https://b-ok.cc';
+        const bookBaseUrl = 'https://de1lib.org';
 
         const titleDiv = element.querySelector('h3[itemprop="name"]');
 

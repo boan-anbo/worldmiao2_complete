@@ -22,3 +22,21 @@
 2020-12-21 20:13:10,377:DEBUG:certbot._internal.plugins.selection:Requested authenticator None and installer None
 2020-12-21 20:13:10,378:DEBUG:certbot._internal.plugins.selection:No candidate plugin
 2020-12-21 20:13:10,378:DEBUG:certbot._internal.plugins.selection:Selected authenticator None and installer None
+2021-03-06 19:48:32,067:DEBUG:certbot._internal.main:certbot version: 1.13.0
+2021-03-06 19:48:32,068:DEBUG:certbot._internal.main:Location of certbot entry point: /usr/local/bin/certbot
+2021-03-06 19:48:32,068:DEBUG:certbot._internal.main:Arguments: []
+2021-03-06 19:48:32,068:DEBUG:certbot._internal.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2021-03-06 19:48:32,327:DEBUG:certbot._internal.log:Root logging level set at 20
+2021-03-06 19:48:32,351:INFO:certbot._internal.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2021-03-06 19:48:32,602:DEBUG:certbot._internal.plugins.selection:Requested authenticator None and installer None
+2021-03-06 19:48:32,606:DEBUG:certbot._internal.plugins.selection:No candidate plugin
+2021-03-06 19:48:32,614:DEBUG:certbot._internal.plugins.selection:Selected authenticator None and installer None
+2021-03-06 19:50:02,615:DEBUG:certbot._internal.main:certbot version: 1.13.0
+2021-03-06 19:50:02,616:DEBUG:certbot._internal.main:Location of certbot entry point: /usr/local/bin/certbot
+2021-03-06 19:50:02,616:DEBUG:certbot._internal.main:Arguments: []
+2021-03-06 19:50:02,616:DEBUG:certbot._internal.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2021-03-06 19:50:02,672:DEBUG:certbot._internal.log:Root logging level set at 20
+2021-03-06 19:50:02,676:INFO:certbot._internal.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2021-03-06 19:50:02,693:DEBUG:certbot._internal.plugins.selection:Requested authenticator None and installer None
+2021-03-06 19:50:02,699:DEBUG:certbot._internal.plugins.selection:No candidate plugin
+2021-03-06 19:50:02,701:DEBUG:certbot._internal.plugins.selection:Selected authenticator None and installer None
